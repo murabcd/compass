@@ -8,6 +8,7 @@ import {
   Briefcase,
   RectangleCircle,
 } from "lucide-react";
+import { Link, useLocation } from "@tanstack/react-router";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -57,7 +58,6 @@ const defaultData = {
       title: "Dashboard",
       url: "/dashboard",
       icon: LayoutDashboard,
-      isActive: true,
     },
     {
       title: "Candidates",
@@ -83,22 +83,36 @@ export function AppSidebar({
   userMenuItems,
   ...props
 }: AppSidebarProps) {
+  const location = useLocation();
+
+  // Dynamically set isActive based on current route
+  const navItemsWithActiveState = navMain.map((item) => ({
+    ...item,
+    isActive:
+      location.pathname === item.url ||
+      (item.url === "/dashboard" &&
+        (location.pathname === "/dashboard/" || location.pathname === "/")),
+  }));
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <a href="/dashboard">
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5 hover:bg-transparent hover:text-primary"
+            >
+              <Link to="/dashboard">
                 <RectangleCircle className="!size-5" />
                 <span className="text-base font-semibold">Compass</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMain} />
+        <NavMain items={navItemsWithActiveState} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} menuItems={userMenuItems} />

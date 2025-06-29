@@ -1,6 +1,7 @@
 "use client";
 
-import { PlusCircle, type LucideIcon } from "lucide-react";
+import { Plus, type LucideIcon } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import {
   SidebarGroup,
@@ -27,9 +28,9 @@ export function NavMain({
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
               tooltip="Add new job"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear h-10"
             >
-              <PlusCircle />
+              <Plus />
               <span>Add new job</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -37,9 +38,11 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} isActive={item.isActive}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+              <SidebarMenuButton tooltip={item.title} isActive={item.isActive} asChild>
+                <Link to={item.url}>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

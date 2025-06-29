@@ -9,6 +9,9 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "@/styles/app.css?url";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SiteHeader } from "@/components/site-header";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -54,14 +57,28 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <HeadContent />
       </head>
       <body>
-        <ScriptOnce>
-          {`document.documentElement.classList.toggle(
+        <SidebarProvider
+          style={
+            {
+              "--sidebar-width": "calc(var(--spacing) * 72)",
+              "--header-height": "calc(var(--spacing) * 12)",
+            } as React.CSSProperties
+          }
+        >
+          <AppSidebar variant="inset" />
+          <SidebarInset>
+            <SiteHeader />
+
+            <ScriptOnce>
+              {`document.documentElement.classList.toggle(
             'dark',
             localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
             )`}
-        </ScriptOnce>
-        {children}
-        <Scripts />
+            </ScriptOnce>
+            {children}
+            <Scripts />
+          </SidebarInset>
+        </SidebarProvider>
       </body>
     </html>
   );

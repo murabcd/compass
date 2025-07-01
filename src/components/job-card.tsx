@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Link } from "@tanstack/react-router";
+
+import { MapPin, DollarSign, MoreHorizontal, Edit, Trash2 } from "lucide-react";
+
+import { toast } from "sonner";
+
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,13 +26,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { MapPin, DollarSign, MoreHorizontal, Edit, Trash2 } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
-import { toast } from "sonner";
 
 interface JobCardProps {
   job: {
@@ -87,7 +93,7 @@ export function JobCard({ job, onEdit }: JobCardProps) {
     <>
       <div className="relative">
         <Link to="/jobs/$jobId" params={{ jobId: job._id }}>
-          <Card className="hover:shadow-sm transition-shadow cursor-pointer">
+          <Card className="hover:shadow-sm transition-shadow cursor-pointer bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
@@ -159,6 +165,32 @@ export function JobCard({ job, onEdit }: JobCardProps) {
         </AlertDialogContent>
       </AlertDialog>
     </>
+  );
+}
+
+export function JobCardSkeleton() {
+  return (
+    <Card className="@container/card bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <div className="flex-1 min-w-0">
+            <CardTitle className="text-base font-semibold">
+              <Skeleton className="h-5 w-32" />
+            </CardTitle>
+            <div className="mt-1">
+              <Skeleton className="h-4 w-24" />
+            </div>
+          </div>
+          <Skeleton className="h-8 w-8 rounded" />
+        </div>
+      </CardHeader>
+      <CardContent className="pt-0">
+        <div className="flex flex-wrap gap-2">
+          <Skeleton className="h-6 w-20 rounded-full" />
+          <Skeleton className="h-6 w-16 rounded-full" />
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 

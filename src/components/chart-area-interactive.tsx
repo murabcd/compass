@@ -1,8 +1,11 @@
 "use client";
 
 import * as React from "react";
+
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
+import { Skeleton } from "@/components/ui/skeleton";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Card,
@@ -25,7 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export const description = "An interactive area chart showing recruitment metrics";
 
@@ -37,6 +39,7 @@ interface ChartDataPoint {
 
 interface ChartAreaInteractiveProps {
   data?: ChartDataPoint[];
+  isLoading?: boolean;
 }
 
 const defaultChartData: ChartDataPoint[] = [];
@@ -51,12 +54,41 @@ const chartConfig = {
   },
   interviews: {
     label: "Interviews",
-    color: "hsl(var(--primary) / 0.6)",
+    color: "var(--primary)",
   },
 } satisfies ChartConfig;
 
+function ChartSkeleton() {
+  return (
+    <Card className="@container/card">
+      <CardHeader>
+        <CardTitle>
+          <Skeleton className="h-6 w-32" />
+        </CardTitle>
+        <CardDescription>
+          <Skeleton className="h-4 w-48" />
+        </CardDescription>
+        <CardAction>
+          <div className="hidden @[767px]/card:flex gap-1">
+            <Skeleton className="h-9 w-28" />
+            <Skeleton className="h-9 w-24" />
+            <Skeleton className="h-9 w-20" />
+          </div>
+          <Skeleton className="h-9 w-40 @[767px]/card:hidden" />
+        </CardAction>
+      </CardHeader>
+      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+        <div className="aspect-auto h-[250px] w-full">
+          <Skeleton className="h-full w-full rounded-lg" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function ChartAreaInteractive({
   data: chartData = defaultChartData,
+  isLoading = false,
 }: ChartAreaInteractiveProps) {
   const isMobile = useIsMobile();
   const [timeRange, setTimeRange] = React.useState("90d");
@@ -69,7 +101,7 @@ export function ChartAreaInteractive({
 
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date);
-    const referenceDate = new Date("2024-06-30");
+    const referenceDate = new Date(); // Use current date instead of hardcoded date
     let daysToSubtract = 90;
     if (timeRange === "30d") {
       daysToSubtract = 30;
@@ -80,6 +112,10 @@ export function ChartAreaInteractive({
     startDate.setDate(startDate.getDate() - daysToSubtract);
     return date >= startDate;
   });
+
+  if (isLoading) {
+    return <ChartSkeleton />;
+  }
 
   return (
     <Card className="@container/card">

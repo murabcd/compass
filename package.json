@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:all": "npm-run-all --parallel dev:*",
+    "dev:all": "npm-run-all --parallel dev:frontend dev:backend",
     "dev:frontend": "vite dev",
     "dev:backend": "convex dev --tail-logs",
     "dev": "vite dev",

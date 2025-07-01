@@ -1,20 +1,16 @@
 /// <reference types="vite/client" />
 import type { ReactNode } from "react";
-import {
-  Outlet,
-  createRootRoute,
-  HeadContent,
-  Scripts,
-  ScriptOnce,
-} from "@tanstack/react-router";
+import { Outlet, HeadContent, Scripts, ScriptOnce } from "@tanstack/react-router";
 
 import appCss from "@/styles/app.css?url";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
+import { Header } from "@/components/header";
 
 import { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext } from "@tanstack/react-router";
+
+import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -72,8 +68,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         >
           <AppSidebar variant="inset" />
           <SidebarInset>
-            <SiteHeader />
-
+            <Header />
             <ScriptOnce>
               {`document.documentElement.classList.toggle(
             'dark',
@@ -84,6 +79,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
             <Scripts />
           </SidebarInset>
         </SidebarProvider>
+        <Toaster />
       </body>
     </html>
   );

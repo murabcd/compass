@@ -1,4 +1,4 @@
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
+import { createRouter as createTanStackRouter, Link } from "@tanstack/react-router";
 import { QueryClient } from "@tanstack/react-query";
 import { routerWithQueryClient } from "@tanstack/react-router-with-query";
 import { ConvexQueryClient } from "@convex-dev/react-query";
@@ -15,12 +15,12 @@ function NotFound() {
           Sorry, we couldn't find the page you're looking for.
         </p>
       </div>
-      <a
-        href="/dashboard"
+      <Link
+        to="/dashboard"
         className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
       >
         Go to Dashboard
-      </a>
+      </Link>
     </div>
   );
 }
@@ -47,6 +47,7 @@ export function createRouter() {
       routeTree,
       defaultPreload: "intent",
       context: { queryClient },
+      defaultNotFoundComponent: NotFound,
       Wrap: ({ children }) => (
         <ConvexProvider client={convexQueryClient.convexClient}>
           {children}

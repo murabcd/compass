@@ -8,13 +8,20 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createServerRootRoute } from '@tanstack/react-start/server'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as JobsIndexRouteImport } from './routes/jobs/index'
 import { Route as InterviewsIndexRouteImport } from './routes/interviews/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as CandidatesIndexRouteImport } from './routes/candidates/index'
+import { Route as AssistantsIndexRouteImport } from './routes/assistants/index'
 import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
+import { Route as AssistantsAssistantIdRouteImport } from './routes/assistants/$assistantId'
+import { ServerRoute as ApiSessionServerRouteImport } from './routes/api/session'
+
+const rootServerRouteImport = createServerRootRoute()
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,15 +48,32 @@ const CandidatesIndexRoute = CandidatesIndexRouteImport.update({
   path: '/candidates/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssistantsIndexRoute = AssistantsIndexRouteImport.update({
+  id: '/assistants/',
+  path: '/assistants/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsJobIdRoute = JobsJobIdRouteImport.update({
   id: '/jobs/$jobId',
   path: '/jobs/$jobId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssistantsAssistantIdRoute = AssistantsAssistantIdRouteImport.update({
+  id: '/assistants/$assistantId',
+  path: '/assistants/$assistantId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSessionServerRoute = ApiSessionServerRouteImport.update({
+  id: '/api/session',
+  path: '/api/session',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/assistants': typeof AssistantsIndexRoute
   '/candidates': typeof CandidatesIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/interviews': typeof InterviewsIndexRoute
@@ -57,7 +81,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/assistants': typeof AssistantsIndexRoute
   '/candidates': typeof CandidatesIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/interviews': typeof InterviewsIndexRoute
@@ -66,7 +92,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/assistants/': typeof AssistantsIndexRoute
   '/candidates/': typeof CandidatesIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/interviews/': typeof InterviewsIndexRoute
@@ -76,7 +104,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assistants/$assistantId'
     | '/jobs/$jobId'
+    | '/assistants'
     | '/candidates'
     | '/dashboard'
     | '/interviews'
@@ -84,7 +114,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assistants/$assistantId'
     | '/jobs/$jobId'
+    | '/assistants'
     | '/candidates'
     | '/dashboard'
     | '/interviews'
@@ -92,7 +124,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/assistants/$assistantId'
     | '/jobs/$jobId'
+    | '/assistants/'
     | '/candidates/'
     | '/dashboard/'
     | '/interviews/'
@@ -101,11 +135,34 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantsAssistantIdRoute: typeof AssistantsAssistantIdRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
+  AssistantsIndexRoute: typeof AssistantsIndexRoute
   CandidatesIndexRoute: typeof CandidatesIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   InterviewsIndexRoute: typeof InterviewsIndexRoute
   JobsIndexRoute: typeof JobsIndexRoute
+}
+export interface FileServerRoutesByFullPath {
+  '/api/session': typeof ApiSessionServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/api/session': typeof ApiSessionServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/api/session': typeof ApiSessionServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/api/session'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/api/session'
+  id: '__root__' | '/api/session'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  ApiSessionServerRoute: typeof ApiSessionServerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -145,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CandidatesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assistants/': {
+      id: '/assistants/'
+      path: '/assistants'
+      fullPath: '/assistants'
+      preLoaderRoute: typeof AssistantsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jobs/$jobId': {
       id: '/jobs/$jobId'
       path: '/jobs/$jobId'
@@ -152,12 +216,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsJobIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assistants/$assistantId': {
+      id: '/assistants/$assistantId'
+      path: '/assistants/$assistantId'
+      fullPath: '/assistants/$assistantId'
+      preLoaderRoute: typeof AssistantsAssistantIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/api/session': {
+      id: '/api/session'
+      path: '/api/session'
+      fullPath: '/api/session'
+      preLoaderRoute: typeof ApiSessionServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantsAssistantIdRoute: AssistantsAssistantIdRoute,
   JobsJobIdRoute: JobsJobIdRoute,
+  AssistantsIndexRoute: AssistantsIndexRoute,
   CandidatesIndexRoute: CandidatesIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   InterviewsIndexRoute: InterviewsIndexRoute,
@@ -166,3 +250,9 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiSessionServerRoute: ApiSessionServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()

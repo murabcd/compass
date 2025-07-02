@@ -16,6 +16,9 @@ function getPageTitle(pathname: string): string {
   if (pathname.startsWith("/candidates")) {
     return "Candidates";
   }
+  if (pathname.startsWith("/assistants")) {
+    return "Assistants";
+  }
   return "Dashboard";
 }
 

@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Briefcase,
   RectangleCircle,
+  WandSparkles,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 
@@ -73,6 +74,11 @@ const defaultData = {
       title: "Interviews",
       url: "/interviews",
       icon: Calendar,
+    },
+    {
+      title: "Assistants",
+      url: "/assistants",
+      icon: WandSparkles,
     },
   ],
 };

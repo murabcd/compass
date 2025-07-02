@@ -2,7 +2,15 @@ import React, { useState } from "react";
 
 import { Link } from "@tanstack/react-router";
 
-import { MapPin, DollarSign, MoreHorizontal, Edit, Trash2 } from "lucide-react";
+import {
+  AudioLines,
+  Cpu,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Power,
+  PowerOff,
+} from "lucide-react";
 
 import { toast } from "sonner";
 
@@ -31,32 +39,53 @@ import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 
-interface JobCardProps {
-  job: {
-    _id: Id<"jobs">;
-    title: string;
-    company: string;
-    location: string;
-    salary: number;
+interface AssistantCardProps {
+  assistant: {
+    _id: Id<"assistants">;
+    name: string;
     description: string;
+    model: string;
+    temperature: number;
+    voice: string;
+    speed: number;
+    isActive: boolean;
     _creationTime: number;
   };
   onEdit?: () => void;
 }
 
-export function JobCard({ job, onEdit }: JobCardProps) {
+export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isToggling, setIsToggling] = useState(false);
 
-  const deleteJob = useMutation(api.jobs.deleteJob);
+  const deleteAssistant = useMutation(api.assistants.deleteAssistant);
+  const toggleStatus = useMutation(api.assistants.toggleAssistantStatus);
 
-  const formatSalary = (salary: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(salary);
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case "screening":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+      case "interview":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      case "analysis":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+      case "writing":
+        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
+      case "general":
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+    }
+  };
+
+  const getModelBadgeColor = (model: string) => {
+    if (model.includes("gpt")) {
+      return "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200";
+    } else if (model.includes("claude")) {
+      return "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200";
+    }
+    return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
   };
 
   const handleDropdownClick = (e: React.MouseEvent) => {
@@ -76,14 +105,30 @@ export function JobCard({ job, onEdit }: JobCardProps) {
     setShowDeleteDialog(true);
   };
 
+  const handleToggleStatus = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsToggling(true);
+    try {
+      await toggleStatus({ id: assistant._id });
+      toast.success(
+        `Assistant ${assistant.isActive ? "deactivated" : "activated"} successfully!`
+      );
+    } catch (error) {
+      toast.error("Failed to update assistant status. Please try again.");
+    } finally {
+      setIsToggling(false);
+    }
+  };
+
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await deleteJob({ id: job._id });
-      toast.success("Job deleted successfully!");
+      await deleteAssistant({ id: assistant._id });
+      toast.success("Assistant deleted successfully!");
       setShowDeleteDialog(false);
     } catch (error) {
-      toast.error("Failed to delete job. Please try again.");
+      toast.error("Failed to delete assistant. Please try again.");
     } finally {
       setIsDeleting(false);
     }
@@ -92,13 +137,25 @@ export function JobCard({ job, onEdit }: JobCardProps) {
   return (
     <>
       <div className="relative">
-        <Link to="/jobs/$jobId" params={{ jobId: job._id }}>
+        <Link to="/assistants/$assistantId" params={{ assistantId: assistant._id }}>
           <Card className="hover:shadow-sm transition-shadow cursor-pointer bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
-                  <CardTitle className="text-base font-semibold">{job.title}</CardTitle>
-                  <p className="text-sm text-muted-foreground">{job.company}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <AudioLines className="h-4 w-4 text-muted-foreground" />
+                    <CardTitle className="text-base font-semibold">
+                      {assistant.name}
+                    </CardTitle>
+                    {!assistant.isActive && (
+                      <Badge variant="secondary" className="text-xs">
+                        Inactive
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {assistant.description}
+                  </p>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild onClick={handleDropdownClick}>
@@ -116,6 +173,19 @@ export function JobCard({ job, onEdit }: JobCardProps) {
                       <Edit className="mr-2 h-4 w-4" />
                       Edit
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleToggleStatus} disabled={isToggling}>
+                      {assistant.isActive ? (
+                        <>
+                          <PowerOff className="mr-2 h-4 w-4" />
+                          Deactivate
+                        </>
+                      ) : (
+                        <>
+                          <Power className="mr-2 h-4 w-4" />
+                          Activate
+                        </>
+                      )}
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={handleDeleteClick}
                       className="text-destructive"
@@ -128,15 +198,17 @@ export function JobCard({ job, onEdit }: JobCardProps) {
               </div>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary" className="text-xs">
-                  <MapPin className="h-3 w-3 mr-1" />
-                  {job.location}
+              <div className="flex flex-wrap gap-2 mb-3">
+                <Badge
+                  variant="secondary"
+                  className={`text-xs ${getModelBadgeColor(assistant.model)}`}
+                >
+                  <Cpu className="h-3 w-3 mr-1" />
+                  {assistant.model}
                 </Badge>
-                <Badge variant="secondary" className="text-xs">
-                  <DollarSign className="h-3 w-3 mr-1" />
-                  {formatSalary(job.salary)}
-                </Badge>
+              </div>
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Temperature: {assistant.temperature}</span>
               </div>
             </CardContent>
           </Card>
@@ -146,10 +218,10 @@ export function JobCard({ job, onEdit }: JobCardProps) {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete job posting?</AlertDialogTitle>
+            <AlertDialogTitle>Delete assistant?</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to delete? This action cannot be undone and will
-              permanently remove the job posting.
+              permanently remove the assistant and all its configurations.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -168,30 +240,36 @@ export function JobCard({ job, onEdit }: JobCardProps) {
   );
 }
 
-export function JobCardSkeleton() {
+export function AssistantCardSkeleton() {
   return (
     <Card className="@container/card bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-base font-semibold">
+            <div className="flex items-center gap-2 mb-1">
+              <Skeleton className="h-4 w-4 rounded" />
               <Skeleton className="h-5 w-32" />
-            </CardTitle>
+            </div>
             <div className="mt-1">
-              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4 mt-1" />
             </div>
           </div>
           <Skeleton className="h-8 w-8 rounded" />
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-3">
           <Skeleton className="h-6 w-20 rounded-full" />
           <Skeleton className="h-6 w-16 rounded-full" />
+        </div>
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 w-16" />
         </div>
       </CardContent>
     </Card>
   );
 }
 
-export default JobCard;
+export default AssistantCard;

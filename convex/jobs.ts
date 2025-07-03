@@ -8,10 +8,22 @@ export const getJobs = query({
       _id: v.id("jobs"),
       _creationTime: v.number(),
       title: v.string(),
-      description: v.string(),
-      company: v.string(),
-      location: v.string(),
-      salary: v.number(),
+      skills: v.array(v.string()),
+      hiresNeeded: v.number(),
+      location: v.union(v.literal("remote"), v.literal("hybrid"), v.literal("on-site")),
+      employmentType: v.union(v.literal("full-time"), v.literal("part-time")),
+      seniorityLevel: v.union(
+        v.literal("internship"),
+        v.literal("entry-level"),
+        v.literal("associate"),
+        v.literal("mid-senior-level"),
+        v.literal("director"),
+        v.literal("executive"),
+        v.literal("not-applicable")
+      ),
+      salaryMin: v.number(),
+      salaryMax: v.number(),
+      isActive: v.optional(v.boolean()),
     })
   ),
   handler: async (ctx) => {
@@ -23,14 +35,28 @@ export const getJobs = query({
 export const createJob = mutation({
   args: {
     title: v.string(),
-    description: v.string(),
-    company: v.string(),
-    location: v.string(),
-    salary: v.number(),
+    skills: v.array(v.string()),
+    hiresNeeded: v.number(),
+    location: v.union(v.literal("remote"), v.literal("hybrid"), v.literal("on-site")),
+    employmentType: v.union(v.literal("full-time"), v.literal("part-time")),
+    seniorityLevel: v.union(
+      v.literal("internship"),
+      v.literal("entry-level"),
+      v.literal("associate"),
+      v.literal("mid-senior-level"),
+      v.literal("director"),
+      v.literal("executive"),
+      v.literal("not-applicable")
+    ),
+    salaryMin: v.number(),
+    salaryMax: v.number(),
   },
   returns: v.id("jobs"),
   handler: async (ctx, args) => {
-    const job = await ctx.db.insert("jobs", args);
+    const job = await ctx.db.insert("jobs", {
+      ...args,
+      isActive: true,
+    });
     return job;
   },
 });
@@ -39,10 +65,21 @@ export const updateJob = mutation({
   args: {
     id: v.id("jobs"),
     title: v.string(),
-    description: v.string(),
-    company: v.string(),
-    location: v.string(),
-    salary: v.number(),
+    skills: v.array(v.string()),
+    hiresNeeded: v.number(),
+    location: v.union(v.literal("remote"), v.literal("hybrid"), v.literal("on-site")),
+    employmentType: v.union(v.literal("full-time"), v.literal("part-time")),
+    seniorityLevel: v.union(
+      v.literal("internship"),
+      v.literal("entry-level"),
+      v.literal("associate"),
+      v.literal("mid-senior-level"),
+      v.literal("director"),
+      v.literal("executive"),
+      v.literal("not-applicable")
+    ),
+    salaryMin: v.number(),
+    salaryMax: v.number(),
   },
   returns: v.null(),
   handler: async (ctx, args) => {
@@ -59,6 +96,21 @@ export const deleteJob = mutation({
   returns: v.null(),
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id);
+    return null;
+  },
+});
+
+export const toggleJobStatus = mutation({
+  args: {
+    id: v.id("jobs"),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const job = await ctx.db.get(args.id);
+    if (!job) {
+      throw new Error("Job not found");
+    }
+    await ctx.db.patch(args.id, { isActive: !job.isActive });
     return null;
   },
 });

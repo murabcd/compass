@@ -4,19 +4,27 @@ import { v } from "convex/values";
 export default defineSchema({
   jobs: defineTable({
     title: v.string(),
-    description: v.string(),
-    company: v.string(),
-    location: v.string(),
-    salary: v.number(),
-    employmentType: v.optional(
-      v.union(v.literal("full-time"), v.literal("part-time"), v.literal("contract"))
+    skills: v.array(v.string()),
+    hiresNeeded: v.number(),
+    location: v.union(v.literal("remote"), v.literal("hybrid"), v.literal("on-site")),
+    employmentType: v.union(v.literal("full-time"), v.literal("part-time")),
+    seniorityLevel: v.union(
+      v.literal("internship"),
+      v.literal("entry-level"),
+      v.literal("associate"),
+      v.literal("mid-senior-level"),
+      v.literal("director"),
+      v.literal("executive"),
+      v.literal("not-applicable")
     ),
-    experience: v.optional(v.string()),
-    skills: v.optional(v.array(v.string())),
+    salaryMin: v.number(),
+    salaryMax: v.number(),
     isActive: v.optional(v.boolean()),
   })
-    .index("by_company", ["company"])
-    .index("by_active", ["isActive"]),
+    .index("by_active", ["isActive"])
+    .index("by_location", ["location"])
+    .index("by_employment_type", ["employmentType"])
+    .index("by_seniority", ["seniorityLevel"]),
 
   candidates: defineTable({
     name: v.string(),

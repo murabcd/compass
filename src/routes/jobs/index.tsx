@@ -20,10 +20,21 @@ export const Route = createFileRoute("/jobs/")({
 interface Job {
   _id: Id<"jobs">;
   title: string;
-  company: string;
-  location: string;
-  salary: number;
-  description: string;
+  skills: string[];
+  hiresNeeded: number;
+  location: "remote" | "hybrid" | "on-site";
+  employmentType: "full-time" | "part-time";
+  seniorityLevel:
+    | "internship"
+    | "entry-level"
+    | "associate"
+    | "mid-senior-level"
+    | "director"
+    | "executive"
+    | "not-applicable";
+  salaryMin: number;
+  salaryMax: number;
+  isActive?: boolean;
   _creationTime: number;
 }
 
@@ -57,10 +68,12 @@ function Jobs() {
                 </Button>
               </div>
             </div>
-            <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-              {Array.from({ length: 8 }).map((_, index) => (
-                <JobCardSkeleton key={index} />
-              ))}
+            <div className="px-4 lg:px-6">
+              <div className="flex flex-col gap-3">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <JobCardSkeleton key={index} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -96,10 +109,12 @@ function Jobs() {
                 />
               </div>
             ) : (
-              <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-                {jobs.map((job) => (
-                  <JobCard key={job._id} job={job} onEdit={() => handleEditJob(job)} />
-                ))}
+              <div className="px-4 lg:px-6">
+                <div className="flex flex-col gap-3">
+                  {jobs.map((job) => (
+                    <JobCard key={job._id} job={job} onEdit={() => handleEditJob(job)} />
+                  ))}
+                </div>
               </div>
             )}
           </div>

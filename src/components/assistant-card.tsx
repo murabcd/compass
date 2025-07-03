@@ -10,13 +10,13 @@ import {
   Trash2,
   Power,
   PowerOff,
+  Thermometer,
 } from "lucide-react";
 
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -61,23 +61,6 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 
   const deleteAssistant = useMutation(api.assistants.deleteAssistant);
   const toggleStatus = useMutation(api.assistants.toggleAssistantStatus);
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "screening":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
-      case "interview":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-      case "analysis":
-        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
-      case "writing":
-        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
-      case "general":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
-    }
-  };
 
   const getModelBadgeColor = (model: string) => {
     if (model.includes("gpt")) {
@@ -138,80 +121,87 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
     <>
       <div className="relative">
         <Link to="/assistants/$assistantId" params={{ assistantId: assistant._id }}>
-          <Card className="hover:shadow-sm transition-shadow cursor-pointer bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs">
-            <CardHeader className="pb-3">
+          <div className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-r from-primary/5 to-card dark:bg-card hover:shadow-sm transition-all cursor-pointer group">
+            <div className="flex-1 min-w-0 space-y-3">
+              {/* Header */}
               <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <AudioLines className="h-4 w-4 text-muted-foreground" />
-                    <CardTitle className="text-base font-semibold">
-                      {assistant.name}
-                    </CardTitle>
-                    {!assistant.isActive && (
-                      <Badge variant="secondary" className="text-xs">
-                        Inactive
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {assistant.description}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-semibold truncate">{assistant.name}</h3>
+                  {!assistant.isActive && (
+                    <Badge variant="secondary" className="text-xs">
+                      Inactive
+                    </Badge>
+                  )}
                 </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild onClick={handleDropdownClick}>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 hover:bg-muted"
-                    >
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Open menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" onClick={handleDropdownClick}>
-                    <DropdownMenuItem onClick={handleEdit}>
-                      <Edit className="mr-2 h-4 w-4" />
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleToggleStatus} disabled={isToggling}>
-                      {assistant.isActive ? (
-                        <>
-                          <PowerOff className="mr-2 h-4 w-4" />
-                          Deactivate
-                        </>
-                      ) : (
-                        <>
-                          <Power className="mr-2 h-4 w-4" />
-                          Activate
-                        </>
-                      )}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={handleDeleteClick}
-                      className="text-destructive"
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
               </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="flex flex-wrap gap-2 mb-3">
-                <Badge
-                  variant="secondary"
-                  className={`text-xs ${getModelBadgeColor(assistant.model)}`}
-                >
-                  <Cpu className="h-3 w-3 mr-1" />
-                  {assistant.model}
-                </Badge>
+
+              {/* Main content */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Assistant details */}
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Cpu className="h-3 w-3" />
+                    <span>{assistant.model}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Thermometer className="h-3 w-3" />
+                    <span>{assistant.temperature}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <AudioLines className="h-3 w-3" />
+                    <span>{assistant.voice}</span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-muted-foreground line-clamp-1 flex-1 min-w-0">
+                  {assistant.description}
+                </p>
               </div>
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Temperature: {assistant.temperature}</span>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+
+            {/* Actions */}
+            <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild onClick={handleDropdownClick}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 hover:bg-muted"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" onClick={handleDropdownClick}>
+                  <DropdownMenuItem onClick={handleEdit}>
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleToggleStatus} disabled={isToggling}>
+                    {assistant.isActive ? (
+                      <>
+                        <PowerOff className="mr-2 h-4 w-4" />
+                        Deactivate
+                      </>
+                    ) : (
+                      <>
+                        <Power className="mr-2 h-4 w-4" />
+                        Activate
+                      </>
+                    )}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={handleDeleteClick}
+                    className="text-destructive"
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
         </Link>
       </div>
 
@@ -242,33 +232,36 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 
 export function AssistantCardSkeleton() {
   return (
-    <Card className="@container/card bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs">
-      <CardHeader className="pb-3">
+    <div className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-r from-primary/5 to-card dark:bg-card">
+      <div className="flex-1 min-w-0 space-y-3">
+        {/* Header */}
         <div className="flex items-start justify-between">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <Skeleton className="h-4 w-4 rounded" />
-              <Skeleton className="h-5 w-32" />
-            </div>
-            <div className="mt-1">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-3/4 mt-1" />
-            </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-4 rounded" />
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-5 w-16 rounded-full" />
           </div>
-          <Skeleton className="h-8 w-8 rounded" />
         </div>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="flex flex-wrap gap-2 mb-3">
-          <Skeleton className="h-6 w-20 rounded-full" />
-          <Skeleton className="h-6 w-16 rounded-full" />
+
+        {/* Main content */}
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Assistant details */}
+          <div className="flex flex-wrap items-center gap-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-4 w-12" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+
+          {/* Description */}
+          <Skeleton className="h-4 w-64" />
         </div>
-        <div className="flex items-center justify-between">
-          <Skeleton className="h-4 w-24" />
-          <Skeleton className="h-4 w-16" />
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      {/* Actions */}
+      <div className="ml-4">
+        <Skeleton className="h-8 w-8 rounded" />
+      </div>
+    </div>
   );
 }
 

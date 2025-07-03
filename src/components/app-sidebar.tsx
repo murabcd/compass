@@ -4,10 +4,10 @@ import * as React from "react";
 import {
   Users,
   Calendar,
-  LayoutDashboard,
   Briefcase,
   RectangleCircle,
   WandSparkles,
+  Search,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 
@@ -56,24 +56,14 @@ const defaultData = {
   },
   navMain: [
     {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: LayoutDashboard,
-    },
-    {
-      title: "Candidates",
-      url: "/candidates",
+      title: "Talents",
+      url: "/talents",
       icon: Users,
     },
     {
       title: "Jobs",
       url: "/jobs",
       icon: Briefcase,
-    },
-    {
-      title: "Interviews",
-      url: "/interviews",
-      icon: Calendar,
     },
     {
       title: "Assistants",
@@ -96,8 +86,8 @@ export function AppSidebar({
     ...item,
     isActive:
       location.pathname === item.url ||
-      (item.url === "/dashboard" &&
-        (location.pathname === "/dashboard/" || location.pathname === "/")),
+      (item.url === "/talents" &&
+        (location.pathname === "/talents/" || location.pathname === "/")),
   }));
 
   return (
@@ -109,7 +99,7 @@ export function AppSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5 hover:bg-transparent hover:text-primary"
             >
-              <Link to="/dashboard">
+              <Link to="/talents">
                 <RectangleCircle className="!size-5" />
                 <span className="text-base font-semibold">Compass</span>
               </Link>

@@ -5,21 +5,15 @@ import { useLocation } from "@tanstack/react-router";
 
 function getPageTitle(pathname: string): string {
   if (pathname === "/") {
-    return "Dashboard";
+    return "Talents";
   }
   if (pathname.startsWith("/jobs")) {
     return "Jobs";
   }
-  if (pathname.startsWith("/interviews")) {
-    return "Interviews";
-  }
-  if (pathname.startsWith("/candidates")) {
-    return "Candidates";
-  }
   if (pathname.startsWith("/assistants")) {
     return "Assistants";
   }
-  return "Dashboard";
+  return "Talents";
 }
 
 export function Header() {

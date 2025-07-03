@@ -12,10 +12,8 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TalentsIndexRouteImport } from './routes/talents/index'
 import { Route as JobsIndexRouteImport } from './routes/jobs/index'
-import { Route as InterviewsIndexRouteImport } from './routes/interviews/index'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as CandidatesIndexRouteImport } from './routes/candidates/index'
 import { Route as AssistantsIndexRouteImport } from './routes/assistants/index'
 import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
 import { Route as AssistantsAssistantIdRouteImport } from './routes/assistants/$assistantId'
@@ -28,24 +26,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TalentsIndexRoute = TalentsIndexRouteImport.update({
+  id: '/talents/',
+  path: '/talents/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsIndexRoute = JobsIndexRouteImport.update({
   id: '/jobs/',
   path: '/jobs/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InterviewsIndexRoute = InterviewsIndexRouteImport.update({
-  id: '/interviews/',
-  path: '/interviews/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CandidatesIndexRoute = CandidatesIndexRouteImport.update({
-  id: '/candidates/',
-  path: '/candidates/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssistantsIndexRoute = AssistantsIndexRouteImport.update({
@@ -74,20 +62,16 @@ export interface FileRoutesByFullPath {
   '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/assistants': typeof AssistantsIndexRoute
-  '/candidates': typeof CandidatesIndexRoute
-  '/dashboard': typeof DashboardIndexRoute
-  '/interviews': typeof InterviewsIndexRoute
   '/jobs': typeof JobsIndexRoute
+  '/talents': typeof TalentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/assistants': typeof AssistantsIndexRoute
-  '/candidates': typeof CandidatesIndexRoute
-  '/dashboard': typeof DashboardIndexRoute
-  '/interviews': typeof InterviewsIndexRoute
   '/jobs': typeof JobsIndexRoute
+  '/talents': typeof TalentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,10 +79,8 @@ export interface FileRoutesById {
   '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/assistants/': typeof AssistantsIndexRoute
-  '/candidates/': typeof CandidatesIndexRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/interviews/': typeof InterviewsIndexRoute
   '/jobs/': typeof JobsIndexRoute
+  '/talents/': typeof TalentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,30 +89,24 @@ export interface FileRouteTypes {
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
     | '/assistants'
-    | '/candidates'
-    | '/dashboard'
-    | '/interviews'
     | '/jobs'
+    | '/talents'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
     | '/assistants'
-    | '/candidates'
-    | '/dashboard'
-    | '/interviews'
     | '/jobs'
+    | '/talents'
   id:
     | '__root__'
     | '/'
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
     | '/assistants/'
-    | '/candidates/'
-    | '/dashboard/'
-    | '/interviews/'
     | '/jobs/'
+    | '/talents/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -138,10 +114,8 @@ export interface RootRouteChildren {
   AssistantsAssistantIdRoute: typeof AssistantsAssistantIdRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
   AssistantsIndexRoute: typeof AssistantsIndexRoute
-  CandidatesIndexRoute: typeof CandidatesIndexRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
-  InterviewsIndexRoute: typeof InterviewsIndexRoute
   JobsIndexRoute: typeof JobsIndexRoute
+  TalentsIndexRoute: typeof TalentsIndexRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/session': typeof ApiSessionServerRoute
@@ -174,32 +148,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/talents/': {
+      id: '/talents/'
+      path: '/talents'
+      fullPath: '/talents'
+      preLoaderRoute: typeof TalentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jobs/': {
       id: '/jobs/'
       path: '/jobs'
       fullPath: '/jobs'
       preLoaderRoute: typeof JobsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/interviews/': {
-      id: '/interviews/'
-      path: '/interviews'
-      fullPath: '/interviews'
-      preLoaderRoute: typeof InterviewsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/candidates/': {
-      id: '/candidates/'
-      path: '/candidates'
-      fullPath: '/candidates'
-      preLoaderRoute: typeof CandidatesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assistants/': {
@@ -242,10 +202,8 @@ const rootRouteChildren: RootRouteChildren = {
   AssistantsAssistantIdRoute: AssistantsAssistantIdRoute,
   JobsJobIdRoute: JobsJobIdRoute,
   AssistantsIndexRoute: AssistantsIndexRoute,
-  CandidatesIndexRoute: CandidatesIndexRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
-  InterviewsIndexRoute: InterviewsIndexRoute,
   JobsIndexRoute: JobsIndexRoute,
+  TalentsIndexRoute: TalentsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

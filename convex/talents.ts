@@ -4,19 +4,19 @@ import { paginationOptsValidator } from "convex/server";
 
 export const getTalent = query({
   args: {
-    search: v.optional(v.string()),
+    talents: v.optional(v.string()),
     paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, args) => {
-    if (args.search) {
+    if (args.talents) {
       const results = await ctx.db
-        .query("talent")
+        .query("talents")
         .withSearchIndex("by_description_title_and_skills", (q) =>
-          q.search("description", args.search as string)
+          q.search("description", args.talents as string)
         )
         .paginate(args.paginationOpts);
       return results;
     }
-    return await ctx.db.query("talent").order("desc").paginate(args.paginationOpts);
+    return await ctx.db.query("talents").order("desc").paginate(args.paginationOpts);
   },
 });

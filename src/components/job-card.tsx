@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Power,
   PowerOff,
+  Tag,
 } from "lucide-react";
 
 import { toast } from "sonner";
@@ -38,8 +39,8 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { api } from "convex/_generated/api";
+import { Id } from "convex/_generated/dataModel";
 
 interface JobCardProps {
   job: {
@@ -188,6 +189,7 @@ export function JobCard({ job, onEdit }: JobCardProps) {
               <div className="flex flex-wrap items-center gap-2">
                 {/* Skills */}
                 <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                  <Tag className="h-3 w-3" />
                   {job.skills.slice(0, 3).map((skill, index) => (
                     <span key={skill}>
                       {skill}

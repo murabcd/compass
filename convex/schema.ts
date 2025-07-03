@@ -2,6 +2,23 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  talents: defineTable({
+    name: v.string(),
+    initials: v.string(),
+    avatarUrl: v.string(),
+    title: v.string(),
+    experience: v.number(),
+    country: v.string(),
+    vettedSkills: v.array(v.string()),
+    description: v.string(),
+    salaryMonth: v.number(),
+    isVerified: v.boolean(),
+    isNotRecommended: v.boolean(),
+  }).searchIndex("by_description_title_and_skills", {
+    searchField: "description",
+    filterFields: ["title", "vettedSkills"],
+  }),
+
   jobs: defineTable({
     title: v.string(),
     skills: v.array(v.string()),
@@ -46,21 +63,4 @@ export default defineSchema({
   })
     .index("by_assistant", ["assistantId"])
     .index("by_assistant_order", ["assistantId", "order"]),
-
-  talent: defineTable({
-    name: v.string(),
-    initials: v.string(),
-    avatarUrl: v.string(),
-    title: v.string(),
-    experience: v.number(),
-    country: v.string(),
-    vettedSkills: v.array(v.string()),
-    description: v.string(),
-    salaryMonth: v.number(),
-    isVerified: v.boolean(),
-    isNotRecommended: v.boolean(),
-  }).searchIndex("by_description_title_and_skills", {
-    searchField: "description",
-    filterFields: ["title", "vettedSkills"],
-  }),
 });

@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+
+import { Check, Pencil, Trash2 } from "lucide-react";
 import { SessionStatus } from "@/lib/ai/types";
 import { Id } from "../../convex/_generated/dataModel";
 import { modelInfoList } from "@/lib/ai/models";
 
+import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import VoiceSelector from "@/components/voice-selector";
 import {
   Select,
   SelectContent,
@@ -14,10 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import VoiceSelector from "./voice-selector";
-import { Button } from "./ui/button";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,15 +41,10 @@ import {
   CommandItem,
   CommandSeparator,
 } from "@/components/ui/command";
-import { Check, Pencil, Trash2 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-
-import { useQuery } from "@tanstack/react-query";
 import { convexQuery } from "@convex-dev/react-query";
 import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { toast } from "sonner";
+import { api } from "convex/_generated/api";
 
 interface RightSidebarProps {
   sessionStatus: SessionStatus;

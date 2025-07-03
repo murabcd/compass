@@ -1,16 +1,33 @@
 import React from "react";
+import { Link } from "@tanstack/react-router";
 
-import { MoreHorizontal, CheckCircle, XCircle, MapPin, Briefcase } from "lucide-react";
+import {
+  MoreHorizontal,
+  CheckCircle,
+  XCircle,
+  MapPin,
+  Briefcase,
+  DollarSign,
+  Heart,
+  EyeOff,
+  User,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import { Id } from "convex/_generated/dataModel";
 
 interface Talents {
-  _id: Id<"talent">;
+  _id: Id<"talents">;
   name: string;
   initials: string;
   avatarUrl: string;
@@ -38,53 +55,71 @@ export function TalentCard({ talent }: TalentCardProps) {
     }).format(num);
   };
 
+  const handleDropdownClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   return (
-    <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-4 space-y-3">
-      <div className="flex justify-between items-start">
-        <div className="flex gap-4">
-          <Avatar className="w-12 h-12">
-            <AvatarImage src={talent.avatarUrl} alt={talent.name} />
-            <AvatarFallback>{talent.initials}</AvatarFallback>
-          </Avatar>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold">{talent.name}</h3>
-              {talent.isVerified && <CheckCircle className="w-5 h-5 text-green-500" />}
-              {talent.isNotRecommended && <XCircle className="w-5 h-5 text-red-500" />}
+    <>
+      <div className="relative">
+        <Link to="/talents/$talentId" params={{ talentId: talent._id }}>
+          <div className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-r from-primary/5 to-card dark:bg-card hover:shadow-sm transition-all cursor-pointer group">
+            <div className="flex-1 min-w-0 space-y-2">
+              <div className="flex items-center gap-2">
+                <h3 className="text-base font-semibold truncate">{talent.name}</h3>
+                {talent.isVerified && <CheckCircle className="w-4 h-4 text-green-500" />}
+                {talent.isNotRecommended && <XCircle className="w-4 h-4 text-red-500" />}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                  <User className="h-3 w-3" />
+                  <span>{talent.title}</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                  <Briefcase className="h-3 w-3" />
+                  <span>{talent.experience} years</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                  <MapPin className="h-3 w-3" />
+                  <span>{talent.country}</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                  <DollarSign className="h-3 w-3" />
+                  <span>{formatSalary(talent.salaryMonth)}/month</span>
+                </div>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">{talent.title}</p>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Briefcase className="w-3 h-3" />
-              <span>Exp: {talent.experience} years</span>
-              <MapPin className="w-3 h-3" />
-              <span>{talent.country}</span>
+
+            <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild onClick={handleDropdownClick}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 hover:bg-muted"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" onClick={handleDropdownClick}>
+                  <DropdownMenuItem>
+                    <Heart className="mr-2 h-4 w-4" />
+                    Add to favorites
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <EyeOff className="mr-2 h-4 w-4" />
+                    Not a fit
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
-        </div>
-        <div className="text-right">
-          <p className="text-lg font-semibold">
-            {formatSalary(talent.salaryMonth)}/month
-          </p>
-          <Button variant="ghost" size="icon" className="w-8 h-8">
-            <MoreHorizontal className="w-4 h-4" />
-          </Button>
-        </div>
+        </Link>
       </div>
-      <div>
-        <span className="text-sm font-medium">Vetted skills:</span>
-        <div className="flex flex-wrap gap-2 mt-1">
-          {talent.vettedSkills.slice(0, 3).map((skill) => (
-            <Badge key={skill} variant="secondary">
-              {skill}
-            </Badge>
-          ))}
-          {talent.vettedSkills.length > 3 && (
-            <Badge variant="outline">+{talent.vettedSkills.length - 3}</Badge>
-          )}
-        </div>
-      </div>
-      <p className="text-sm text-muted-foreground">{talent.description}</p>
-    </div>
+    </>
   );
 }
 

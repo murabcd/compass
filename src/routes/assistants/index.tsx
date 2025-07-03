@@ -4,14 +4,15 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import { Plus, WandSparkles } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { AssistantCard, AssistantCardSkeleton } from "@/components/assistant-card";
 import { EmptyState } from "@/components/empty-state";
 import { AssistantCreateDialog } from "@/components/assistant-create-dialog";
 
 import { convexQuery } from "@convex-dev/react-query";
-import { api } from "../../../convex/_generated/api";
-import { Id } from "../../../convex/_generated/dataModel";
+import { api } from "convex/_generated/api";
+import { Id } from "convex/_generated/dataModel";
 
 export const Route = createFileRoute("/assistants/")({
   component: Assistants,

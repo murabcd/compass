@@ -4,14 +4,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import { Plus, Briefcase } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { JobCard, JobCardSkeleton } from "@/components/job-card";
 import { EmptyState } from "@/components/empty-state";
 import { JobCreateDialog } from "@/components/job-create-dialog";
 
 import { convexQuery } from "@convex-dev/react-query";
-import { api } from "../../../convex/_generated/api";
-import { Id } from "../../../convex/_generated/dataModel";
+import { api } from "convex/_generated/api";
+import { Id } from "convex/_generated/dataModel";
 
 export const Route = createFileRoute("/jobs/")({
   component: Jobs,

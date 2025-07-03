@@ -10,7 +10,7 @@ import { EmptyState } from "@/components/empty-state";
 import { TalentCard, TalentCardSkeleton } from "@/components/talent-card";
 
 import { usePaginatedQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "convex/_generated/api";
 
 export const Route = createFileRoute("/talents/")({
   component: SearchComponent,
@@ -22,7 +22,11 @@ function SearchComponent() {
     results: talent,
     status,
     loadMore,
-  } = usePaginatedQuery(api.search.getTalent, { search }, { initialNumItems: 5 });
+  } = usePaginatedQuery(
+    api.talents.getTalent,
+    { talents: search },
+    { initialNumItems: 5 }
+  );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -32,9 +36,9 @@ function SearchComponent() {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="space-y-6">
-          <div className="bg-background/80 backdrop-blur-sm sticky top-0 z-10 -mx-6 -mt-6 px-6 py-4 border-b">
+      <div className="@container/main flex flex-1 flex-col gap-2">
+        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+          <div className="px-4 lg:px-6">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
@@ -63,34 +67,36 @@ function SearchComponent() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            {isLoading &&
-              Array.from({ length: 5 }).map((_, i) => <TalentCardSkeleton key={i} />)}
+          <div className="px-4 lg:px-6">
+            <div className="flex flex-col gap-3">
+              {isLoading &&
+                Array.from({ length: 5 }).map((_, i) => <TalentCardSkeleton key={i} />)}
 
-            {!isLoading && talent.length === 0 && (
-              <EmptyState
-                icon={Search}
-                title="No results found"
-                description="Try adjusting your search or filters to find what you're looking for."
-                actionLabel="Clear search"
-                onAction={() => setSearch("")}
-              />
-            )}
+              {!isLoading && talent.length === 0 && (
+                <EmptyState
+                  icon={Search}
+                  title="No results found"
+                  description="Try adjusting your search or filters to find what you're looking for."
+                  actionLabel="Clear search"
+                  onAction={() => setSearch("")}
+                />
+              )}
 
-            {talent.map((t) => (
-              <TalentCard key={t._id} talent={t} />
-            ))}
+              {talent.map((t) => (
+                <TalentCard key={t._id} talent={t} />
+              ))}
 
-            {status === "CanLoadMore" && (
-              <Button variant="outline" className="w-full" onClick={() => loadMore(5)}>
-                Load More
-              </Button>
-            )}
-            {status === "LoadingMore" && (
-              <Button variant="outline" className="w-full" disabled>
-                Loading...
-              </Button>
-            )}
+              {status === "CanLoadMore" && (
+                <Button variant="outline" className="w-full" onClick={() => loadMore(5)}>
+                  Load More
+                </Button>
+              )}
+              {status === "LoadingMore" && (
+                <Button variant="outline" className="w-full" disabled>
+                  Loading...
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>

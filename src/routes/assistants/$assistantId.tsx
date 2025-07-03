@@ -12,8 +12,8 @@ import { AssistantCreateDialog } from "@/components/assistant-create-dialog";
 
 import { useMutation } from "convex/react";
 import { convexQuery } from "@convex-dev/react-query";
-import { api } from "../../../convex/_generated/api";
-import { Id } from "../../../convex/_generated/dataModel";
+import { api } from "convex/_generated/api";
+import { Id } from "convex/_generated/dataModel";
 
 export const Route = createFileRoute("/assistants/$assistantId")({
   component: AssistantChat,

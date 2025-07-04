@@ -65,27 +65,29 @@ export function TalentCard({ talent }: TalentCardProps) {
       <div className="relative">
         <Link to="/talents/$talentId" params={{ talentId: talent._id }}>
           <div className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-r from-primary/5 to-card dark:bg-card hover:shadow-sm transition-all cursor-pointer group">
-            <div className="flex-1 min-w-0 space-y-2">
+            <div className="flex-1 min-w-0 space-y-3">
+              {/* Header */}
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-semibold truncate">{talent.name}</h3>
                 {talent.isVerified && <CheckCircle className="w-4 h-4 text-green-500" />}
                 {talent.isNotRecommended && <XCircle className="w-4 h-4 text-red-500" />}
               </div>
 
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+              {/* Main content */}
+              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1">
                   <User className="h-3 w-3" />
                   <span>{talent.title}</span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1">
                   <Briefcase className="h-3 w-3" />
                   <span>{talent.experience} years</span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1">
                   <MapPin className="h-3 w-3" />
                   <span>{talent.country}</span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1">
                   <DollarSign className="h-3 w-3" />
                   <span>{formatSalary(talent.salaryMonth)}/month</span>
                 </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Search, Filter, Heart, ChevronRight, ListFilter } from "lucide-react";
+import { Filter, Heart, ChevronRight, ListFilter, Users, Search } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -74,7 +74,7 @@ function SearchComponent() {
 
               {!isLoading && talent.length === 0 && (
                 <EmptyState
-                  icon={Search}
+                  icon={Users}
                   title="No results found"
                   description="Try adjusting your search or filters to find what you're looking for."
                   actionLabel="Clear search"

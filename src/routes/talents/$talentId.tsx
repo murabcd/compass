@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/talents/$talentId")({
-  component: Talent,
+	component: Talent,
 });
 
 function Talent() {
-  const { talentId } = Route.useParams();
-  return <div>Talent ID: {talentId}</div>;
+	const { talentId } = Route.useParams();
+	return <div>Talent ID: {talentId}</div>;
 }

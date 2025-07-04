@@ -38,6 +38,7 @@ export const Route = createRootRouteWithContext<{
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
     ],
   }),
   component: RootComponent,

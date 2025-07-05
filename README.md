@@ -1,8 +1,20 @@
-<h1 align="center">Compass</h1>
+<a href="https://compass-hr.vercel.app">
+  <img alt="Realtime Voice AI Rectuiter Built With Convex, Tanstack Start and OpenAI." src="./public/preview/compass.png">
+  <h1 align="center">Compass</h1>
+</a>
 
 <p align="center">
-  Open source AI-powered recruiting platform for modern talent acquisition teams.
+  Realtime Voice AI Rectuiter Built With Convex, Tanstack Start and OpenAI.
 </p>
+
+This project uses the [OpenAI Agents SDK](https://github.com/openai/openai-agents-js), a toolkit for building, managing, and deploying advanced AI agents. The SDK provides:
+
+- A unified interface for defining agent behaviors and tool integrations
+- Built-in support for agent orchestration, state management, and event handling
+- Easy integration with the OpenAI Realtime API for low-latency, streaming interactions
+- Extensible patterns for multi-agent collaboration, handoffs, tool use, and guardrails
+
+> **NOTE:** ❗ This project is in very early development and lots of things will change.
 
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·

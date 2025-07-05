@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
+import type React from "react";
+
 import { Users, Briefcase, RectangleCircle, WandSparkles } from "lucide-react";
-import { Link } from "@tanstack/react-router";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -48,8 +48,8 @@ const defaultData = {
 	},
 	navMain: [
 		{
-			title: "Talents",
-			url: "/talents",
+			title: "Talent",
+			url: "/talent",
 			icon: Users,
 		},
 		{
@@ -80,10 +80,10 @@ export function AppSidebar({
 							asChild
 							className="data-[slot=sidebar-menu-button]:!p-1.5 hover:bg-transparent hover:text-primary"
 						>
-							<Link to="/talents">
+							<a href="/">
 								<RectangleCircle className="!size-5" />
 								<span className="text-base font-semibold">Compass</span>
-							</Link>
+							</a>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>

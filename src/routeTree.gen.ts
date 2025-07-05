@@ -11,52 +11,93 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as TalentsIndexRouteImport } from './routes/talents/index'
-import { Route as JobsIndexRouteImport } from './routes/jobs/index'
-import { Route as AssistantsIndexRouteImport } from './routes/assistants/index'
-import { Route as TalentsTalentIdRouteImport } from './routes/talents/$talentId'
-import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
-import { Route as AssistantsAssistantIdRouteImport } from './routes/assistants/$assistantId'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as MarketingRouteImport } from './routes/_marketing'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as MarketingIndexRouteImport } from './routes/_marketing/index'
+import { Route as MarketingPricingRouteImport } from './routes/_marketing/pricing'
+import { Route as MarketingAboutRouteImport } from './routes/_marketing/about'
+import { Route as AppTalentIndexRouteImport } from './routes/_app/talent/index'
+import { Route as AppJobsIndexRouteImport } from './routes/_app/jobs/index'
+import { Route as AppAssistantsIndexRouteImport } from './routes/_app/assistants/index'
+import { Route as AppTalentTalentIdRouteImport } from './routes/_app/talent/$talentId'
+import { Route as AppJobsJobIdRouteImport } from './routes/_app/jobs/$jobId'
+import { Route as AppAssistantsAssistantIdRouteImport } from './routes/_app/assistants/$assistantId'
 import { ServerRoute as ApiSessionServerRouteImport } from './routes/api/session'
 
 const rootServerRouteImport = createServerRootRoute()
 
-const IndexRoute = IndexRouteImport.update({
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketingRoute = MarketingRouteImport.update({
+  id: '/_marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketingIndexRoute = MarketingIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => MarketingRoute,
 } as any)
-const TalentsIndexRoute = TalentsIndexRouteImport.update({
-  id: '/talents/',
-  path: '/talents/',
-  getParentRoute: () => rootRouteImport,
+const MarketingPricingRoute = MarketingPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => MarketingRoute,
 } as any)
-const JobsIndexRoute = JobsIndexRouteImport.update({
+const MarketingAboutRoute = MarketingAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => MarketingRoute,
+} as any)
+const AppTalentIndexRoute = AppTalentIndexRouteImport.update({
+  id: '/talent/',
+  path: '/talent/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppJobsIndexRoute = AppJobsIndexRouteImport.update({
   id: '/jobs/',
   path: '/jobs/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const AssistantsIndexRoute = AssistantsIndexRouteImport.update({
+const AppAssistantsIndexRoute = AppAssistantsIndexRouteImport.update({
   id: '/assistants/',
   path: '/assistants/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const TalentsTalentIdRoute = TalentsTalentIdRouteImport.update({
-  id: '/talents/$talentId',
-  path: '/talents/$talentId',
-  getParentRoute: () => rootRouteImport,
+const AppTalentTalentIdRoute = AppTalentTalentIdRouteImport.update({
+  id: '/talent/$talentId',
+  path: '/talent/$talentId',
+  getParentRoute: () => AppRoute,
 } as any)
-const JobsJobIdRoute = JobsJobIdRouteImport.update({
+const AppJobsJobIdRoute = AppJobsJobIdRouteImport.update({
   id: '/jobs/$jobId',
   path: '/jobs/$jobId',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const AssistantsAssistantIdRoute = AssistantsAssistantIdRouteImport.update({
-  id: '/assistants/$assistantId',
-  path: '/assistants/$assistantId',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const AppAssistantsAssistantIdRoute =
+  AppAssistantsAssistantIdRouteImport.update({
+    id: '/assistants/$assistantId',
+    path: '/assistants/$assistantId',
+    getParentRoute: () => AppRoute,
+  } as any)
 const ApiSessionServerRoute = ApiSessionServerRouteImport.update({
   id: '/api/session',
   path: '/api/session',
@@ -64,71 +105,103 @@ const ApiSessionServerRoute = ApiSessionServerRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
-  '/jobs/$jobId': typeof JobsJobIdRoute
-  '/talents/$talentId': typeof TalentsTalentIdRoute
-  '/assistants': typeof AssistantsIndexRoute
-  '/jobs': typeof JobsIndexRoute
-  '/talents': typeof TalentsIndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/about': typeof MarketingAboutRoute
+  '/pricing': typeof MarketingPricingRoute
+  '/': typeof MarketingIndexRoute
+  '/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
+  '/jobs/$jobId': typeof AppJobsJobIdRoute
+  '/talent/$talentId': typeof AppTalentTalentIdRoute
+  '/assistants': typeof AppAssistantsIndexRoute
+  '/jobs': typeof AppJobsIndexRoute
+  '/talent': typeof AppTalentIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
-  '/jobs/$jobId': typeof JobsJobIdRoute
-  '/talents/$talentId': typeof TalentsTalentIdRoute
-  '/assistants': typeof AssistantsIndexRoute
-  '/jobs': typeof JobsIndexRoute
-  '/talents': typeof TalentsIndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/about': typeof MarketingAboutRoute
+  '/pricing': typeof MarketingPricingRoute
+  '/': typeof MarketingIndexRoute
+  '/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
+  '/jobs/$jobId': typeof AppJobsJobIdRoute
+  '/talent/$talentId': typeof AppTalentTalentIdRoute
+  '/assistants': typeof AppAssistantsIndexRoute
+  '/jobs': typeof AppJobsIndexRoute
+  '/talent': typeof AppTalentIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/assistants/$assistantId': typeof AssistantsAssistantIdRoute
-  '/jobs/$jobId': typeof JobsJobIdRoute
-  '/talents/$talentId': typeof TalentsTalentIdRoute
-  '/assistants/': typeof AssistantsIndexRoute
-  '/jobs/': typeof JobsIndexRoute
-  '/talents/': typeof TalentsIndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_marketing': typeof MarketingRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/_marketing/about': typeof MarketingAboutRoute
+  '/_marketing/pricing': typeof MarketingPricingRoute
+  '/_marketing/': typeof MarketingIndexRoute
+  '/_app/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
+  '/_app/jobs/$jobId': typeof AppJobsJobIdRoute
+  '/_app/talent/$talentId': typeof AppTalentTalentIdRoute
+  '/_app/assistants/': typeof AppAssistantsIndexRoute
+  '/_app/jobs/': typeof AppJobsIndexRoute
+  '/_app/talent/': typeof AppTalentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/about'
+    | '/pricing'
     | '/'
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
-    | '/talents/$talentId'
+    | '/talent/$talentId'
     | '/assistants'
     | '/jobs'
-    | '/talents'
+    | '/talent'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/about'
+    | '/pricing'
     | '/'
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
-    | '/talents/$talentId'
+    | '/talent/$talentId'
     | '/assistants'
     | '/jobs'
-    | '/talents'
+    | '/talent'
   id:
     | '__root__'
-    | '/'
-    | '/assistants/$assistantId'
-    | '/jobs/$jobId'
-    | '/talents/$talentId'
-    | '/assistants/'
-    | '/jobs/'
-    | '/talents/'
+    | '/_app'
+    | '/_marketing'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/_marketing/about'
+    | '/_marketing/pricing'
+    | '/_marketing/'
+    | '/_app/assistants/$assistantId'
+    | '/_app/jobs/$jobId'
+    | '/_app/talent/$talentId'
+    | '/_app/assistants/'
+    | '/_app/jobs/'
+    | '/_app/talent/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AssistantsAssistantIdRoute: typeof AssistantsAssistantIdRoute
-  JobsJobIdRoute: typeof JobsJobIdRoute
-  TalentsTalentIdRoute: typeof TalentsTalentIdRoute
-  AssistantsIndexRoute: typeof AssistantsIndexRoute
-  JobsIndexRoute: typeof JobsIndexRoute
-  TalentsIndexRoute: typeof TalentsIndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  MarketingRoute: typeof MarketingRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/session': typeof ApiSessionServerRoute
@@ -154,54 +227,103 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_marketing': {
+      id: '/_marketing'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof MarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_marketing/': {
+      id: '/_marketing/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof MarketingIndexRouteImport
+      parentRoute: typeof MarketingRoute
     }
-    '/talents/': {
-      id: '/talents/'
-      path: '/talents'
-      fullPath: '/talents'
-      preLoaderRoute: typeof TalentsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_marketing/pricing': {
+      id: '/_marketing/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof MarketingPricingRouteImport
+      parentRoute: typeof MarketingRoute
     }
-    '/jobs/': {
-      id: '/jobs/'
+    '/_marketing/about': {
+      id: '/_marketing/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof MarketingAboutRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_app/talent/': {
+      id: '/_app/talent/'
+      path: '/talent'
+      fullPath: '/talent'
+      preLoaderRoute: typeof AppTalentIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/jobs/': {
+      id: '/_app/jobs/'
       path: '/jobs'
       fullPath: '/jobs'
-      preLoaderRoute: typeof JobsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppJobsIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/assistants/': {
-      id: '/assistants/'
+    '/_app/assistants/': {
+      id: '/_app/assistants/'
       path: '/assistants'
       fullPath: '/assistants'
-      preLoaderRoute: typeof AssistantsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppAssistantsIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/talents/$talentId': {
-      id: '/talents/$talentId'
-      path: '/talents/$talentId'
-      fullPath: '/talents/$talentId'
-      preLoaderRoute: typeof TalentsTalentIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_app/talent/$talentId': {
+      id: '/_app/talent/$talentId'
+      path: '/talent/$talentId'
+      fullPath: '/talent/$talentId'
+      preLoaderRoute: typeof AppTalentTalentIdRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/jobs/$jobId': {
-      id: '/jobs/$jobId'
+    '/_app/jobs/$jobId': {
+      id: '/_app/jobs/$jobId'
       path: '/jobs/$jobId'
       fullPath: '/jobs/$jobId'
-      preLoaderRoute: typeof JobsJobIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppJobsJobIdRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/assistants/$assistantId': {
-      id: '/assistants/$assistantId'
+    '/_app/assistants/$assistantId': {
+      id: '/_app/assistants/$assistantId'
       path: '/assistants/$assistantId'
       fullPath: '/assistants/$assistantId'
-      preLoaderRoute: typeof AssistantsAssistantIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppAssistantsAssistantIdRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
@@ -217,14 +339,48 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface AppRouteChildren {
+  AppAssistantsAssistantIdRoute: typeof AppAssistantsAssistantIdRoute
+  AppJobsJobIdRoute: typeof AppJobsJobIdRoute
+  AppTalentTalentIdRoute: typeof AppTalentTalentIdRoute
+  AppAssistantsIndexRoute: typeof AppAssistantsIndexRoute
+  AppJobsIndexRoute: typeof AppJobsIndexRoute
+  AppTalentIndexRoute: typeof AppTalentIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAssistantsAssistantIdRoute: AppAssistantsAssistantIdRoute,
+  AppJobsJobIdRoute: AppJobsJobIdRoute,
+  AppTalentTalentIdRoute: AppTalentTalentIdRoute,
+  AppAssistantsIndexRoute: AppAssistantsIndexRoute,
+  AppJobsIndexRoute: AppJobsIndexRoute,
+  AppTalentIndexRoute: AppTalentIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
+interface MarketingRouteChildren {
+  MarketingAboutRoute: typeof MarketingAboutRoute
+  MarketingPricingRoute: typeof MarketingPricingRoute
+  MarketingIndexRoute: typeof MarketingIndexRoute
+}
+
+const MarketingRouteChildren: MarketingRouteChildren = {
+  MarketingAboutRoute: MarketingAboutRoute,
+  MarketingPricingRoute: MarketingPricingRoute,
+  MarketingIndexRoute: MarketingIndexRoute,
+}
+
+const MarketingRouteWithChildren = MarketingRoute._addFileChildren(
+  MarketingRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AssistantsAssistantIdRoute: AssistantsAssistantIdRoute,
-  JobsJobIdRoute: JobsJobIdRoute,
-  TalentsTalentIdRoute: TalentsTalentIdRoute,
-  AssistantsIndexRoute: AssistantsIndexRoute,
-  JobsIndexRoute: JobsIndexRoute,
-  TalentsIndexRoute: TalentsIndexRoute,
+  AppRoute: AppRouteWithChildren,
+  MarketingRoute: MarketingRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

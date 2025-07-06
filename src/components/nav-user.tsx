@@ -95,6 +95,16 @@ export function NavUser({ user, menuItems = defaultMenuItems }: NavUserProps) {
 									onClick={
 										item.label === "Log out"
 											? () => {
+													const rootTheme =
+														localStorage.getItem("vite-ui-root-theme") ||
+														"dark";
+													document.documentElement.className =
+														document.documentElement.className.replace(
+															/\b(?:dark|light)\b/g,
+															"",
+														) +
+														" " +
+														rootTheme;
 													void signOut();
 													void router.navigate({ to: "/" });
 												}

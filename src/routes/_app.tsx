@@ -1,4 +1,6 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useConvexAuth } from "convex/react";
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -10,6 +12,20 @@ export const Route = createFileRoute("/_app")({
 });
 
 function AppLayout() {
+	const { isLoading, isAuthenticated } = useConvexAuth();
+	const navigate = useNavigate();
+
+	// Redirect unauthenticated users to the login page
+	useEffect(() => {
+		if (!isLoading && !isAuthenticated) {
+			void navigate({ to: "/login", replace: true });
+		}
+	}, [isLoading, isAuthenticated, navigate]);
+
+	if (!isLoading && !isAuthenticated) {
+		return null;
+	}
+
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-app-theme">
 			<SidebarProvider

@@ -59,11 +59,15 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			</head>
 			<body className="flex flex-col min-h-screen">
 				<ScriptOnce>
-					{`document.documentElement.classList.toggle(
-            'dark',
-            localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-            )
-          `}
+					{`(()=>{
+  const t = localStorage.getItem(
+    ['assistants','jobs','talent'].includes(location.pathname.split('/')[1])
+      ? 'vite-ui-app-theme'
+      : 'vite-ui-root-theme'
+  ) ?? (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+  document.documentElement.className =
+    document.documentElement.className.replace(/\b(?:dark|light)\b/g, '') + ' ' + t;
+})();`}
 				</ScriptOnce>
 				{children}
 				<Scripts />

@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+// Utility flag to determine if we are executing in a browser environment.
+const isBrowser = typeof window !== "undefined";
+
 type Theme = "dark" | "light";
 
 type ThemeProviderProps = {
@@ -26,9 +29,13 @@ export function ThemeProvider({
 	storageKey = "vite-ui-theme",
 	...props
 }: ThemeProviderProps) {
-	const [theme, setTheme] = useState<Theme>(
-		() => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
-	);
+	const [theme, setTheme] = useState<Theme>(() => {
+		if (isBrowser) {
+			const stored = window.localStorage.getItem(storageKey) as Theme | null;
+			return stored ?? defaultTheme;
+		}
+		return defaultTheme;
+	});
 
 	useEffect(() => {
 		const root = window.document.documentElement;
@@ -40,7 +47,9 @@ export function ThemeProvider({
 	const value = {
 		theme,
 		setTheme: (theme: Theme) => {
-			localStorage.setItem(storageKey, theme);
+			if (isBrowser) {
+				window.localStorage.setItem(storageKey, theme);
+			}
 			setTheme(theme);
 		},
 	};

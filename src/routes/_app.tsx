@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_app")({
 
 function AppLayout() {
 	return (
-		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-app-theme">
 			<SidebarProvider
 				style={
 					{

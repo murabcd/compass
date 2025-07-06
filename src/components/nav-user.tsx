@@ -18,6 +18,7 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthActions } from "@convex-dev/auth/react";
 
 interface UserMenuItem {
@@ -63,7 +64,7 @@ export function NavUser({ user, menuItems = defaultMenuItems }: NavUserProps) {
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
-							<Avatar className="h-6 w-6 border rounded-lg grayscale">
+							<Avatar className="h-6 w-6 border rounded-lg">
 								<AvatarImage src={user.image} alt={user.name} />
 								<AvatarFallback className="rounded-lg">
 									{user.name
@@ -108,6 +109,22 @@ export function NavUser({ user, menuItems = defaultMenuItems }: NavUserProps) {
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
+			</SidebarMenuItem>
+		</SidebarMenu>
+	);
+}
+
+export function NavUserSkeleton() {
+	return (
+		<SidebarMenu>
+			<SidebarMenuItem>
+				<SidebarMenuButton className="h-10">
+					<Skeleton className="h-6 w-6 rounded-lg" />
+					<div className="grid flex-1 text-left text-sm leading-tight">
+						<Skeleton className="h-4 w-24" />
+					</div>
+					<Skeleton className="ml-auto h-4 w-4" />
+				</SidebarMenuButton>
 			</SidebarMenuItem>
 		</SidebarMenu>
 	);

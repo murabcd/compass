@@ -5,7 +5,7 @@ import { useQuery } from "convex/react";
 import { Users, Briefcase, RectangleCircle, WandSparkles } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavUser, NavUserSkeleton } from "@/components/nav-user";
 import {
 	Sidebar,
 	SidebarContent,
@@ -88,7 +88,11 @@ export function AppSidebar({
 				<NavMain items={navMain} />
 			</SidebarContent>
 			<SidebarFooter>
-				{user && <NavUser user={user} menuItems={userMenuItems} />}
+				{user ? (
+					<NavUser user={user} menuItems={userMenuItems} />
+				) : (
+					<NavUserSkeleton />
+				)}
 			</SidebarFooter>
 		</Sidebar>
 	);

@@ -3,11 +3,11 @@ import {
 	Link,
 } from "@tanstack/react-router";
 import { QueryClient } from "@tanstack/react-query";
-import { routerWithQueryClient } from "@tanstack/react-router-with-query";
-
 import { ConvexQueryClient } from "@convex-dev/react-query";
-import { ConvexProvider } from "convex/react";
+import { routerWithQueryClient } from "@tanstack/react-router-with-query";
+import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { routeTree } from "./routeTree.gen";
+import { ConvexReactClient } from "convex/react";
 
 function NotFound() {
 	return (
@@ -46,6 +46,10 @@ export function createRouter() {
 	});
 	convexQueryClient.connect(queryClient);
 
+	const convex = new ConvexReactClient(
+		import.meta.env.VITE_CONVEX_URL as string,
+	);
+
 	const router = routerWithQueryClient(
 		createTanStackRouter({
 			routeTree,
@@ -53,9 +57,7 @@ export function createRouter() {
 			context: { queryClient },
 			defaultNotFoundComponent: NotFound,
 			Wrap: ({ children }) => (
-				<ConvexProvider client={convexQueryClient.convexClient}>
-					{children}
-				</ConvexProvider>
+				<ConvexAuthProvider client={convex}>{children}</ConvexAuthProvider>
 			),
 		}),
 		queryClient,

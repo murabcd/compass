@@ -13,10 +13,8 @@ import {
 	User,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -30,7 +28,7 @@ interface Talent {
 	_id: Id<"talent">;
 	name: string;
 	initials: string;
-	avatarUrl: string;
+	image: string;
 	title: string;
 	experience: number;
 	country: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-
+import { useQuery } from "convex/react";
 import { Users, Briefcase, RectangleCircle, WandSparkles } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -15,6 +15,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { api } from "@/../convex/_generated/api";
 
 interface UserData {
 	name: string;
@@ -30,7 +31,6 @@ interface NavItem {
 }
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-	user?: UserData;
 	navMain?: NavItem[];
 	userMenuItems?: Array<{
 		label: string;
@@ -41,11 +41,6 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 const defaultData = {
-	user: {
-		name: "User",
-		email: "user@company.com",
-		avatar: "/avatars/default.jpg",
-	},
 	navMain: [
 		{
 			title: "Talent",
@@ -66,11 +61,12 @@ const defaultData = {
 };
 
 export function AppSidebar({
-	user = defaultData.user,
 	navMain = defaultData.navMain,
 	userMenuItems,
 	...props
 }: AppSidebarProps) {
+	const user = useQuery(api.users.getUser);
+
 	return (
 		<Sidebar collapsible="offcanvas" {...props}>
 			<SidebarHeader>
@@ -92,7 +88,7 @@ export function AppSidebar({
 				<NavMain items={navMain} />
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={user} menuItems={userMenuItems} />
+				{user && <NavUser user={user} menuItems={userMenuItems} />}
 			</SidebarFooter>
 		</Sidebar>
 	);

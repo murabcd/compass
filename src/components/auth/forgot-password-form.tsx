@@ -69,7 +69,7 @@ export function ForgotPasswordForm({
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" className="w-full">
+					<Button type="submit" className="w-full cursor-pointer">
 						Send code
 					</Button>
 				</form>

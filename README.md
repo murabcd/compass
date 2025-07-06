@@ -35,6 +35,12 @@ This project uses the [OpenAI Agents SDK](https://github.com/openai/openai-agent
 - [Shadcn/ui](https://ui.shadcn.com)
   - Styling with [Tailwind CSS](https://tailwindcss.com)
   - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
+- [Convex](https://www.convex.dev/)
+  - Real-time database for storing user profiles, job listings, and application data
+  - Optimized file storage with automatic caching and CDN distribution
+- [Convex Auth](https://labs.convex.dev/auth)
+  - Simple and secure authentication without external services
+  - Built-in support for magic links, OTPs, OAuth, and password authentication
 
 ## Model Provider
 

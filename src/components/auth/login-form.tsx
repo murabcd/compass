@@ -17,6 +17,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -31,6 +32,7 @@ export function LoginForm({
 	className,
 	...props
 }: React.ComponentProps<"div">) {
+	const { signIn } = useAuthActions();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -106,7 +108,7 @@ export function LoginForm({
 									</FormItem>
 								)}
 							/>
-							<Button type="submit" className="w-full">
+							<Button type="submit" className="w-full cursor-pointer">
 								Log in
 							</Button>
 						</div>
@@ -116,7 +118,12 @@ export function LoginForm({
 							</span>
 						</div>
 						<div className="grid gap-4">
-							<Button variant="outline" type="button" className="w-full">
+							<Button
+								variant="outline"
+								type="button"
+								className="w-full cursor-pointer"
+								onClick={() => void signIn("google", { redirectTo: "/talent" })}
+							>
 								<Icons.google />
 								Continue with Google
 							</Button>

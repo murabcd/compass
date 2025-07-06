@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from "@tanstack/react-router";
 import { Settings, MoreVertical, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ModeToggle } from "@/components/mode-toggle";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -16,7 +18,7 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from "@/components/ui/sidebar";
-import { ModeToggle } from "./mode-toggle";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 interface UserMenuItem {
 	label: string;
@@ -29,7 +31,7 @@ interface NavUserProps {
 	user: {
 		name: string;
 		email: string;
-		avatar: string;
+		image: string;
 	};
 	menuItems?: UserMenuItem[];
 }
@@ -52,6 +54,8 @@ const defaultMenuItems: UserMenuItem[] = [
 
 export function NavUser({ user, menuItems = defaultMenuItems }: NavUserProps) {
 	const { isMobile } = useSidebar();
+	const { signOut } = useAuthActions();
+	const router = useRouter();
 
 	return (
 		<SidebarMenu>
@@ -60,7 +64,7 @@ export function NavUser({ user, menuItems = defaultMenuItems }: NavUserProps) {
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
 							<Avatar className="h-6 w-6 border rounded-lg grayscale">
-								<AvatarImage src={user.avatar} alt={user.name} />
+								<AvatarImage src={user.image} alt={user.name} />
 								<AvatarFallback className="rounded-lg">
 									{user.name
 										.split(" ")
@@ -87,7 +91,14 @@ export function NavUser({ user, menuItems = defaultMenuItems }: NavUserProps) {
 							{menuItems.map((item) => (
 								<DropdownMenuItem
 									key={item.label}
-									onClick={item.onClick}
+									onClick={
+										item.label === "Log out"
+											? () => {
+													void signOut();
+													void router.navigate({ to: "/" });
+												}
+											: item.onClick
+									}
 									variant={item.variant}
 								>
 									<item.icon className="h-4 w-4" />

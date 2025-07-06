@@ -16,6 +16,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 const formSchema = z.object({
 	firstName: z.string().min(1, {
@@ -36,6 +37,7 @@ export function RegisterForm({
 	className,
 	...props
 }: React.ComponentProps<"div">) {
+	const { signIn } = useAuthActions();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -143,7 +145,12 @@ export function RegisterForm({
 							</span>
 						</div>
 						<div className="grid gap-4">
-							<Button variant="outline" type="button" className="w-full">
+							<Button
+								variant="outline"
+								type="button"
+								className="w-full cursor-pointer"
+								onClick={() => void signIn("google", { redirectTo: "/talent" })}
+							>
 								<Icons.google />
 								Continue with Google
 							</Button>

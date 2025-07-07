@@ -23,3 +23,30 @@ export const getTalent = query({
 			.paginate(args.paginationOpts);
 	},
 });
+
+export const getTalentById = query({
+	args: {
+		id: v.id("talent"),
+	},
+	returns: v.union(
+		v.object({
+			_id: v.id("talent"),
+			_creationTime: v.number(),
+			name: v.string(),
+			initials: v.string(),
+			image: v.string(),
+			title: v.string(),
+			experience: v.number(),
+			country: v.string(),
+			vettedSkills: v.array(v.string()),
+			description: v.string(),
+			salaryMonth: v.number(),
+			isVerified: v.boolean(),
+			isNotRecommended: v.boolean(),
+		}),
+		v.null(),
+	),
+	handler: async (ctx, args) => {
+		return await ctx.db.get(args.id);
+	},
+});

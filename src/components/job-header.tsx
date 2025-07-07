@@ -1,7 +1,20 @@
-import { User, Calendar, Plus } from "lucide-react";
+import {
+	User,
+	Calendar,
+	Plus,
+	Phone,
+	ChevronDown,
+	Sparkles,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import type { Id } from "convex/_generated/dataModel";
 
@@ -56,10 +69,25 @@ export function JobHeader({ job }: JobHeaderProps) {
 							</div>
 						</div>
 					</div>
-					<Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-						<Plus className="h-4 w-4" />
-						Define AI interview
-					</Button>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2">
+								<Phone className="h-4 w-4" />
+								Define AI interview
+								<ChevronDown className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end" className="w-56">
+							<DropdownMenuItem className="gap-2">
+								<Plus className="h-4 w-4" />
+								Create a new interview
+							</DropdownMenuItem>
+							<DropdownMenuItem className="gap-2">
+								<Sparkles className="h-4 w-4" />
+								Choose from existing
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</div>
 
 				{/* Job Details */}

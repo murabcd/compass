@@ -19,15 +19,15 @@ const solutions = {
 	items: [
 		{
 			title: "Talent sourcing",
-			href: "/talent",
+			href: "/solutions/talent",
 		},
 		{
 			title: "Job management",
-			href: "/jobs",
+			href: "/solutions/jobs",
 		},
 		{
 			title: "AI assistants",
-			href: "/assistants",
+			href: "/solutions/assistants",
 		},
 	],
 };

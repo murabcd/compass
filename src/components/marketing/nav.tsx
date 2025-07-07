@@ -16,19 +16,19 @@ import { cn } from "@/lib/utils";
 const solutions: { title: string; href: string; description: string }[] = [
 	{
 		title: "Talent sourcing",
-		href: "/talent",
+		href: "/solutions/talent",
 		description:
 			"Discover and connect with top global talent using AI-powered matching",
 	},
 	{
 		title: "Job management",
-		href: "/jobs",
+		href: "/solutions/jobs",
 		description:
 			"Create, manage, and track your job postings across multiple channels",
 	},
 	{
 		title: "AI assistants",
-		href: "/assistants",
+		href: "/solutions/assistants",
 		description:
 			"Automate recruitment tasks with intelligent AI-powered assistants",
 	},

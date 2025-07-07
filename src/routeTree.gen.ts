@@ -22,6 +22,9 @@ import { Route as MarketingAboutRouteImport } from './routes/_marketing/about'
 import { Route as AppTalentIndexRouteImport } from './routes/_app/talent/index'
 import { Route as AppJobsIndexRouteImport } from './routes/_app/jobs/index'
 import { Route as AppAssistantsIndexRouteImport } from './routes/_app/assistants/index'
+import { Route as MarketingSolutionsTalentRouteImport } from './routes/_marketing/solutions/talent'
+import { Route as MarketingSolutionsJobsRouteImport } from './routes/_marketing/solutions/jobs'
+import { Route as MarketingSolutionsAssistantsRouteImport } from './routes/_marketing/solutions/assistants'
 import { Route as AppTalentTalentIdRouteImport } from './routes/_app/talent/$talentId'
 import { Route as AppJobsJobIdRouteImport } from './routes/_app/jobs/$jobId'
 import { Route as AppAssistantsAssistantIdRouteImport } from './routes/_app/assistants/$assistantId'
@@ -82,6 +85,23 @@ const AppAssistantsIndexRoute = AppAssistantsIndexRouteImport.update({
   path: '/assistants/',
   getParentRoute: () => AppRoute,
 } as any)
+const MarketingSolutionsTalentRoute =
+  MarketingSolutionsTalentRouteImport.update({
+    id: '/solutions/talent',
+    path: '/solutions/talent',
+    getParentRoute: () => MarketingRoute,
+  } as any)
+const MarketingSolutionsJobsRoute = MarketingSolutionsJobsRouteImport.update({
+  id: '/solutions/jobs',
+  path: '/solutions/jobs',
+  getParentRoute: () => MarketingRoute,
+} as any)
+const MarketingSolutionsAssistantsRoute =
+  MarketingSolutionsAssistantsRouteImport.update({
+    id: '/solutions/assistants',
+    path: '/solutions/assistants',
+    getParentRoute: () => MarketingRoute,
+  } as any)
 const AppTalentTalentIdRoute = AppTalentTalentIdRouteImport.update({
   id: '/talent/$talentId',
   path: '/talent/$talentId',
@@ -114,6 +134,9 @@ export interface FileRoutesByFullPath {
   '/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
   '/jobs/$jobId': typeof AppJobsJobIdRoute
   '/talent/$talentId': typeof AppTalentTalentIdRoute
+  '/solutions/assistants': typeof MarketingSolutionsAssistantsRoute
+  '/solutions/jobs': typeof MarketingSolutionsJobsRoute
+  '/solutions/talent': typeof MarketingSolutionsTalentRoute
   '/assistants': typeof AppAssistantsIndexRoute
   '/jobs': typeof AppJobsIndexRoute
   '/talent': typeof AppTalentIndexRoute
@@ -128,6 +151,9 @@ export interface FileRoutesByTo {
   '/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
   '/jobs/$jobId': typeof AppJobsJobIdRoute
   '/talent/$talentId': typeof AppTalentTalentIdRoute
+  '/solutions/assistants': typeof MarketingSolutionsAssistantsRoute
+  '/solutions/jobs': typeof MarketingSolutionsJobsRoute
+  '/solutions/talent': typeof MarketingSolutionsTalentRoute
   '/assistants': typeof AppAssistantsIndexRoute
   '/jobs': typeof AppJobsIndexRoute
   '/talent': typeof AppTalentIndexRoute
@@ -145,6 +171,9 @@ export interface FileRoutesById {
   '/_app/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
   '/_app/jobs/$jobId': typeof AppJobsJobIdRoute
   '/_app/talent/$talentId': typeof AppTalentTalentIdRoute
+  '/_marketing/solutions/assistants': typeof MarketingSolutionsAssistantsRoute
+  '/_marketing/solutions/jobs': typeof MarketingSolutionsJobsRoute
+  '/_marketing/solutions/talent': typeof MarketingSolutionsTalentRoute
   '/_app/assistants/': typeof AppAssistantsIndexRoute
   '/_app/jobs/': typeof AppJobsIndexRoute
   '/_app/talent/': typeof AppTalentIndexRoute
@@ -161,6 +190,9 @@ export interface FileRouteTypes {
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
     | '/talent/$talentId'
+    | '/solutions/assistants'
+    | '/solutions/jobs'
+    | '/solutions/talent'
     | '/assistants'
     | '/jobs'
     | '/talent'
@@ -175,6 +207,9 @@ export interface FileRouteTypes {
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
     | '/talent/$talentId'
+    | '/solutions/assistants'
+    | '/solutions/jobs'
+    | '/solutions/talent'
     | '/assistants'
     | '/jobs'
     | '/talent'
@@ -191,6 +226,9 @@ export interface FileRouteTypes {
     | '/_app/assistants/$assistantId'
     | '/_app/jobs/$jobId'
     | '/_app/talent/$talentId'
+    | '/_marketing/solutions/assistants'
+    | '/_marketing/solutions/jobs'
+    | '/_marketing/solutions/talent'
     | '/_app/assistants/'
     | '/_app/jobs/'
     | '/_app/talent/'
@@ -304,6 +342,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAssistantsIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_marketing/solutions/talent': {
+      id: '/_marketing/solutions/talent'
+      path: '/solutions/talent'
+      fullPath: '/solutions/talent'
+      preLoaderRoute: typeof MarketingSolutionsTalentRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_marketing/solutions/jobs': {
+      id: '/_marketing/solutions/jobs'
+      path: '/solutions/jobs'
+      fullPath: '/solutions/jobs'
+      preLoaderRoute: typeof MarketingSolutionsJobsRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_marketing/solutions/assistants': {
+      id: '/_marketing/solutions/assistants'
+      path: '/solutions/assistants'
+      fullPath: '/solutions/assistants'
+      preLoaderRoute: typeof MarketingSolutionsAssistantsRouteImport
+      parentRoute: typeof MarketingRoute
+    }
     '/_app/talent/$talentId': {
       id: '/_app/talent/$talentId'
       path: '/talent/$talentId'
@@ -363,12 +422,18 @@ interface MarketingRouteChildren {
   MarketingAboutRoute: typeof MarketingAboutRoute
   MarketingPricingRoute: typeof MarketingPricingRoute
   MarketingIndexRoute: typeof MarketingIndexRoute
+  MarketingSolutionsAssistantsRoute: typeof MarketingSolutionsAssistantsRoute
+  MarketingSolutionsJobsRoute: typeof MarketingSolutionsJobsRoute
+  MarketingSolutionsTalentRoute: typeof MarketingSolutionsTalentRoute
 }
 
 const MarketingRouteChildren: MarketingRouteChildren = {
   MarketingAboutRoute: MarketingAboutRoute,
   MarketingPricingRoute: MarketingPricingRoute,
   MarketingIndexRoute: MarketingIndexRoute,
+  MarketingSolutionsAssistantsRoute: MarketingSolutionsAssistantsRoute,
+  MarketingSolutionsJobsRoute: MarketingSolutionsJobsRoute,
+  MarketingSolutionsTalentRoute: MarketingSolutionsTalentRoute,
 }
 
 const MarketingRouteWithChildren = MarketingRoute._addFileChildren(

@@ -36,6 +36,44 @@ export const getJobs = query({
 	},
 });
 
+export const getJob = query({
+	args: {
+		id: v.id("jobs"),
+	},
+	returns: v.union(
+		v.object({
+			_id: v.id("jobs"),
+			_creationTime: v.number(),
+			title: v.string(),
+			skills: v.array(v.string()),
+			hiresNeeded: v.number(),
+			location: v.union(
+				v.literal("remote"),
+				v.literal("hybrid"),
+				v.literal("on-site"),
+			),
+			employmentType: v.union(v.literal("full-time"), v.literal("part-time")),
+			seniorityLevel: v.union(
+				v.literal("internship"),
+				v.literal("entry-level"),
+				v.literal("associate"),
+				v.literal("mid-senior-level"),
+				v.literal("director"),
+				v.literal("executive"),
+				v.literal("not-applicable"),
+			),
+			salaryMin: v.number(),
+			salaryMax: v.number(),
+			isActive: v.optional(v.boolean()),
+		}),
+		v.null(),
+	),
+	handler: async (ctx, args) => {
+		const job = await ctx.db.get(args.id);
+		return job;
+	},
+});
+
 export const createJob = mutation({
 	args: {
 		title: v.string(),

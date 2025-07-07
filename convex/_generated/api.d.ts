@@ -16,6 +16,7 @@ import type {
 import type * as agents from "../agents.js";
 import type * as assistants from "../assistants.js";
 import type * as auth from "../auth.js";
+import type * as candidates from "../candidates.js";
 import type * as http from "../http.js";
 import type * as jobs from "../jobs.js";
 import type * as talents from "../talents.js";
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   agents: typeof agents;
   assistants: typeof assistants;
   auth: typeof auth;
+  candidates: typeof candidates;
   http: typeof http;
   jobs: typeof jobs;
   talents: typeof talents;

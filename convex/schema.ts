@@ -79,4 +79,20 @@ export default defineSchema({
 	})
 		.index("by_assistant", ["assistantId"])
 		.index("by_assistant_order", ["assistantId", "order"]),
+
+	candidates: defineTable({
+		jobId: v.id("jobs"),
+		talentId: v.id("talent"),
+		resumeScore: v.number(),
+		status: v.union(
+			v.literal("applied"),
+			v.literal("reviewed"),
+			v.literal("shortlisted"),
+			v.literal("rejected"),
+			v.literal("hired"),
+		),
+	})
+		.index("by_job", ["jobId"])
+		.index("by_talent", ["talentId"])
+		.index("by_job_status", ["jobId", "status"]),
 });

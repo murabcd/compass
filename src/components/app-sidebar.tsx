@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useQuery } from "convex/react";
+import { useQuery, useConvexAuth } from "convex/react";
 import { Users, Briefcase, RectangleCircle, WandSparkles } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -65,7 +65,16 @@ export function AppSidebar({
 	userMenuItems,
 	...props
 }: AppSidebarProps) {
-	const user = useQuery(api.users.getUser);
+	const { isLoading, isAuthenticated } = useConvexAuth();
+
+	const user = useQuery(
+		api.users.getUser,
+		{},
+		{
+			enabled: !isLoading && isAuthenticated,
+			staleTime: Infinity,
+		},
+	);
 
 	return (
 		<Sidebar collapsible="offcanvas" {...props}>

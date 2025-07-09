@@ -9,6 +9,7 @@ import {
 	Eye,
 	CornerDownLeft,
 	Trash2,
+	Tag,
 } from "lucide-react";
 
 import { toast } from "sonner";
@@ -270,7 +271,7 @@ function CandidateCard({
 							</div>
 							{candidate.talent.vettedSkills.length > 0 && (
 								<div className="flex items-center gap-1">
-									<span className="h-3 w-3 text-center">🏷️</span>
+									<Tag className="h-3 w-3" />
 									<span>
 										{candidate.talent.vettedSkills.slice(0, 2).join(", ")}
 										{candidate.talent.vettedSkills.length > 2 &&
@@ -280,41 +281,39 @@ function CandidateCard({
 							)}
 						</div>
 					) : (
-						<>
-							<div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+						<div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+							<div className="flex items-center gap-1">
+								<User className="h-3 w-3" />
 								<span>{candidate.talent.title}</span>
-								<span>•</span>
+							</div>
+							<div className="flex items-center gap-1">
+								<MapPin className="h-3 w-3" />
+								<span>{candidate.talent.country}</span>
+							</div>
+							<div className="flex items-center gap-1">
+								<Calendar className="h-3 w-3" />
 								<span>
 									Exp: {formatExperience(candidate.talent.experience)}
 								</span>
-								<span>•</span>
+							</div>
+							<div className="flex items-center gap-1">
+								<Star className="h-3 w-3" />
+								<span>
+									${candidate.talent.salaryMonth.toLocaleString()}
+									/month
+								</span>
+							</div>
+							{candidate.talent.vettedSkills.length > 0 && (
 								<div className="flex items-center gap-1">
-									<MapPin className="h-3 w-3" />
-									<span>{candidate.talent.country}</span>
+									<Tag className="h-3 w-3" />
+									<span>
+										{candidate.talent.vettedSkills.slice(0, 2).join(", ")}
+										{candidate.talent.vettedSkills.length > 2 &&
+											` +${candidate.talent.vettedSkills.length - 2}`}
+									</span>
 								</div>
-							</div>
-
-							<div className="flex items-center gap-2 text-xs">
-								<span className="text-muted-foreground">Skills:</span>
-								<div className="flex flex-wrap gap-1">
-									{candidate.talent.vettedSkills
-										.slice(0, 3)
-										.map((skill, index) => (
-											<span key={skill} className="text-muted-foreground">
-												{skill}
-												{index <
-													Math.min(candidate.talent.vettedSkills.length, 3) -
-														1 && ","}
-											</span>
-										))}
-									{candidate.talent.vettedSkills.length > 3 && (
-										<span className="text-muted-foreground">
-											+ {candidate.talent.vettedSkills.length - 3}
-										</span>
-									)}
-								</div>
-							</div>
-						</>
+							)}
+						</div>
 					)}
 				</div>
 			</div>

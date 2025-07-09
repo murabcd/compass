@@ -46,7 +46,7 @@ function AssistantsPage() {
 					</div>
 					<img
 						alt="Product screenshot"
-						src="https://upbeat-setter-562.convex.cloud/api/storage/b4633778-c7f0-46b0-9280-9752028ffe47"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/724609bc-69e4-43c2-b32f-22de2f7aedac"
 						width={2432}
 						height={1442}
 						className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-border sm:w-[57rem] md:-ml-4 lg:-ml-0"

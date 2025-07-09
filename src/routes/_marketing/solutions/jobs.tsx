@@ -52,7 +52,7 @@ function JobsPage() {
 					</div>
 					<img
 						alt="Product screenshot"
-						src="https://upbeat-setter-562.convex.cloud/api/storage/b05515bc-df6a-4a93-8890-6b7e35338383"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/8d5f4a27-e9a1-4e6e-8773-f3530ea3135e"
 						width={2432}
 						height={1442}
 						className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-border sm:w-[57rem] md:-ml-4 lg:-ml-0"

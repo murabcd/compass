@@ -53,7 +53,7 @@ function TalentPage() {
 					</div>
 					<img
 						alt="Product screenshot"
-						src="https://upbeat-setter-562.convex.cloud/api/storage/18fd1002-fc57-43fd-9151-0b9c0972a9ea"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/39b41a83-2fc7-4560-902c-2ef32a72eb2b"
 						width={2432}
 						height={1442}
 						className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-border sm:w-[57rem] md:-ml-4 lg:-ml-0"

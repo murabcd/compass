@@ -1,89 +1,63 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Search, Target, Globe, Zap, Shield, TrendingUp } from "lucide-react";
-
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Search, Shield } from "lucide-react";
 
 export const Route = createFileRoute("/_marketing/solutions/talent")({
 	component: TalentPage,
 });
 
+const features = [
+	{
+		name: "AI-powered search",
+		description:
+			"Find the perfect candidates using advanced AI algorithms that understand context and skills beyond keywords.",
+		icon: Search,
+	},
+	{
+		name: "Verified profiles",
+		description:
+			"All talent profiles are verified and validated to ensure you're connecting with genuine professionals.",
+		icon: Shield,
+	},
+];
+
 function TalentPage() {
-	const features = [
-		{
-			icon: Search,
-			title: "AI-powered search",
-			description:
-				"Find the perfect candidates using advanced AI algorithms that understand context and skills beyond keywords.",
-		},
-		{
-			icon: Target,
-			title: "Smart matching",
-			description:
-				"Our intelligent matching system considers culture fit, technical skills, and career goals for better placements.",
-		},
-		{
-			icon: Globe,
-			title: "Global talent pool",
-			description:
-				"Access a diverse network of professionals from around the world, ready to join your team.",
-		},
-		{
-			icon: Zap,
-			title: "Instant results",
-			description:
-				"Get qualified candidate recommendations in minutes, not weeks. Speed up your hiring process significantly.",
-		},
-		{
-			icon: Shield,
-			title: "Verified profiles",
-			description:
-				"All talent profiles are verified and validated to ensure you're connecting with genuine professionals.",
-		},
-		{
-			icon: TrendingUp,
-			title: "Continuous learning",
-			description:
-				"Our AI learns from your hiring decisions to provide better recommendations over time.",
-		},
-	];
-
 	return (
-		<div className="w-full flex items-center justify-center py-12 md:py-24">
-			<div className="max-w-4xl mx-auto">
-				<div className="text-center mb-16">
-					<h1 className="text-4xl font-bold text-center mb-4 md:text-5xl">
-						Talent sourcing
-					</h1>
-					<p className="text-xl text-muted-foreground mb-8">
-						Discover and connect with top global talent using AI-powered
-						matching
-					</p>
-				</div>
-
-				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{features.map((feature) => {
-						const IconComponent = feature.icon;
-						return (
-							<Card key={feature.title}>
-								<CardHeader>
-									<div className="w-8 h-8 mb-2">
-										<IconComponent className="w-full h-full" />
+		<div className="overflow-hidden py-24 sm:py-32">
+			<div className="mx-auto max-w-5xl px-6 lg:px-8">
+				<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+					<div className="lg:pt-4 lg:pr-8">
+						<div className="lg:max-w-lg">
+							<h2 className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+								Talent sourcing
+							</h2>
+							<p className="mt-6 text-lg leading-8 text-muted-foreground">
+								Discover and connect with top global talent using AI-powered
+								matching.
+							</p>
+							<dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-muted-foreground lg:max-w-none">
+								{features.map((feature) => (
+									<div key={feature.name} className="relative pl-9">
+										<dt className="inline font-semibold text-foreground">
+											<feature.icon
+												aria-hidden="true"
+												className="absolute left-1 top-1 h-5 w-5 text-primary"
+											/>
+											{feature.name}
+										</dt>{" "}
+										<dd className="inline">{feature.description}</dd>
 									</div>
-									<CardTitle className="text-lg">{feature.title}</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<CardDescription>{feature.description}</CardDescription>
-								</CardContent>
-							</Card>
-						);
-					})}
+								))}
+							</dl>
+						</div>
+					</div>
+					<img
+						alt="Product screenshot"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/18fd1002-fc57-43fd-9151-0b9c0972a9ea"
+						width={2432}
+						height={1442}
+						className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-border sm:w-[57rem] md:-ml-4 lg:-ml-0"
+					/>
 				</div>
 			</div>
 		</div>

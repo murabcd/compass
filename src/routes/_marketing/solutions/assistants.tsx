@@ -1,95 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Link } from "@tanstack/react-router";
-import {
-	Bot,
-	MessageSquare,
-	Calendar,
-	FileText,
-	TrendingUp,
-	Clock,
-} from "lucide-react";
+import { Bot } from "lucide-react";
 
 export const Route = createFileRoute("/_marketing/solutions/assistants")({
 	component: AssistantsPage,
 });
 
+const features = [
+	{
+		name: "AI-powered conversations",
+		description:
+			"Engage with intelligent AI assistants that understand context and provide human-like responses.",
+		icon: Bot,
+	},
+];
+
 function AssistantsPage() {
-	const features = [
-		{
-			icon: Bot,
-			title: "AI-powered conversations",
-			description:
-				"Engage with intelligent AI assistants that understand context and provide human-like responses.",
-		},
-		{
-			icon: MessageSquare,
-			title: "Multi-channel support",
-			description:
-				"Connect with candidates and clients across chat, voice, email, and video platforms seamlessly.",
-		},
-		{
-			icon: Calendar,
-			title: "Smart scheduling",
-			description:
-				"Automatically coordinate interviews and meetings based on availability and preferences.",
-		},
-		{
-			icon: FileText,
-			title: "Document processing",
-			description:
-				"Analyze resumes, extract key information, and generate interview questions automatically.",
-		},
-		{
-			icon: TrendingUp,
-			title: "Performance insights",
-			description:
-				"Track engagement metrics and conversation quality to optimize your recruitment process.",
-		},
-		{
-			icon: Clock,
-			title: "24/7 availability",
-			description:
-				"Provide round-the-clock support to candidates and stakeholders across different time zones.",
-		},
-	];
-
 	return (
-		<div className="w-full flex items-center justify-center py-12 md:py-24">
-			<div className="max-w-4xl mx-auto">
-				<div className="text-center mb-16">
-					<h1 className="text-4xl font-bold text-center mb-4 md:text-5xl">
-						AI assistants
-					</h1>
-					<p className="text-xl text-muted-foreground mb-8">
-						Intelligent AI assistants to streamline your recruitment workflow
-					</p>
-				</div>
-
-				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{features.map((feature) => {
-						const IconComponent = feature.icon;
-						return (
-							<Card key={feature.title}>
-								<CardHeader>
-									<div className="w-8 h-8 mb-2">
-										<IconComponent className="w-full h-full" />
+		<div className="overflow-hidden py-24 sm:py-32">
+			<div className="mx-auto max-w-5xl px-6 lg:px-8">
+				<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+					<div className="lg:pt-4 lg:pr-8">
+						<div className="lg:max-w-lg">
+							<h2 className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+								AI assistants
+							</h2>
+							<p className="mt-6 text-lg leading-8 text-muted-foreground">
+								Intelligent AI assistants to streamline your recruitment
+								workflow.
+							</p>
+							<dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-muted-foreground lg:max-w-none">
+								{features.map((feature) => (
+									<div key={feature.name} className="relative pl-9">
+										<dt className="inline font-semibold text-foreground">
+											<feature.icon
+												aria-hidden="true"
+												className="absolute left-1 top-1 h-5 w-5 text-primary"
+											/>
+											{feature.name}
+										</dt>{" "}
+										<dd className="inline">{feature.description}</dd>
 									</div>
-									<CardTitle className="text-lg">{feature.title}</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<CardDescription>{feature.description}</CardDescription>
-								</CardContent>
-							</Card>
-						);
-					})}
+								))}
+							</dl>
+						</div>
+					</div>
+					<img
+						alt="Product screenshot"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/b4633778-c7f0-46b0-9280-9752028ffe47"
+						width={2432}
+						height={1442}
+						className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-border sm:w-[57rem] md:-ml-4 lg:-ml-0"
+					/>
 				</div>
 			</div>
 		</div>

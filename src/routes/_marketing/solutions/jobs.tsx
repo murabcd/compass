@@ -1,95 +1,62 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Link } from "@tanstack/react-router";
-import {
-	Plus,
-	Radio,
-	BarChart3,
-	Users,
-	Workflow,
-	ShieldCheck,
-} from "lucide-react";
+import { Plus, Workflow } from "lucide-react";
 
 export const Route = createFileRoute("/_marketing/solutions/jobs")({
 	component: JobsPage,
 });
 
+const features = [
+	{
+		name: "Smart job creation",
+		description:
+			"Create compelling job postings with AI assistance that optimizes descriptions for better candidate attraction.",
+		icon: Plus,
+	},
+	{
+		name: "Automated workflows",
+		description:
+			"Set up custom hiring pipelines with automated status updates, notifications, and candidate progression.",
+		icon: Workflow,
+	},
+];
+
 function JobsPage() {
-	const features = [
-		{
-			icon: Plus,
-			title: "Smart job creation",
-			description:
-				"Create compelling job postings with AI assistance that optimizes descriptions for better candidate attraction.",
-		},
-		{
-			icon: Radio,
-			title: "Multi-channel publishing",
-			description:
-				"Automatically post to 100+ job boards and social platforms with a single click. Maximize your reach effortlessly.",
-		},
-		{
-			icon: BarChart3,
-			title: "Performance analytics",
-			description:
-				"Track application rates, source effectiveness, and hiring metrics with detailed analytics and insights.",
-		},
-		{
-			icon: Users,
-			title: "Team collaboration",
-			description:
-				"Enable seamless collaboration between hiring managers, recruiters, and team members throughout the process.",
-		},
-		{
-			icon: Workflow,
-			title: "Automated workflows",
-			description:
-				"Set up custom hiring pipelines with automated status updates, notifications, and candidate progression.",
-		},
-		{
-			icon: ShieldCheck,
-			title: "Compliance management",
-			description:
-				"Ensure EEOC compliance and maintain audit trails with built-in compliance monitoring and reporting.",
-		},
-	];
-
 	return (
-		<div className="w-full flex items-center justify-center py-12 md:py-24">
-			<div className="max-w-4xl mx-auto">
-				<div className="text-center mb-16">
-					<h1 className="text-4xl font-bold text-center mb-4 md:text-5xl">
-						Job management
-					</h1>
-					<p className="text-xl text-muted-foreground mb-8">
-						Create, manage, and track your job postings across multiple channels
-					</p>
-				</div>
-
-				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{features.map((feature) => {
-						const IconComponent = feature.icon;
-						return (
-							<Card key={feature.title}>
-								<CardHeader>
-									<div className="w-8 h-8 mb-2">
-										<IconComponent className="w-full h-full" />
+		<div className="overflow-hidden py-24 sm:py-32">
+			<div className="mx-auto max-w-5xl px-6 lg:px-8">
+				<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+					<div className="lg:pt-4 lg:pr-8">
+						<div className="lg:max-w-lg">
+							<h2 className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+								Job management
+							</h2>
+							<p className="mt-6 text-lg leading-8 text-muted-foreground">
+								Create, manage, and track your job postings across multiple
+								channels.
+							</p>
+							<dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-muted-foreground lg:max-w-none">
+								{features.map((feature) => (
+									<div key={feature.name} className="relative pl-9">
+										<dt className="inline font-semibold text-foreground">
+											<feature.icon
+												aria-hidden="true"
+												className="absolute left-1 top-1 h-5 w-5 text-primary"
+											/>
+											{feature.name}
+										</dt>{" "}
+										<dd className="inline">{feature.description}</dd>
 									</div>
-									<CardTitle className="text-lg">{feature.title}</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<CardDescription>{feature.description}</CardDescription>
-								</CardContent>
-							</Card>
-						);
-					})}
+								))}
+							</dl>
+						</div>
+					</div>
+					<img
+						alt="Product screenshot"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/b05515bc-df6a-4a93-8890-6b7e35338383"
+						width={2432}
+						height={1442}
+						className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-border sm:w-[57rem] md:-ml-4 lg:-ml-0"
+					/>
 				</div>
 			</div>
 		</div>

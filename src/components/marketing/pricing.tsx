@@ -13,7 +13,7 @@ const features = [
 export const Pricing = () => {
 	return (
 		<div className="w-full flex items-center justify-center py-12 md:py-20">
-			<div className="mx-auto max-w-7xl px-6 lg:px-8">
+			<div className="mx-auto max-w-5xl px-6 lg:px-8">
 				<div className="mx-auto max-w-4xl text-center">
 					<h1 className="text-4xl font-bold text-center mb-4 md:text-5xl">
 						Simple pricing

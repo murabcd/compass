@@ -4,16 +4,18 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const features = [
-	"Unlimited candidates",
-	"Unlimited jobs",
-	"Unlimited AI credits",
-	"Unlimited insights",
+	"AI-powered assistants",
+	"Automated hiring workflows",
+	"Advanced talent search",
+	"Unlimited job postings",
+	"Candidate management",
+	"Secure and reliable",
 ];
 
 export const Pricing = () => {
 	return (
 		<div className="w-full flex items-center justify-center py-12 md:py-20">
-			<div className="mx-auto max-w-5xl px-6 lg:px-8">
+			<div className="w-full px-6 lg:px-8">
 				<div className="mx-auto max-w-4xl text-center">
 					<h1 className="text-4xl font-bold text-center mb-4 md:text-5xl">
 						Simple pricing
@@ -23,7 +25,7 @@ export const Pricing = () => {
 						required.
 					</p>
 				</div>
-				<div className="mx-auto mt-10 max-w-2xl rounded-2xl border sm:mt-12 lg:mx-0 lg:flex lg:max-w-none">
+				<div className="mt-10 w-full max-w-5xl mx-auto rounded-2xl border sm:mt-12 lg:flex">
 					<div className="p-6 sm:p-8 lg:flex-auto">
 						<h3 className="text-2xl font-bold tracking-tight">Free forever</h3>
 						<p className="mt-6 text-base leading-7 text-muted-foreground">
@@ -43,12 +45,14 @@ export const Pricing = () => {
 							))}
 						</ul>
 					</div>
-					<div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:shrink-0">
+					<div className="-mt-2 p-2 lg:mt-0 lg:w-1/2 lg:shrink-0">
 						<div className="h-full rounded-2xl bg-muted/30 py-10 text-center ring-1 ring-inset ring-foreground/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
 							<div className="mx-auto max-w-xs px-8">
 								<p className="text-base font-semibold">Free forever</p>
 								<p className="mt-6 flex items-baseline justify-center gap-x-2">
-									<span className="text-5xl font-bold tracking-tight">$0</span>
+									<span className="text-5xl md:text-7xl font-bold tracking-tight">
+										$0
+									</span>
 									<span className="text-sm font-semibold leading-6 tracking-wide">
 										USD
 									</span>

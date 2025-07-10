@@ -1,11 +1,12 @@
 import React from "react";
 
 import { useLocation, Link } from "@tanstack/react-router";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -22,12 +23,17 @@ import type { Id } from "convex/_generated/dataModel";
 function getBreadcrumbItems(
 	pathname: string,
 	names: { [key: string]: string },
+	loadingStates: { [key: string]: boolean },
 ) {
 	const segments = pathname.split("/").filter(Boolean);
-	const items: Array<{ label: string; href: string; isActive: boolean }> = [];
+	const items: Array<{
+		label: string;
+		href: string;
+		isActive: boolean;
+		isLoading?: boolean;
+	}> = [];
 
 	if (segments.length === 0) {
-		// Root page - shouldn't happen in app routes, but just in case
 		return [{ label: "Home", href: "/", isActive: true }];
 	}
 
@@ -39,11 +45,15 @@ function getBreadcrumbItems(
 		});
 
 		if (segments[1]) {
-			const jobName = names[`job-${segments[1]}`] || `Job ${segments[1]}`;
+			const jobKey = `job-${segments[1]}`;
+			const jobName = names[jobKey];
+			const isLoadingJob = loadingStates[jobKey];
+
 			items.push({
-				label: jobName,
+				label: jobName || `Job ${segments[1]}`,
 				href: `/jobs/${segments[1]}`,
 				isActive: true,
+				isLoading: isLoadingJob,
 			});
 		}
 	} else if (segments[0] === "assistants") {
@@ -54,12 +64,15 @@ function getBreadcrumbItems(
 		});
 
 		if (segments[1]) {
-			const assistantName =
-				names[`assistant-${segments[1]}`] || `Assistant ${segments[1]}`;
+			const assistantKey = `assistant-${segments[1]}`;
+			const assistantName = names[assistantKey];
+			const isLoadingAssistant = loadingStates[assistantKey];
+
 			items.push({
-				label: assistantName,
+				label: assistantName || `Assistant ${segments[1]}`,
 				href: `/assistants/${segments[1]}`,
 				isActive: true,
+				isLoading: isLoadingAssistant,
 			});
 		}
 	} else if (segments[0] === "talent") {
@@ -70,16 +83,18 @@ function getBreadcrumbItems(
 		});
 
 		if (segments[1]) {
-			const talentName =
-				names[`talent-${segments[1]}`] || `Talent ${segments[1]}`;
+			const talentKey = `talent-${segments[1]}`;
+			const talentName = names[talentKey];
+			const isLoadingTalent = loadingStates[talentKey];
+
 			items.push({
-				label: talentName,
+				label: talentName || `Talent ${segments[1]}`,
 				href: `/talent/${segments[1]}`,
 				isActive: true,
+				isLoading: isLoadingTalent,
 			});
 		}
 	} else {
-		// Fallback for other routes
 		items.push({
 			label: segments[0].charAt(0).toUpperCase() + segments[0].slice(1),
 			href: `/${segments[0]}`,
@@ -105,34 +120,24 @@ export function Header() {
 			? (segments[1] as Id<"talent">)
 			: null;
 
-	// Fetch assistant when id present
-	const { data: assistant } = useQuery({
-		...convexQuery(api.assistants.getAssistant, {
-			// biome-ignore lint/style/noNonNullAssertion: Value is non-null when hook enabled.
-			id: assistantId!,
-		}),
-		enabled: !!assistantId,
-	});
+	const { data: assistant, isLoading: isLoadingAssistant } = useQuery(
+		convexQuery(
+			api.assistants.getAssistant,
+			assistantId ? { id: assistantId } : "skip",
+		),
+	);
 
-	// Fetch job when id present
-	const { data: job } = useQuery({
-		...convexQuery(api.jobs.getJob, {
-			// biome-ignore lint/style/noNonNullAssertion: Value is non-null when hook enabled.
-			id: jobId!,
-		}),
-		enabled: !!jobId,
-	});
+	const { data: job, isLoading: isLoadingJob } = useQuery(
+		convexQuery(api.jobs.getJob, jobId ? { id: jobId } : "skip"),
+	);
 
-	// Fetch talent when id present
-	const { data: talent } = useQuery({
-		...convexQuery(api.talents.getTalentById, {
-			// biome-ignore lint/style/noNonNullAssertion: Value is non-null when hook enabled.
-			id: talentId!,
-		}),
-		enabled: !!talentId,
-	});
+	const { data: talent, isLoading: isLoadingTalent } = useQuery(
+		convexQuery(
+			api.talents.getTalentById,
+			talentId ? { id: talentId } : "skip",
+		),
+	);
 
-	// Build names object for breadcrumbs
 	const names: { [key: string]: string } = {};
 	if (assistant && assistantId) {
 		names[`assistant-${assistantId}`] = assistant.name;
@@ -144,7 +149,22 @@ export function Header() {
 		names[`talent-${talentId}`] = talent.name;
 	}
 
-	const breadcrumbItems = getBreadcrumbItems(location.pathname, names);
+	const loadingStates: { [key: string]: boolean } = {};
+	if (assistantId) {
+		loadingStates[`assistant-${assistantId}`] = isLoadingAssistant;
+	}
+	if (jobId) {
+		loadingStates[`job-${jobId}`] = isLoadingJob;
+	}
+	if (talentId) {
+		loadingStates[`talent-${talentId}`] = isLoadingTalent;
+	}
+
+	const breadcrumbItems = getBreadcrumbItems(
+		location.pathname,
+		names,
+		loadingStates,
+	);
 
 	return (
 		<header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
@@ -160,10 +180,22 @@ export function Header() {
 							<React.Fragment key={item.href}>
 								<BreadcrumbItem>
 									{item.isActive && index === breadcrumbItems.length - 1 ? (
-										<BreadcrumbPage>{item.label}</BreadcrumbPage>
+										<BreadcrumbPage>
+											{item.isLoading ? (
+												<Skeleton className="h-4 w-24" />
+											) : (
+												item.label
+											)}
+										</BreadcrumbPage>
 									) : (
 										<BreadcrumbLink asChild>
-											<Link to={item.href}>{item.label}</Link>
+											<Link to={item.href}>
+												{item.isLoading ? (
+													<Skeleton className="h-4 w-20" />
+												) : (
+													item.label
+												)}
+											</Link>
 										</BreadcrumbLink>
 									)}
 								</BreadcrumbItem>

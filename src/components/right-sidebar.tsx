@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
 import { Check, Pencil, Trash2 } from "lucide-react";
-import { SessionStatus } from "@/lib/ai/types";
-import { Id } from "../../convex/_generated/dataModel";
+
+import type { SessionStatus } from "@/lib/ai/types";
 import { modelInfoList } from "@/lib/ai/models";
 
 import { toast } from "sonner";
+
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -25,7 +27,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -48,14 +49,13 @@ import {
 
 import { convexQuery } from "@convex-dev/react-query";
 import { useMutation } from "convex/react";
+import type { Id } from "convex/_generated/dataModel";
 import { api } from "convex/_generated/api";
 
 interface RightSidebarProps {
 	sessionStatus: SessionStatus;
 	isAudioPlaybackEnabled: boolean;
 	setIsAudioPlaybackEnabled: (val: boolean) => void;
-	isEventsPaneExpanded: boolean;
-	setIsEventsPaneExpanded: (val: boolean) => void;
 	selectedAgentName: string;
 	onAgentSelect?: (agentName: string) => void;
 	availableVoices: string[];
@@ -77,7 +77,6 @@ interface RightSidebarProps {
 interface AgentItemProps {
 	id: string;
 	name: string;
-	description?: string;
 	onSelect: () => void;
 	onEdit: (e: React.MouseEvent) => void;
 	onDelete: (e: React.MouseEvent) => void;
@@ -87,7 +86,6 @@ interface AgentItemProps {
 const AgentItem = ({
 	id,
 	name,
-	description,
 	onSelect,
 	onEdit,
 	onDelete,
@@ -100,11 +98,6 @@ const AgentItem = ({
 		>
 			<div className="flex-1 min-w-0">
 				<span className="text-sm truncate block">{name}</span>
-				{description && (
-					<span className="text-xs text-muted-foreground truncate block">
-						{description}
-					</span>
-				)}
 			</div>
 			<div className="flex items-center gap-1 ml-2">
 				<Button
@@ -133,8 +126,6 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 	sessionStatus,
 	isAudioPlaybackEnabled,
 	setIsAudioPlaybackEnabled,
-	isEventsPaneExpanded,
-	setIsEventsPaneExpanded,
 	selectedAgentName,
 	onAgentSelect,
 	availableVoices,
@@ -308,11 +299,6 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 												? "Loading agents..."
 												: selectedAgent?.name || "No agents yet"}
 										</span>
-										{selectedAgent?.handoffDescription && (
-											<span className="text-xs text-muted-foreground truncate block">
-												{selectedAgent.handoffDescription}
-											</span>
-										)}
 									</div>
 								</div>
 								<span className="ml-2 text-xs opacity-50">▼</span>
@@ -330,7 +316,6 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 													key={agent._id}
 													id={agent._id}
 													name={agent.name}
-													description={agent.handoffDescription}
 													isSelected={selectedAgent?._id === agent._id}
 													onSelect={() => handleAgentSelect(agent.name)}
 													onEdit={(e) => handleEditAgent(e, agent)}

@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useRef, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
@@ -72,6 +71,8 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 	});
 
 	const audioElementRef = useRef<HTMLAudioElement | null>(null);
+	// Ref to identify whether the latest agent switch came from an automatic handoff
+	const handoffTriggeredRef = useRef(false);
 	const [sessionStatus, setSessionStatus] =
 		useState<SessionStatus>("DISCONNECTED");
 	const [isEventsPaneExpanded, setIsEventsPaneExpanded] = useState<boolean>(
@@ -132,6 +133,12 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 				setSessionStatus(status);
 				onSessionStatusChange?.(status);
 			},
+			onAgentHandoff: (agentName: string) => {
+				handoffTriggeredRef.current = true;
+				// Convert underscores back to spaces to match database names
+				const actualAgentName = agentName.replace(/_/g, " ");
+				setSelectedAgentName(actualAgentName);
+			},
 		});
 
 	const fetchEphemeralKey = async (): Promise<string | null> => {
@@ -140,14 +147,12 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 			const data = await tokenResponse.json();
 
 			if (!data.client_secret?.value) {
-				console.error("No ephemeral key provided by the server");
 				setSessionStatus("DISCONNECTED");
 				return null;
 			}
 
 			return data.client_secret.value;
 		} catch (error) {
-			console.error("Failed to fetch ephemeral key:", error);
 			setSessionStatus("DISCONNECTED");
 			return null;
 		}
@@ -161,31 +166,67 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 			const EPHEMERAL_KEY = await fetchEphemeralKey();
 			if (!EPHEMERAL_KEY) return;
 
-			// Use selected agent's instruction or fallback to default
-			const agentInstruction =
-				selectedAgent?.instruction || "You are a helpful AI assistant.";
-
-			// Create agent using stored assistant configuration and selected agent instruction
-			const agent = new RealtimeAgent({
-				name: selectedAgent?.name || assistant.name,
-				instructions: agentInstruction,
-				voice: assistant.voice,
-				tools: [],
-				handoffs: [],
+			// Create agents from all available agents for this assistant
+			const realtimeAgents = agents.map((agent) => {
+				// Convert spaces to underscores for SDK compatibility
+				const sdkCompatibleName = agent.name.replace(/ /g, "_");
+				return new RealtimeAgent({
+					name: sdkCompatibleName,
+					instructions: agent.instruction,
+					voice: assistant.voice,
+					tools: [],
+					handoffs: [], // Will be populated after all agents are created
+				});
 			});
+
+			// Set up handoffs between agents - each agent can hand off to all others
+			realtimeAgents.forEach((agent) => {
+				const otherAgents = realtimeAgents.filter(
+					(other) => other.name !== agent.name,
+				);
+				agent.handoffs = otherAgents;
+			});
+
+			// Ensure the selectedAgent is first so that it becomes the root
+			const selectedAgentSdkName = selectedAgentName.replace(/ /g, "_");
+			const selectedAgentIndex = realtimeAgents.findIndex(
+				(agent) => agent.name === selectedAgentSdkName,
+			);
+			if (selectedAgentIndex > 0) {
+				const [selectedAgentConfig] = realtimeAgents.splice(
+					selectedAgentIndex,
+					1,
+				);
+				realtimeAgents.unshift(selectedAgentConfig);
+			}
+
+			// If no agents available, create a default agent
+			if (realtimeAgents.length === 0) {
+				const defaultAgentName = assistant.name.replace(/ /g, "_");
+				const defaultAgent = new RealtimeAgent({
+					name: defaultAgentName,
+					instructions: "You are a helpful AI assistant.",
+					voice: assistant.voice,
+					tools: [],
+					handoffs: [],
+				});
+				realtimeAgents.push(defaultAgent);
+			}
 
 			await connect({
 				getEphemeralKey: async () => EPHEMERAL_KEY,
-				initialAgents: [agent],
+				initialAgents: realtimeAgents,
 				audioElement: sdkAudioElement,
 				extraContext: {
 					addTranscriptBreadcrumb,
 				},
 			});
 
-			addTranscriptBreadcrumb(`Agent: ${selectedAgent?.name}`, agent);
+			addTranscriptBreadcrumb(
+				`Agent: ${selectedAgent?.name || assistant.name}`,
+				realtimeAgents[0],
+			);
 		} catch (err) {
-			console.error("Error connecting to OpenAI:", err);
 			setSessionStatus("DISCONNECTED");
 		}
 	};
@@ -195,11 +236,17 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 		setSessionStatus("DISCONNECTED");
 	};
 
+	const sendClientEvent = (eventObj: any, eventNameSuffix = "") => {
+		try {
+			sendEvent(eventObj);
+		} catch (err) {}
+	};
+
 	const sendSimulatedUserMessage = (text: string) => {
 		const id = uuidv4().slice(0, 32);
 		addTranscriptMessage(id, "user", text, true);
 
-		sendEvent({
+		sendClientEvent({
 			type: "conversation.item.create",
 			item: {
 				id,
@@ -208,7 +255,10 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 				content: [{ type: "input_text", text }],
 			},
 		});
-		sendEvent({ type: "response.create" });
+		sendClientEvent(
+			{ type: "response.create" },
+			"(simulated user text message)",
+		);
 	};
 
 	const updateSession = (shouldTriggerResponse: boolean = false) => {
@@ -242,9 +292,7 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 
 		try {
 			sendUserText(userText.trim());
-		} catch (err) {
-			console.error("Failed to send message:", err);
-		}
+		} catch (err) {}
 
 		setUserText("");
 	};
@@ -268,11 +316,13 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 	};
 
 	const handleAgentSelect = (agentName: string) => {
-		setSelectedAgentName(agentName);
-		// If connected, we might want to reconnect with the new agent
+		// Reconnect session with the newly selected agent as root so that tool
+		// execution works correctly.
 		if (sessionStatus === "CONNECTED") {
 			disconnectFromRealtime();
 		}
+		setSelectedAgentName(agentName);
+		// connectToRealtime will be triggered by effect watching selectedAgentName
 	};
 
 	const handleDialogClose = () => {
@@ -298,7 +348,7 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 
 			// If connected, update the session with new voice
 			if (sessionStatus === "CONNECTED") {
-				updateSession();
+				updateSession(false);
 			}
 		} catch (error) {
 			toast.error("Failed to update voice. Please try again.");
@@ -400,28 +450,36 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 		});
 	};
 
-	// Update session when connected
+	// biome-ignore lint/correctness/useExhaustiveDependencies: addTranscriptBreadcrumb and updateSession change on every render and would cause infinite loops
 	useEffect(() => {
-		if (sessionStatus === "CONNECTED") {
-			updateSession(true);
-		}
-	}, [sessionStatus]);
+		if (sessionStatus === "CONNECTED" && agents && selectedAgentName) {
+			const currentAgent = agents.find((a) => a.name === selectedAgentName);
+			if (currentAgent) {
+				addTranscriptBreadcrumb(`Agent: ${selectedAgentName}`, currentAgent);
+			}
 
-	// Update session when assistant data changes
+			// Update session with handoff logic
+			const isHandoff = handoffTriggeredRef.current;
+			updateSession(!isHandoff);
+			// Reset flag after handling so subsequent effects behave normally
+			handoffTriggeredRef.current = false;
+		}
+	}, [sessionStatus, selectedAgentName, agents]);
+
+	// Update session when assistant voice or speed changes
+	// biome-ignore lint/correctness/useExhaustiveDependencies: updateSession changes on every render and would cause infinite loops
 	useEffect(() => {
 		if (sessionStatus === "CONNECTED" && assistant) {
-			updateSession();
+			updateSession(false);
 		}
-	}, [assistant]);
+	}, [assistant?.voice, assistant?.speed, sessionStatus]);
 
 	// Handle audio playback
 	useEffect(() => {
 		if (audioElementRef.current) {
 			if (isAudioPlaybackEnabled) {
 				audioElementRef.current.muted = false;
-				audioElementRef.current.play().catch((err) => {
-					console.warn("Autoplay may be blocked by browser:", err);
-				});
+				audioElementRef.current.play().catch((err) => {});
 			} else {
 				audioElementRef.current.muted = true;
 				audioElementRef.current.pause();
@@ -430,10 +488,8 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 
 		try {
 			mute(!isAudioPlaybackEnabled);
-		} catch (err) {
-			console.warn("Failed to toggle SDK mute", err);
-		}
-	}, [isAudioPlaybackEnabled]);
+		} catch (err) {}
+	}, [isAudioPlaybackEnabled, mute]);
 
 	// Persist settings to localStorage
 	useEffect(() => {
@@ -500,8 +556,6 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 					sessionStatus={sessionStatus}
 					isAudioPlaybackEnabled={isAudioPlaybackEnabled}
 					setIsAudioPlaybackEnabled={setIsAudioPlaybackEnabled}
-					isEventsPaneExpanded={isEventsPaneExpanded}
-					setIsEventsPaneExpanded={setIsEventsPaneExpanded}
 					selectedAgentName={selectedAgentName}
 					onAgentSelect={handleAgentSelect}
 					availableVoices={availableVoices}

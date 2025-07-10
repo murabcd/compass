@@ -92,7 +92,6 @@ function getBreadcrumbItems(
 
 export function Header() {
 	const location = useLocation();
-	const queryClient = useQueryClient();
 	const segments = location.pathname.split("/").filter(Boolean);
 
 	const assistantId =
@@ -113,13 +112,6 @@ export function Header() {
 			id: assistantId!,
 		}),
 		enabled: !!assistantId,
-		initialData: () => {
-			if (!assistantId) return undefined;
-			const list = queryClient.getQueryData(
-				convexQuery(api.assistants.getAssistants, {}).queryKey,
-			) as Array<{ _id: Id<"assistants">; name: string }> | undefined;
-			return list?.find((a) => a._id === assistantId);
-		},
 	});
 
 	// Fetch job when id present
@@ -129,13 +121,6 @@ export function Header() {
 			id: jobId!,
 		}),
 		enabled: !!jobId,
-		initialData: () => {
-			if (!jobId) return undefined;
-			const list = queryClient.getQueryData(
-				convexQuery(api.jobs.getJobs, {}).queryKey,
-			) as Array<{ _id: Id<"jobs">; title: string }> | undefined;
-			return list?.find((j) => j._id === jobId);
-		},
 	});
 
 	// Fetch talent when id present
@@ -145,16 +130,6 @@ export function Header() {
 			id: talentId!,
 		}),
 		enabled: !!talentId,
-		initialData: () => {
-			if (!talentId) return undefined;
-			const result = queryClient.getQueryData(
-				convexQuery(api.talents.getTalent, {
-					talent: undefined,
-					paginationOpts: { numItems: 10, cursor: null },
-				}).queryKey,
-			) as { page: Array<{ _id: Id<"talent">; name: string }> } | undefined;
-			return result?.page?.find((t) => t._id === talentId);
-		},
 	});
 
 	// Build names object for breadcrumbs

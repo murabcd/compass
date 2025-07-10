@@ -66,7 +66,7 @@ function AssistantChat() {
 	}
 
 	return (
-		<div className="flex flex-col h-[calc(100vh-var(--header-height))] overflow-hidden">
+		<div className="flex flex-col h-[calc(100vh-var(--header-height)-2rem)] overflow-hidden">
 			<TranscriptProvider>
 				<VoiceAgent assistantId={assistantId as Id<"assistants">} />
 			</TranscriptProvider>

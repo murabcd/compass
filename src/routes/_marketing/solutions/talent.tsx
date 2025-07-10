@@ -56,6 +56,8 @@ function TalentPage() {
 						src="https://upbeat-setter-562.convex.cloud/api/storage/39b41a83-2fc7-4560-902c-2ef32a72eb2b"
 						width={2432}
 						height={1442}
+						loading="eager"
+						fetchPriority="high"
 						className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-border sm:w-[57rem] md:-ml-4 lg:-ml-0"
 					/>
 				</div>

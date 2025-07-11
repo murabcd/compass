@@ -4,7 +4,7 @@ import {
 	Plus,
 	Phone,
 	ChevronDown,
-	Sparkles,
+	MousePointerClick,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -83,7 +83,7 @@ export function JobHeader({ job }: JobHeaderProps) {
 								Create a new interview
 							</DropdownMenuItem>
 							<DropdownMenuItem className="gap-2">
-								<Sparkles className="h-4 w-4" />
+								<MousePointerClick className="h-4 w-4" />
 								Choose from existing
 							</DropdownMenuItem>
 						</DropdownMenuContent>

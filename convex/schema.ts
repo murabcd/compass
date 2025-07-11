@@ -12,6 +12,8 @@ export default defineSchema({
 		firstName: v.optional(v.string()),
 		lastName: v.optional(v.string()),
 		emailVerificationTime: v.optional(v.number()),
+		avatarStorageId: v.optional(v.id("_storage")),
+		avatarUrl: v.optional(v.string()),
 	}).index("email", ["email"]),
 
 	talent: defineTable({

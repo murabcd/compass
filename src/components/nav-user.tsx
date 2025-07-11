@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { useRouter } from "@tanstack/react-router";
 import { Settings, MoreVertical, LogOut } from "lucide-react";
 
@@ -19,7 +20,10 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SettingsDialog } from "@/components/settings-dialog";
+
 import { useAuthActions } from "@convex-dev/auth/react";
+import type { Doc } from "convex/_generated/dataModel";
 
 interface UserMenuItem {
 	label: string;
@@ -29,98 +33,96 @@ interface UserMenuItem {
 }
 
 interface NavUserProps {
-	user: {
-		name: string;
-		email: string;
-		image: string;
-	};
+	user: Doc<"users">;
 	menuItems?: UserMenuItem[];
 }
 
-const defaultMenuItems: UserMenuItem[] = [
-	{
-		label: "Settings",
-		icon: Settings,
-	},
-	// {
-	//   label: "Notifications",
-	//   icon: Bell,
-	// },
-	{
-		label: "Log out",
-		icon: LogOut,
-		variant: "destructive" as const,
-	},
-];
-
-export function NavUser({ user, menuItems = defaultMenuItems }: NavUserProps) {
+export function NavUser({ user, menuItems }: NavUserProps) {
 	const { isMobile } = useSidebar();
 	const { signOut } = useAuthActions();
 	const router = useRouter();
+	const [settingsOpen, setSettingsOpen] = React.useState(false);
+
+	const defaultMenuItems: UserMenuItem[] = [
+		{
+			label: "Settings",
+			icon: Settings,
+			onClick: () => setSettingsOpen(true),
+		},
+		{
+			label: "Log out",
+			icon: LogOut,
+			variant: "destructive" as const,
+			onClick: () => {
+				const rootTheme = localStorage.getItem("vite-ui-root-theme") || "dark";
+				document.documentElement.className =
+					document.documentElement.className.replace(
+						/\b(?:dark|light)\b/g,
+						"",
+					) +
+					" " +
+					rootTheme;
+				void signOut();
+				void router.navigate({ to: "/" });
+			},
+		},
+	];
+
+	const finalMenuItems = menuItems || defaultMenuItems;
 
 	return (
-		<SidebarMenu>
-			<SidebarMenuItem>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
-							<Avatar className="h-6 w-6 border rounded-lg">
-								<AvatarImage src={user.image} alt={user.name} />
-								<AvatarFallback className="rounded-lg">
-									{user.name
-										.split(" ")
-										.map((n) => n[0])
-										.join("")
-										.toUpperCase()
-										.slice(0, 2)}
-								</AvatarFallback>
-							</Avatar>
-							<div className="grid flex-1 text-left text-sm leading-tight">
-								<span className="truncate">{user.name}</span>
-							</div>
-							<MoreVertical className="ml-auto size-4" />
-						</SidebarMenuButton>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent
-						className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-						side={isMobile ? "bottom" : "top"}
-						align="end"
-						sideOffset={4}
-					>
-						<ModeToggle />
-						<DropdownMenuGroup>
-							{menuItems.map((item) => (
-								<DropdownMenuItem
-									key={item.label}
-									onClick={
-										item.label === "Log out"
-											? () => {
-													const rootTheme =
-														localStorage.getItem("vite-ui-root-theme") ||
-														"dark";
-													document.documentElement.className =
-														document.documentElement.className.replace(
-															/\b(?:dark|light)\b/g,
-															"",
-														) +
-														" " +
-														rootTheme;
-													void signOut();
-													void router.navigate({ to: "/" });
-												}
-											: item.onClick
-									}
-									variant={item.variant}
-								>
-									<item.icon className="h-4 w-4" />
-									{item.label}
-								</DropdownMenuItem>
-							))}
-						</DropdownMenuGroup>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</SidebarMenuItem>
-		</SidebarMenu>
+		<>
+			<SidebarMenu>
+				<SidebarMenuItem>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
+								<Avatar className="h-6 w-6 border rounded-lg">
+									<AvatarImage src={user.image} alt={user.name} />
+									<AvatarFallback className="rounded-lg">
+										{user.name
+											.split(" ")
+											.map((n) => n[0])
+											.join("")
+											.toUpperCase()
+											.slice(0, 2)}
+									</AvatarFallback>
+								</Avatar>
+								<div className="grid flex-1 text-left text-sm leading-tight">
+									<span className="truncate">{user.name}</span>
+								</div>
+								<MoreVertical className="ml-auto size-4" />
+							</SidebarMenuButton>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent
+							className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+							side={isMobile ? "bottom" : "top"}
+							align="end"
+							sideOffset={4}
+						>
+							<ModeToggle />
+							<DropdownMenuGroup>
+								{finalMenuItems.map((item) => (
+									<DropdownMenuItem
+										key={item.label}
+										onClick={item.onClick}
+										variant={item.variant}
+									>
+										<item.icon className="h-4 w-4" />
+										{item.label}
+									</DropdownMenuItem>
+								))}
+							</DropdownMenuGroup>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</SidebarMenuItem>
+			</SidebarMenu>
+			<SettingsDialog
+				open={settingsOpen}
+				onOpenChange={setSettingsOpen}
+				user={user}
+			/>
+		</>
 	);
 }
 

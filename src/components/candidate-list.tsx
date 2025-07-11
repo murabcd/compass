@@ -320,9 +320,6 @@ function CandidateCard({
 
 			<div className="flex items-center gap-4">
 				<div className="text-center">
-					<div className="text-xs text-muted-foreground mb-1">
-						Resume score:
-					</div>
 					<div
 						className={`px-2 py-1 rounded text-xs font-medium ${getResumeScoreColor(candidate.resumeScore)}`}
 					>
@@ -337,7 +334,11 @@ function CandidateCard({
 
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="sm">
+						<Button
+							variant="ghost"
+							size="sm"
+							className="opacity-0 group-hover:opacity-100 transition-opacity"
+						>
 							<MoreHorizontal className="h-4 w-4" />
 						</Button>
 					</DropdownMenuTrigger>
@@ -355,7 +356,7 @@ function CandidateCard({
 							className="text-destructive"
 						>
 							<Trash2 className="h-4 w-4 mr-2" />
-							Remove candidate
+							Delete
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-import { Download, Copy, AudioLines } from "lucide-react";
+import { Download, Copy, AudioLines, Share } from "lucide-react";
 
 import { toast } from "sonner";
 
@@ -25,9 +25,18 @@ export interface TranscriptProps {
 	onSendMessage: () => void;
 	canSend: boolean;
 	downloadRecording: () => void;
+	showActions?: boolean;
+	showBreadcrumbs?: boolean;
+	onShareInterview?: () => void;
 }
 
-function Transcript({ className = "", downloadRecording }: TranscriptProps) {
+function Transcript({
+	className = "",
+	downloadRecording,
+	showActions = true,
+	showBreadcrumbs = true,
+	onShareInterview,
+}: TranscriptProps) {
 	const { transcriptItems, toggleTranscriptItemExpand } = useTranscript();
 	const transcriptRef = useRef<HTMLDivElement | null>(null);
 	const [prevLogs, setPrevLogs] = useState<TranscriptItem[]>([]);
@@ -69,6 +78,25 @@ function Transcript({ className = "", downloadRecording }: TranscriptProps) {
 	return (
 		<div className={`flex flex-col flex-1 min-h-0 ${className}`}>
 			<div className="relative flex flex-1 min-h-0 w-full">
+				{/* Share Interview Icon - Always visible */}
+				{onShareInterview && (
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button
+									variant="outline"
+									size="icon"
+									onClick={onShareInterview}
+									className={`absolute top-3 right-2 mr-1 z-10`}
+								>
+									<Share className="w-4 h-4" />
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent>Share interview link</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				)}
+
 				{transcriptItems.length === 0 ? (
 					<div className="flex flex-1 items-center justify-center">
 						<div className="text-center space-y-4">
@@ -82,37 +110,41 @@ function Transcript({ className = "", downloadRecording }: TranscriptProps) {
 					</div>
 				) : (
 					<>
-						<TooltipProvider>
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<Button
-										variant="outline"
-										size="icon"
-										onClick={handleCopyTranscript}
-										className={`absolute top-3 right-2 mr-1 z-10`}
-									>
-										<Copy className="w-4 h-4" />
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>Copy to clipboard</TooltipContent>
-							</Tooltip>
-						</TooltipProvider>
+						{showActions && (
+							<>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												variant="outline"
+												size="icon"
+												onClick={handleCopyTranscript}
+												className={`absolute top-3 ${onShareInterview ? "right-10 mr-4" : "right-2 mr-1"} z-10`}
+											>
+												<Copy className="w-4 h-4" />
+											</Button>
+										</TooltipTrigger>
+										<TooltipContent>Copy to clipboard</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 
-						<TooltipProvider>
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<Button
-										variant="outline"
-										size="icon"
-										onClick={downloadRecording}
-										className={`absolute top-3 right-10 mr-4 z-10`}
-									>
-										<Download className="w-4 h-4" />
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>Download audio</TooltipContent>
-							</Tooltip>
-						</TooltipProvider>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												variant="outline"
+												size="icon"
+												onClick={downloadRecording}
+												className={`absolute top-3 ${onShareInterview ? "right-18 mr-7" : "right-10 mr-4"} z-10`}
+											>
+												<Download className="w-4 h-4" />
+											</Button>
+										</TooltipTrigger>
+										<TooltipContent>Download audio</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</>
+						)}
 						<div
 							ref={transcriptRef}
 							className="overflow-auto p-4 flex flex-col gap-y-4 h-full w-full text-foreground"
@@ -135,7 +167,7 @@ function Transcript({ className = "", downloadRecording }: TranscriptProps) {
 
 								if (type === "MESSAGE") {
 									const isUser = role === "user";
-									const baseContainer = "flex justify-end flex-col";
+									const baseContainer = "flex flex-col";
 									const containerClasses = `${baseContainer} ${
 										isUser ? "items-end" : "items-start"
 									}`;
@@ -172,6 +204,9 @@ function Transcript({ className = "", downloadRecording }: TranscriptProps) {
 										</div>
 									);
 								} else if (type === "BREADCRUMB") {
+									if (!showBreadcrumbs) {
+										return null;
+									}
 									return (
 										<div
 											key={itemId}

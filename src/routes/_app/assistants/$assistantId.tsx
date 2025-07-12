@@ -3,25 +3,30 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { WandSparkles } from "lucide-react";
+import type { Id } from "convex/_generated/dataModel";
+
+import { WandSparkles, Share } from "lucide-react";
 
 import VoiceAgent from "@/components/voice-agent";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import { TranscriptProvider } from "@/components/transcript-context";
 import { AssistantCreateDialog } from "@/components/assistant-create-dialog";
+import { AssistantShareDialog } from "@/components/assistant-share-dialog";
 
 import { useMutation } from "convex/react";
 import { convexQuery } from "@convex-dev/react-query";
 import { api } from "convex/_generated/api";
-import { Id } from "convex/_generated/dataModel";
 
 export const Route = createFileRoute("/_app/assistants/$assistantId")({
+	parseParams: (p) => ({ assistantId: p.assistantId as Id<"assistants"> }),
 	component: AssistantChat,
 });
 
 function AssistantChat() {
 	const { assistantId } = Route.useParams();
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+	const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
 
 	const {
 		data: assistant,
@@ -67,14 +72,26 @@ function AssistantChat() {
 
 	return (
 		<div className="flex flex-col h-[calc(100vh-var(--header-height)-2rem)] overflow-hidden">
-			<TranscriptProvider>
-				<VoiceAgent assistantId={assistantId as Id<"assistants">} />
-			</TranscriptProvider>
+			<div className="flex-1 overflow-hidden">
+				<TranscriptProvider>
+					<VoiceAgent
+						assistantId={assistantId as Id<"assistants">}
+						onShareInterview={() => setIsShareDialogOpen(true)}
+					/>
+				</TranscriptProvider>
+			</div>
 
 			<AssistantCreateDialog
 				open={isEditDialogOpen}
 				onOpenChange={setIsEditDialogOpen}
 				assistant={assistant}
+			/>
+
+			<AssistantShareDialog
+				open={isShareDialogOpen}
+				onOpenChange={setIsShareDialogOpen}
+				assistantId={assistantId as Id<"assistants">}
+				assistantName={assistant.name}
 			/>
 		</div>
 	);

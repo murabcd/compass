@@ -17,6 +17,8 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as MarketingRouteImport } from './routes/_marketing'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as MarketingIndexRouteImport } from './routes/_marketing/index'
+import { Route as IntroAssistantIdRouteImport } from './routes/intro/$assistantId'
+import { Route as InterviewAssistantIdRouteImport } from './routes/interview/$assistantId'
 import { Route as MarketingPricingRouteImport } from './routes/_marketing/pricing'
 import { Route as MarketingAboutRouteImport } from './routes/_marketing/about'
 import { Route as AppTalentIndexRouteImport } from './routes/_app/talent/index'
@@ -59,6 +61,16 @@ const MarketingIndexRoute = MarketingIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => MarketingRoute,
+} as any)
+const IntroAssistantIdRoute = IntroAssistantIdRouteImport.update({
+  id: '/intro/$assistantId',
+  path: '/intro/$assistantId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InterviewAssistantIdRoute = InterviewAssistantIdRouteImport.update({
+  id: '/interview/$assistantId',
+  path: '/interview/$assistantId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const MarketingPricingRoute = MarketingPricingRouteImport.update({
   id: '/pricing',
@@ -130,6 +142,8 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/about': typeof MarketingAboutRoute
   '/pricing': typeof MarketingPricingRoute
+  '/interview/$assistantId': typeof InterviewAssistantIdRoute
+  '/intro/$assistantId': typeof IntroAssistantIdRoute
   '/': typeof MarketingIndexRoute
   '/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
   '/jobs/$jobId': typeof AppJobsJobIdRoute
@@ -147,6 +161,8 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/about': typeof MarketingAboutRoute
   '/pricing': typeof MarketingPricingRoute
+  '/interview/$assistantId': typeof InterviewAssistantIdRoute
+  '/intro/$assistantId': typeof IntroAssistantIdRoute
   '/': typeof MarketingIndexRoute
   '/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
   '/jobs/$jobId': typeof AppJobsJobIdRoute
@@ -167,6 +183,8 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/_marketing/about': typeof MarketingAboutRoute
   '/_marketing/pricing': typeof MarketingPricingRoute
+  '/interview/$assistantId': typeof InterviewAssistantIdRoute
+  '/intro/$assistantId': typeof IntroAssistantIdRoute
   '/_marketing/': typeof MarketingIndexRoute
   '/_app/assistants/$assistantId': typeof AppAssistantsAssistantIdRoute
   '/_app/jobs/$jobId': typeof AppJobsJobIdRoute
@@ -186,6 +204,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/about'
     | '/pricing'
+    | '/interview/$assistantId'
+    | '/intro/$assistantId'
     | '/'
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
@@ -203,6 +223,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/about'
     | '/pricing'
+    | '/interview/$assistantId'
+    | '/intro/$assistantId'
     | '/'
     | '/assistants/$assistantId'
     | '/jobs/$jobId'
@@ -222,6 +244,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/_marketing/about'
     | '/_marketing/pricing'
+    | '/interview/$assistantId'
+    | '/intro/$assistantId'
     | '/_marketing/'
     | '/_app/assistants/$assistantId'
     | '/_app/jobs/$jobId'
@@ -240,6 +264,8 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  InterviewAssistantIdRoute: typeof InterviewAssistantIdRoute
+  IntroAssistantIdRoute: typeof IntroAssistantIdRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/session': typeof ApiSessionServerRoute
@@ -306,6 +332,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof MarketingIndexRouteImport
       parentRoute: typeof MarketingRoute
+    }
+    '/intro/$assistantId': {
+      id: '/intro/$assistantId'
+      path: '/intro/$assistantId'
+      fullPath: '/intro/$assistantId'
+      preLoaderRoute: typeof IntroAssistantIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/interview/$assistantId': {
+      id: '/interview/$assistantId'
+      path: '/interview/$assistantId'
+      fullPath: '/interview/$assistantId'
+      preLoaderRoute: typeof InterviewAssistantIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_marketing/pricing': {
       id: '/_marketing/pricing'
@@ -446,6 +486,8 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  InterviewAssistantIdRoute: InterviewAssistantIdRoute,
+  IntroAssistantIdRoute: IntroAssistantIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

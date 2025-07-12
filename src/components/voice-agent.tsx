@@ -38,9 +38,14 @@ const availableVoices = [
 interface VoiceAgentProps {
 	assistantId: Id<"assistants">;
 	onSessionStatusChange?: (status: SessionStatus) => void;
+	onShareInterview?: () => void;
 }
 
-function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
+function VoiceAgent({
+	assistantId,
+	onSessionStatusChange,
+	onShareInterview,
+}: VoiceAgentProps) {
 	const { addTranscriptMessage, addTranscriptBreadcrumb } = useTranscript();
 
 	// Fetch assistant configuration from database
@@ -517,6 +522,15 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 		};
 	}, [sessionStatus, startRecording, stopRecording]);
 
+	// Clean up audio element on unmount
+	useEffect(() => {
+		return () => {
+			if (sdkAudioElement && document.body.contains(sdkAudioElement)) {
+				document.body.removeChild(sdkAudioElement);
+			}
+		};
+	}, [sdkAudioElement]);
+
 	// Don't render until assistant data is loaded
 	if (isLoading || !assistant) {
 		return (
@@ -538,6 +552,7 @@ function VoiceAgent({ assistantId, onSessionStatusChange }: VoiceAgentProps) {
 						onSendMessage={handleSendTextMessage}
 						canSend={sessionStatus === "CONNECTED"}
 						downloadRecording={downloadRecording}
+						onShareInterview={onShareInterview}
 					/>
 
 					{/* Voice Controls */}

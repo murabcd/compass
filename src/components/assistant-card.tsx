@@ -12,6 +12,7 @@ import {
 	Power,
 	PowerOff,
 	Thermometer,
+	Share,
 } from "lucide-react";
 
 import { toast } from "sonner";
@@ -39,6 +40,7 @@ import {
 import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
 import { Id } from "convex/_generated/dataModel";
+import { AssistantShareDialog } from "@/components/assistant-share-dialog";
 
 interface AssistantCardProps {
 	assistant: {
@@ -57,6 +59,7 @@ interface AssistantCardProps {
 
 export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+	const [showShareDialog, setShowShareDialog] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
 	const [isToggling, setIsToggling] = useState(false);
 
@@ -78,6 +81,12 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 		e.preventDefault();
 		e.stopPropagation();
 		setShowDeleteDialog(true);
+	};
+
+	const handleShareClick = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		setShowShareDialog(true);
 	};
 
 	const handleToggleStatus = async (e: React.MouseEvent) => {
@@ -175,6 +184,10 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 										<Edit className="mr-2 h-4 w-4" />
 										Edit
 									</DropdownMenuItem>
+									<DropdownMenuItem onClick={handleShareClick}>
+										<Share className="mr-2 h-4 w-4" />
+										Share
+									</DropdownMenuItem>
 									<DropdownMenuItem
 										onClick={handleToggleStatus}
 										disabled={isToggling}
@@ -226,6 +239,13 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
+
+			<AssistantShareDialog
+				open={showShareDialog}
+				onOpenChange={setShowShareDialog}
+				assistantId={assistant._id}
+				assistantName={assistant.name}
+			/>
 		</>
 	);
 }

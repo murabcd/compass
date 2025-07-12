@@ -98,7 +98,7 @@ export function AgentCreateDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-[600px]">
+			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
 					<DialogTitle>
 						{isEditing ? "Edit agent" : "Create new agent"}

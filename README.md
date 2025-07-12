@@ -9,10 +9,12 @@
 
 This project uses the [OpenAI Agents SDK](https://github.com/openai/openai-agents-js), a toolkit for building, managing, and deploying advanced AI agents. The SDK provides:
 
-- A unified interface for defining agent behaviors and tool integrations
-- Built-in support for agent orchestration, state management, and event handling
-- Easy integration with the OpenAI Realtime API for low-latency, streaming interactions
-- Extensible patterns for multi-agent collaboration, handoffs, tool use, and guardrails
+- Comprehensive candidate and jobs management with AI-powered workflows
+- Multi-stage real-time AI voice interview system with seamless agent handoffs
+- Public interview sharing with candidate onboarding flow and progress tracking
+- AI-powered talent sourcing and matching with verified profiles
+- Smart job creation with optimized descriptions and automated hiring pipelines
+- Real-time transcript analysis and interview performance insights
 
 > **NOTE:** ❗ This project is in very early development and lots of things will change.
 

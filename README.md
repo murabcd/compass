@@ -7,7 +7,7 @@
   Realtime Voice AI Recruiter Built With Convex, Tanstack Start and OpenAI.
 </p>
 
-This project uses the [OpenAI Agents SDK](https://github.com/openai/openai-agents-js), a toolkit for building, managing, and deploying advanced AI agents. The SDK provides:
+This project uses the [OpenAI Agents SDK](https://github.com/openai/openai-agents-js), a toolkit for building, managing, and deploying advanced AI agents. 
 
 - Comprehensive candidate and jobs management with AI-powered workflows
 - Multi-stage real-time AI voice interview system with seamless agent handoffs

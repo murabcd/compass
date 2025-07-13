@@ -4,7 +4,7 @@
 </a>
 
 <p align="center">
-  Realtime Voice AI Recruiter Built With Convex, Tanstack Start and OpenAI.
+  Realtime Voice AI Recruiter Built With Tanstack Start, Convex and OpenAI.
 </p>
 
 This project uses the [OpenAI Agents SDK](https://github.com/openai/openai-agents-js), a toolkit for building, managing, and deploying advanced AI agents. 
@@ -34,7 +34,7 @@ This project uses the [OpenAI Agents SDK](https://github.com/openai/openai-agent
 - [OpenAI](https://openai.com/)
   - Leverages OpenAI's powerful models for generation.
   - Direct API calls for text generation and other AI features.
-- [Shadcn/ui](https://ui.shadcn.com)
+- [Shadcn/UI](https://ui.shadcn.com)
   - Styling with [Tailwind CSS](https://tailwindcss.com)
   - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
 - [Convex](https://www.convex.dev/)
@@ -50,7 +50,9 @@ This app utilizes the [OpenAI API](https://openai.com/) for its AI capabilities.
 
 ## Deploy Your Own
 
-You can deploy your own version of Compass to a hosting provider like Vercel or Netlify.
+You can deploy your own version of the OpenChat to Vercel with one click:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmurabcd%2Fcompass&env=CONVEX_DEPLOY_KEY,VITE_OPENAI_API_KEY&envDescription=Learn%20more%20about%20how%20to%20get%20the%20API%20Keys%20for%20the%20application&envLink=https%3A%2F%2Fgithub.com%2Fmurabcd%2Fcompass%2Fblob%2Fmain%2F.env.example&demo-title=Compass&demo-description=Realtime%20Voice%20AI%20Recruiter%20built%20with%20Tanstack%20Start%2C%20Convex%2C%20and%20OpenAI.&demo-url=https%3A%2F%2Fcompass-hr.vercel.app)
 
 ## Running locally
 

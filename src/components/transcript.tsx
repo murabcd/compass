@@ -3,11 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-import { Download, Copy, AudioLines, Share } from "lucide-react";
+import { Download, Copy, AudioLines, Share2 } from "lucide-react";
 
 import { toast } from "sonner";
 
-import { TranscriptItem } from "@/lib/ai/types";
+import type { TranscriptItem } from "@/lib/ai/types";
 
 import { useTranscript } from "@/components/transcript-context";
 import { Button } from "@/components/ui/button";
@@ -89,7 +89,7 @@ function Transcript({
 									onClick={onShareInterview}
 									className={`absolute top-3 right-2 mr-1 z-10`}
 								>
-									<Share className="w-4 h-4" />
+									<Share2 className="w-4 h-4" />
 								</Button>
 							</TooltipTrigger>
 							<TooltipContent>Share interview link</TooltipContent>

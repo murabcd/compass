@@ -344,18 +344,18 @@ function CandidateCard({
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem>
-							<Eye className="h-4 w-4 mr-2" />
+							<Eye className="h-4 w-4" />
 							View profile
 						</DropdownMenuItem>
 						<DropdownMenuItem>
-							<CornerDownLeft className="h-4 w-4 mr-2" />
+							<CornerDownLeft className="h-4 w-4" />
 							Add to another job
 						</DropdownMenuItem>
 						<DropdownMenuItem
 							onClick={() => onRemove(candidate._id)}
 							className="text-destructive"
 						>
-							<Trash2 className="h-4 w-4 mr-2" />
+							<Trash2 className="h-4 w-4" />
 							Delete
 						</DropdownMenuItem>
 					</DropdownMenuContent>

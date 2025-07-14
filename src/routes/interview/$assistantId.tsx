@@ -8,10 +8,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { InterviewAgent } from "@/components/interview-agent";
 import { TranscriptProvider } from "@/components/transcript-context";
 import { Icons } from "@/components/icons";
+import { EmptyState } from "@/components/empty-state";
 
 import { convexQuery } from "@convex-dev/react-query";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
+import { AlertCircle, Bot } from "lucide-react";
 
 export const Route = createFileRoute("/interview/$assistantId")({
 	parseParams: (p) => ({ assistantId: p.assistantId as Id<"assistants"> }),
@@ -53,15 +55,27 @@ function PublicInterview() {
 	if (error || !assistant) {
 		return (
 			<div className="min-h-screen bg-background flex items-center justify-center">
-				<div className="max-w-2xl w-full px-6 text-center">
-					<h1 className="text-2xl font-bold text-foreground mb-4">
-						Interview Not Found
-					</h1>
-					<p className="text-muted-foreground">
-						The interview link you're trying to access is invalid or has
-						expired.
-					</p>
-				</div>
+				<EmptyState
+					icon={AlertCircle}
+					title="Interview not found"
+					description="The interview link you're trying to access is invalid or has expired."
+					actionLabel="Go back"
+					onAction={() => window.history.back()}
+				/>
+			</div>
+		);
+	}
+
+	if (!assistant.isActive) {
+		return (
+			<div className="min-h-screen bg-background flex items-center justify-center">
+				<EmptyState
+					icon={Bot}
+					title="Interview not available"
+					description="This interview is currently not available. Please contact the organization for more information."
+					actionLabel="Go back"
+					onAction={() => window.history.back()}
+				/>
 			</div>
 		);
 	}
@@ -122,7 +136,7 @@ function PublicInterview() {
 								<Checkbox
 									id="terms"
 									checked={agreedToTerms}
-									onCheckedChange={setAgreedToTerms}
+									onCheckedChange={(checked) => setAgreedToTerms(checked === true)}
 								/>
 								<label
 									htmlFor="terms"

@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { useQuery } from "@tanstack/react-query";
-import { v4 as uuidv4 } from "uuid";
-import { RealtimeAgent } from "@openai/agents/realtime";
 
-import Transcript from "@/components/transcript";
+import { v4 as uuidv4 } from "uuid";
+
+import { RealtimeAgent } from "@openai/agents/realtime";
 
 import { useRealtimeSession } from "@/hooks/use-realtime-session";
 import useAudioDownload from "@/hooks/use-audio-download";
+
+import { Progress } from "@/components/ui/progress";
+import Transcript from "@/components/transcript";
 import { useTranscript } from "@/components/transcript-context";
 
 import { convexQuery } from "@convex-dev/react-query";
@@ -284,18 +285,7 @@ export function InterviewAgent({ assistantId }: InterviewAgentProps) {
 
 	// Only show the interface once connected
 	if (sessionStatus !== "CONNECTED") {
-		return (
-			<div className="flex min-h-screen bg-background items-center justify-center">
-				<div className="text-center space-y-4">
-					<div className="text-muted-foreground">
-						Connecting to interview...
-					</div>
-					<div className="text-sm text-muted-foreground">
-						This may take a moment
-					</div>
-				</div>
-			</div>
-		);
+		return null;
 	}
 
 	// Interview progress component using shadcn

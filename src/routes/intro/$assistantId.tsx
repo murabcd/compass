@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 
 import type { Id } from "convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
+import { EmptyState } from "@/components/empty-state";
+import { convexQuery } from "@convex-dev/react-query";
+import { api } from "convex/_generated/api";
+import { Bot, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/intro/$assistantId")({
 	// Ensure we always treat the param as the proper Convex Id type
@@ -22,6 +27,16 @@ function IntroForm() {
 		email: "",
 		phone: "",
 	});
+
+	const {
+		data: assistant,
+		isLoading,
+		error,
+	} = useQuery(
+		convexQuery(api.assistants.getAssistant, {
+			id: assistantId as Id<"assistants">,
+		}),
+	);
 
 	const [errors, setErrors] = useState<{
 		name?: string;
@@ -79,6 +94,42 @@ function IntroForm() {
 			params: { assistantId },
 		});
 	};
+
+	if (isLoading) {
+		return (
+			<div className="min-h-screen bg-background flex items-center justify-center">
+				<p className="text-muted-foreground">Loading interview…</p>
+			</div>
+		);
+	}
+
+	if (error || !assistant) {
+		return (
+			<div className="min-h-screen bg-background flex items-center justify-center">
+				<EmptyState
+					icon={AlertCircle}
+					title="Interview not found"
+					description="The interview link you're trying to access is invalid or has expired."
+					actionLabel="Go back"
+					onAction={() => window.history.back()}
+				/>
+			</div>
+		);
+	}
+
+	if (!assistant.isActive) {
+		return (
+			<div className="min-h-screen bg-background flex items-center justify-center">
+				<EmptyState
+					icon={Bot}
+					title="Interview not available"
+					description="This interview is currently not available. Please contact the organization for more information."
+					actionLabel="Go back"
+					onAction={() => window.history.back()}
+				/>
+			</div>
+		);
+	}
 
 	if (showDisclaimer) {
 		return (

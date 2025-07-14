@@ -12,7 +12,7 @@ import {
 	Power,
 	PowerOff,
 	Thermometer,
-	Share,
+	Share2,
 } from "lucide-react";
 
 import { toast } from "sonner";
@@ -134,7 +134,7 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 										{assistant.name}
 									</h3>
 									{!assistant.isActive && (
-										<Badge variant="secondary" className="text-xs">
+										<Badge variant="destructive" className="text-xs">
 											Inactive
 										</Badge>
 									)}
@@ -181,11 +181,11 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end" onClick={handleDropdownClick}>
 									<DropdownMenuItem onClick={handleEdit}>
-										<Edit className="mr-2 h-4 w-4" />
+										<Edit className="	h-4 w-4" />
 										Edit
 									</DropdownMenuItem>
 									<DropdownMenuItem onClick={handleShareClick}>
-										<Share className="mr-2 h-4 w-4" />
+										<Share2 className="h-4 w-4" />
 										Share
 									</DropdownMenuItem>
 									<DropdownMenuItem
@@ -194,12 +194,12 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 									>
 										{assistant.isActive ? (
 											<>
-												<PowerOff className="mr-2 h-4 w-4" />
+												<PowerOff className="h-4 w-4" />
 												Deactivate
 											</>
 										) : (
 											<>
-												<Power className="mr-2 h-4 w-4" />
+												<Power className="h-4 w-4" />
 												Activate
 											</>
 										)}
@@ -208,7 +208,7 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 										onClick={handleDeleteClick}
 										className="text-destructive"
 									>
-										<Trash2 className="mr-2 h-4 w-4" />
+										<Trash2 className="h-4 w-4" />
 										Delete
 									</DropdownMenuItem>
 								</DropdownMenuContent>

@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CandidateList } from "@/components/candidate-list";
 import { JobHeader } from "@/components/job-header";
+import { EmptyState } from "@/components/empty-state";
 
 import { convexQuery } from "@convex-dev/react-query";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
+import { Briefcase } from "lucide-react";
 
 export const Route = createFileRoute("/_app/jobs/$jobId")({
 	component: Job,
@@ -33,12 +35,13 @@ function Job() {
 	if (!job) {
 		return (
 			<div className="flex flex-1 items-center justify-center">
-				<div className="text-center">
-					<h3 className="text-lg font-medium">Job not found</h3>
-					<p className="text-muted-foreground">
-						The job you're looking for doesn't exist.
-					</p>
-				</div>
+				<EmptyState
+					icon={Briefcase}
+					title="Job not found"
+					description="The job you're looking for doesn't exist."
+					actionLabel="Go to jobs"
+					onAction={() => window.history.back()}
+				/>
 			</div>
 		);
 	}

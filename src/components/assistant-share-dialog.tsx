@@ -201,7 +201,7 @@ Best of luck!`}
 							disabled={!email || Boolean(emailError)}
 							className="w-full"
 						>
-							<Mail className="h-4 w-4 mr-2" />
+							<Mail className="h-4 w-4" />
 							Send Invitation
 						</Button>
 					</div>

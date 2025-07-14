@@ -5,16 +5,15 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import type { Id } from "convex/_generated/dataModel";
 
-import { WandSparkles, Share } from "lucide-react";
+import { WandSparkles } from "lucide-react";
 
 import VoiceAgent from "@/components/voice-agent";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { TranscriptProvider } from "@/components/transcript-context";
 import { AssistantCreateDialog } from "@/components/assistant-create-dialog";
 import { AssistantShareDialog } from "@/components/assistant-share-dialog";
+import { EmptyState } from "@/components/empty-state";
 
-import { useMutation } from "convex/react";
 import { convexQuery } from "@convex-dev/react-query";
 import { api } from "convex/_generated/api";
 
@@ -38,8 +37,6 @@ function AssistantChat() {
 		}),
 	);
 
-	const deleteAssistant = useMutation(api.assistants.deleteAssistant);
-
 	if (isLoading) {
 		return (
 			<div className="flex h-full">
@@ -59,13 +56,13 @@ function AssistantChat() {
 	if (error || !assistant) {
 		return (
 			<div className="flex h-full items-center justify-center">
-				<div className="text-center">
-					<WandSparkles className="mx-auto h-12 w-12 text-muted-foreground" />
-					<h3 className="mt-4 text-lg font-semibold">Assistant not found</h3>
-					<p className="text-muted-foreground">
-						The assistant you're looking for doesn't exist or has been deleted.
-					</p>
-				</div>
+				<EmptyState
+					icon={WandSparkles}
+					title="Assistant not found"
+					description="The assistant you're looking for doesn't exist or has been deleted."
+					actionLabel="Go to assistants"
+					onAction={() => window.history.back()}
+				/>
 			</div>
 		);
 	}

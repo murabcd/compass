@@ -1,30 +1,29 @@
-import {
-	createRouter as createTanStackRouter,
-	Link,
-} from "@tanstack/react-router";
+import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 import { QueryClient } from "@tanstack/react-query";
-import { ConvexQueryClient } from "@convex-dev/react-query";
 import { routerWithQueryClient } from "@tanstack/react-router-with-query";
-import { ConvexAuthProvider } from "@convex-dev/auth/react";
+
+import { AlertCircle } from "lucide-react";
+
 import { routeTree } from "./routeTree.gen";
+
+import { EmptyState } from "@/components/empty-state";
+
+import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
+import { ConvexQueryClient } from "@convex-dev/react-query";
 
 function NotFound() {
 	return (
 		<div className="flex flex-1 flex-col items-center justify-center gap-4 p-4">
-			<div className="text-center">
-				<h1 className="text-4xl font-bold text-muted-foreground">404</h1>
-				<h2 className="text-2xl font-semibold mt-2">Page not found</h2>
-				<p className="text-muted-foreground text-sm mt-2 text-center max-w-sm">
-					Sorry, we couldn't find the page you're looking for.
-				</p>
-			</div>
-			<Link
-				to="/talent"
-				className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-			>
-				Go to home
-			</Link>
+			<EmptyState
+				icon={AlertCircle}
+				title="Page not found"
+				description="Sorry, we couldn't find the page you're looking for."
+				actionLabel="Go to home"
+				onAction={() => {
+					window.location.href = "/talent";
+				}}
+			/>
 		</div>
 	);
 }

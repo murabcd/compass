@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 import { Link } from "@tanstack/react-router";
 
@@ -182,7 +183,7 @@ export function JobCard({ job, onEdit }: JobCardProps) {
 										{job.title}
 									</h3>
 									{job.isActive === false && (
-										<Badge variant="secondary" className="text-xs">
+										<Badge variant="destructive" className="text-xs">
 											Inactive
 										</Badge>
 									)}
@@ -248,7 +249,7 @@ export function JobCard({ job, onEdit }: JobCardProps) {
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end" onClick={handleDropdownClick}>
 									<DropdownMenuItem onClick={handleEdit}>
-										<Edit className="mr-2 h-4 w-4" />
+										<Edit className="h-4 w-4" />
 										Edit
 									</DropdownMenuItem>
 									<DropdownMenuItem
@@ -257,12 +258,12 @@ export function JobCard({ job, onEdit }: JobCardProps) {
 									>
 										{job.isActive !== false ? (
 											<>
-												<PowerOff className="mr-2 h-4 w-4" />
+												<PowerOff className="h-4 w-4" />
 												Deactivate
 											</>
 										) : (
 											<>
-												<Power className="mr-2 h-4 w-4" />
+												<Power className="h-4 w-4" />
 												Activate
 											</>
 										)}
@@ -271,7 +272,7 @@ export function JobCard({ job, onEdit }: JobCardProps) {
 										onClick={handleDeleteClick}
 										className="text-destructive"
 									>
-										<Trash2 className="mr-2 h-4 w-4" />
+										<Trash2 className="h-4 w-4" />
 										Delete
 									</DropdownMenuItem>
 								</DropdownMenuContent>

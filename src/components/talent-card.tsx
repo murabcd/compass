@@ -111,11 +111,11 @@ export function TalentCard({ talent }: TalentCardProps) {
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end" onClick={handleDropdownClick}>
 								<DropdownMenuItem>
-									<Heart className="mr-2 h-4 w-4" />
+									<Heart className="h-4 w-4" />
 									Add to favorites
 								</DropdownMenuItem>
 								<DropdownMenuItem>
-									<EyeOff className="mr-2 h-4 w-4" />
+									<EyeOff className="h-4 w-4" />
 									Not a fit
 								</DropdownMenuItem>
 							</DropdownMenuContent>

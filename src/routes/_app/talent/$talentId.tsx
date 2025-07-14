@@ -21,6 +21,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { EmptyState } from "@/components/empty-state";
 
 import { convexQuery } from "@convex-dev/react-query";
 import { api } from "convex/_generated/api";
@@ -67,12 +68,13 @@ function TalentDetail() {
 	if (!talent) {
 		return (
 			<div className="flex flex-1 items-center justify-center">
-				<div className="text-center">
-					<h3 className="text-lg font-medium">Talent not found</h3>
-					<p className="text-muted-foreground">
-						The talent profile you're looking for doesn't exist.
-					</p>
-				</div>
+				<EmptyState
+					icon={User}
+					title="Talent not found"
+					description="The talent profile you're looking for doesn't exist."
+					actionLabel="Go to talent"
+					onAction={() => window.history.back()}
+				/>
 			</div>
 		);
 	}

@@ -10,14 +10,14 @@ export default defineConfig({
 		port: 3000,
 	},
 	plugins: [
-		react(),
-		tailwindcss(),
-		tsconfigPaths(),
 		tanstackStart({
 			tsr: {
 				routesDirectory: "src/routes",
 			},
 			customViteReactPlugin: true,
 		}),
+		react(),
+		tailwindcss(),
+		tsconfigPaths(),
 	],
 });

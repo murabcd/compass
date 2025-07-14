@@ -45,7 +45,7 @@ function AssistantsPage() {
 						</div>
 					</div>
 					<img
-						alt="Product screenshot"
+						alt="AI assistants screenshot"
 						src="https://upbeat-setter-562.convex.cloud/api/storage/724609bc-69e4-43c2-b32f-22de2f7aedac"
 						width={2432}
 						height={1442}

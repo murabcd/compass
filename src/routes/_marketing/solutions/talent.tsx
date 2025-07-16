@@ -53,7 +53,7 @@ function TalentPage() {
 					</div>
 					<img
 						alt="Talent sourcing screenshot"
-						src="https://upbeat-setter-562.convex.cloud/api/storage/d27c45c5-b1ec-48b6-a8fa-9a734b4f91d1"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/7b97a0a5-61b1-4c1d-80be-b66f5d606485"
 						width={2432}
 						height={1442}
 						loading="eager"

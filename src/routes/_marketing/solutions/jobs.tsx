@@ -52,7 +52,7 @@ function JobsPage() {
 					</div>
 					<img
 						alt="Job management screenshot"
-						src="https://upbeat-setter-562.convex.cloud/api/storage/8eeda694-c986-4a6b-81f2-9e09d47db115"
+						src="https://upbeat-setter-562.convex.cloud/api/storage/80e52206-3ff9-4e66-a828-e66e65c3b7f7"
 						width={2432}
 						height={1442}
 						loading="eager"

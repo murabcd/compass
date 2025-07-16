@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { Check, Pencil, Trash2 } from "lucide-react";
+import { Check, ChevronsUpDown, Pencil, Trash2 } from "lucide-react";
 
 import type { SessionStatus } from "@/lib/ai/types";
 import { modelInfoList } from "@/lib/ai/models";
@@ -301,10 +301,10 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 										</span>
 									</div>
 								</div>
-								<span className="ml-2 text-xs opacity-50">▼</span>
+								<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 							</Button>
 						</PopoverTrigger>
-						<PopoverContent className="w-56 p-0">
+						<PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
 							<Command>
 								<CommandInput placeholder="Search agents..." />
 								<CommandList>

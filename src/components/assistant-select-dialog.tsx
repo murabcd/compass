@@ -1,7 +1,7 @@
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
 import { useQuery } from "convex/react";
-import { Bot, Check } from "lucide-react";
+import { Bot, Check, ChevronsUpDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -43,7 +43,7 @@ export function AssistantSelectDialog({
 	const [selectedAssistant, setSelectedAssistant] =
 		useState<Id<"assistants"> | null>(currentAssistantId || null);
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-	
+
 	// Update selected assistant when currentAssistantId changes
 	useEffect(() => {
 		setSelectedAssistant(currentAssistantId || null);
@@ -104,11 +104,12 @@ export function AssistantSelectDialog({
 											<span className="truncate block text-sm">
 												{!assistants
 													? "Loading assistants..."
-													: selectedAssistantData?.name || "Select an assistant"}
+													: selectedAssistantData?.name ||
+														"Select an assistant"}
 											</span>
 										</div>
 									</div>
-									<span className="ml-2 text-xs opacity-50">▼</span>
+									<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 								</Button>
 							</PopoverTrigger>
 							<PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">

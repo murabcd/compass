@@ -35,6 +35,7 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { JobSelectDialog } from "@/components/job-select-dialog";
 
 import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
@@ -59,12 +60,14 @@ interface Candidate {
 
 interface CandidateListProps {
 	candidates: Candidate[] | undefined;
+	currentJobId: Id<"jobs">;
 }
 
-export function CandidateList({ candidates }: CandidateListProps) {
+export function CandidateList({ candidates, currentJobId }: CandidateListProps) {
 	const [candidateToDelete, setCandidateToDelete] =
 		useState<Id<"candidates"> | null>(null);
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [candidateToMove, setCandidateToMove] = useState<Id<"candidates"> | null>(null);
 
 	const deleteCandidate = useMutation(api.candidates.deleteCandidate);
 
@@ -88,6 +91,10 @@ export function CandidateList({ candidates }: CandidateListProps) {
 
 	const handleRemoveCandidate = (candidateId: Id<"candidates">) => {
 		setCandidateToDelete(candidateId);
+	};
+
+	const handleMoveCandidate = (candidateId: Id<"candidates">) => {
+		setCandidateToMove(candidateId);
 	};
 
 	const handleConfirmDelete = async () => {
@@ -136,6 +143,7 @@ export function CandidateList({ candidates }: CandidateListProps) {
 									key={candidate._id}
 									candidate={candidate}
 									onRemove={handleRemoveCandidate}
+									onMove={handleMoveCandidate}
 									formatDate={formatDate}
 									formatExperience={formatExperience}
 									getResumeScoreColor={getResumeScoreColor}
@@ -164,6 +172,7 @@ export function CandidateList({ candidates }: CandidateListProps) {
 										key={candidate._id}
 										candidate={candidate}
 										onRemove={handleRemoveCandidate}
+										onMove={handleMoveCandidate}
 										formatDate={formatDate}
 										formatExperience={formatExperience}
 										getResumeScoreColor={getResumeScoreColor}
@@ -206,6 +215,13 @@ export function CandidateList({ candidates }: CandidateListProps) {
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
+
+			<JobSelectDialog
+				open={!!candidateToMove}
+				onOpenChange={() => setCandidateToMove(null)}
+				candidateId={candidateToMove!}
+				currentJobId={currentJobId}
+			/>
 		</>
 	);
 }
@@ -213,6 +229,7 @@ export function CandidateList({ candidates }: CandidateListProps) {
 interface CandidateCardProps {
 	candidate: Candidate;
 	onRemove: (candidateId: Id<"candidates">) => void;
+	onMove: (candidateId: Id<"candidates">) => void;
 	formatDate: (timestamp: number) => string;
 	formatExperience: (years: number) => string;
 	getResumeScoreColor: (score: number) => string;
@@ -222,6 +239,7 @@ interface CandidateCardProps {
 function CandidateCard({
 	candidate,
 	onRemove,
+	onMove,
 	formatDate,
 	formatExperience,
 	getResumeScoreColor,
@@ -347,7 +365,7 @@ function CandidateCard({
 							<Eye className="h-4 w-4" />
 							View profile
 						</DropdownMenuItem>
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={() => onMove(candidate._id)}>
 							<Forward className="h-4 w-4" />
 							Add to another job
 						</DropdownMenuItem>

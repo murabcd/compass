@@ -104,6 +104,37 @@ export const updateCandidateStatus = mutation({
 	},
 });
 
+export const moveToJob = mutation({
+	args: {
+		candidateId: v.id("candidates"),
+		newJobId: v.id("jobs"),
+	},
+	returns: v.null(),
+	handler: async (ctx, args) => {
+		const candidate = await ctx.db.get(args.candidateId);
+		if (!candidate) {
+			throw new Error("Candidate not found");
+		}
+
+		const existingCandidate = await ctx.db
+			.query("candidates")
+			.withIndex("by_job", (q) => q.eq("jobId", args.newJobId))
+			.filter((q) => q.eq(q.field("talentId"), candidate.talentId))
+			.first();
+
+		if (existingCandidate) {
+			throw new Error("Candidate already exists for this job");
+		}
+
+		await ctx.db.patch(args.candidateId, {
+			jobId: args.newJobId,
+			status: "applied",
+		});
+
+		return null;
+	},
+});
+
 export const deleteCandidate = mutation({
 	args: {
 		id: v.id("candidates"),

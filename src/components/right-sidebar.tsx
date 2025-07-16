@@ -379,10 +379,10 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 			>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Delete Agent</AlertDialogTitle>
+						<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 						<AlertDialogDescription>
-							Are you sure you want to delete? This action cannot be undone and
-							will permanently remove the agent and all its configurations.
+							This action cannot be undone. This will permanently delete your
+							account and all associated data.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

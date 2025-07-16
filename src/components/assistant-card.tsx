@@ -221,10 +221,10 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 			<AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Delete assistant?</AlertDialogTitle>
+						<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 						<AlertDialogDescription>
-							Are you sure you want to delete? This action cannot be undone and
-							will permanently remove the assistant and all its configurations.
+							This action cannot be undone. This will permanently delete the
+							assistant and all associated data.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

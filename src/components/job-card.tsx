@@ -285,10 +285,10 @@ export function JobCard({ job, onEdit }: JobCardProps) {
 			<AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Delete job posting?</AlertDialogTitle>
+						<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 						<AlertDialogDescription>
-							Are you sure you want to delete? This action cannot be undone and
-							will permanently remove the job posting.
+							This action cannot be undone. This will permanently delete the job
+							posting and all associated data.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

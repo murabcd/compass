@@ -188,10 +188,10 @@ export function CandidateList({ candidates }: CandidateListProps) {
 			>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Remove candidate?</AlertDialogTitle>
+						<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 						<AlertDialogDescription>
-							Are you sure you want to remove this candidate from the job? This
-							action cannot be undone.
+							This action cannot be undone. This will permanently delete the
+							candidate and all associated data.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

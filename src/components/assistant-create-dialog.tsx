@@ -143,6 +143,7 @@ export function AssistantCreateDialog({
 							onChange={(e) => setDescription(e.target.value)}
 							placeholder="Describe what this assistant does and how it helps users..."
 							rows={3}
+							className="max-h-[350px]"
 						/>
 					</div>
 

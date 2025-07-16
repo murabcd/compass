@@ -55,11 +55,13 @@ export default defineSchema({
 		salaryMin: v.number(),
 		salaryMax: v.number(),
 		isActive: v.optional(v.boolean()),
+		assistantId: v.optional(v.id("assistants")),
 	})
 		.index("by_active", ["isActive"])
 		.index("by_location", ["location"])
 		.index("by_employment_type", ["employmentType"])
-		.index("by_seniority", ["seniorityLevel"]),
+		.index("by_seniority", ["seniorityLevel"])
+		.index("by_assistant", ["assistantId"]),
 
 	assistants: defineTable({
 		name: v.string(),

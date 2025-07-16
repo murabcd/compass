@@ -191,7 +191,7 @@ Best of luck!`}
 									value={emailMessage}
 									onChange={(e) => setEmailMessage(e.target.value)}
 									rows={10}
-									className="text-sm resize-none"
+									className="max-h-[350px]"
 								/>
 							</div>
 						</div>

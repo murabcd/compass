@@ -28,6 +28,7 @@ export const getJobs = query({
 			salaryMin: v.number(),
 			salaryMax: v.number(),
 			isActive: v.optional(v.boolean()),
+			assistantId: v.optional(v.id("assistants")),
 		}),
 	),
 	handler: async (ctx) => {
@@ -65,6 +66,7 @@ export const getJob = query({
 			salaryMin: v.number(),
 			salaryMax: v.number(),
 			isActive: v.optional(v.boolean()),
+			assistantId: v.optional(v.id("assistants")),
 		}),
 		v.null(),
 	),
@@ -96,6 +98,7 @@ export const createJob = mutation({
 		),
 		salaryMin: v.number(),
 		salaryMax: v.number(),
+		assistantId: v.optional(v.id("assistants")),
 	},
 	returns: v.id("jobs"),
 	handler: async (ctx, args) => {
@@ -130,6 +133,7 @@ export const updateJob = mutation({
 		),
 		salaryMin: v.number(),
 		salaryMax: v.number(),
+		assistantId: v.optional(v.id("assistants")),
 	},
 	returns: v.null(),
 	handler: async (ctx, args) => {
@@ -161,6 +165,26 @@ export const toggleJobStatus = mutation({
 			throw new Error("Job not found");
 		}
 		await ctx.db.patch(args.id, { isActive: !job.isActive });
+		return null;
+	},
+});
+
+export const assignAssistantToJob = mutation({
+	args: {
+		jobId: v.id("jobs"),
+		assistantId: v.id("assistants"),
+	},
+	returns: v.null(),
+	handler: async (ctx, args) => {
+		const job = await ctx.db.get(args.jobId);
+		if (!job) {
+			throw new Error("Job not found");
+		}
+		const assistant = await ctx.db.get(args.assistantId);
+		if (!assistant) {
+			throw new Error("Assistant not found");
+		}
+		await ctx.db.patch(args.jobId, { assistantId: args.assistantId });
 		return null;
 	},
 });

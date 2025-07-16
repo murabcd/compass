@@ -7,7 +7,7 @@ import {
 	MapPin,
 	MoreHorizontal,
 	Eye,
-	CornerDownLeft,
+	Forward,
 	Trash2,
 	Tag,
 } from "lucide-react";
@@ -348,7 +348,7 @@ function CandidateCard({
 							View profile
 						</DropdownMenuItem>
 						<DropdownMenuItem>
-							<CornerDownLeft className="h-4 w-4" />
+							<Forward className="h-4 w-4" />
 							Add to another job
 						</DropdownMenuItem>
 						<DropdownMenuItem

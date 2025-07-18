@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useQuery, useConvexAuth } from "convex/react";
+
 import { Users, Briefcase, RectangleCircle, WandSparkles } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -15,13 +15,9 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { api } from "@/../convex/_generated/api";
 
-interface UserData {
-	name: string;
-	email: string;
-	avatar: string;
-}
+import { useQuery, useConvexAuth } from "convex/react";
+import { api } from "@/../convex/_generated/api";
 
 interface NavItem {
 	title: string;
@@ -65,29 +61,26 @@ export function AppSidebar({
 	userMenuItems,
 	...props
 }: AppSidebarProps) {
-	const { isLoading, isAuthenticated } = useConvexAuth();
+	const { isAuthenticated } = useConvexAuth();
 
-	const user = useQuery(
-		api.users.getUser,
-		{},
-		{
-			enabled: !isLoading && isAuthenticated,
-			staleTime: Infinity,
-		},
-	);
+	const user = useQuery(api.users.getUser, isAuthenticated ? {} : "skip");
 
 	return (
-		<Sidebar collapsible="offcanvas" {...props}>
+		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton
+							size="lg"
 							asChild
-							className="data-[slot=sidebar-menu-button]:!p-1.5 hover:bg-transparent hover:text-primary"
+							className="hover:bg-transparent hover:text-primary"
 						>
-							<a href="/">
-								<RectangleCircle className="!size-5" />
-								<span className="text-base font-semibold">Compass</span>
+							<a href="/" className="relative">
+								<div className="absolute left-0 bg-primary text-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+									<RectangleCircle className="size-4" />
+								</div>
+								<RectangleCircle className="size-4 invisible" />
+								<span className="text-base font-semibold ml-2">Compass</span>
 							</a>
 						</SidebarMenuButton>
 					</SidebarMenuItem>

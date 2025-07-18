@@ -76,7 +76,7 @@ export function NavUser({ user, menuItems }: NavUserProps) {
 				<SidebarMenuItem>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
+							<SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 cursor-pointer">
 								<Avatar className="h-6 w-6 border rounded-lg">
 									<AvatarImage src={user.image} alt={user.name} />
 									<AvatarFallback className="rounded-lg">
@@ -96,7 +96,7 @@ export function NavUser({ user, menuItems }: NavUserProps) {
 						</DropdownMenuTrigger>
 						<DropdownMenuContent
 							className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-							side={isMobile ? "bottom" : "top"}
+							side={isMobile ? "bottom" : "right"}
 							align="end"
 							sideOffset={4}
 						>
@@ -107,6 +107,11 @@ export function NavUser({ user, menuItems }: NavUserProps) {
 										key={item.label}
 										onClick={item.onClick}
 										variant={item.variant}
+										className={
+											item.label === "Settings" || item.label === "Log out"
+												? "cursor-pointer"
+												: undefined
+										}
 									>
 										<item.icon className="h-4 w-4" />
 										{item.label}

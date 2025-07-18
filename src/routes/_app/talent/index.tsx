@@ -1,36 +1,47 @@
-import type React from "react";
-import { useState } from "react";
-
-import { createFileRoute } from "@tanstack/react-router";
+import { convexQuery } from "@convex-dev/react-query";
 import { useQuery } from "@tanstack/react-query";
 
-import {
-	Filter,
-	Heart,
-	ChevronRight,
-	ListFilter,
-	Users,
-	Search,
-} from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { api } from "convex/_generated/api";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { ChevronRight, Heart, Search, Users, X } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
 import { EmptyState } from "@/components/empty-state";
 import { TalentCard, TalentCardSkeleton } from "@/components/talent-card";
-
-import { convexQuery } from "@convex-dev/react-query";
-import { api } from "convex/_generated/api";
+import { TalentFilters } from "@/components/talent-filters";
+import { TalentSort } from "@/components/talent-sort";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_app/talent/")({
 	component: Talent,
 });
 
+interface FilterOptions {
+	country?: string;
+	minExperience?: number;
+	maxExperience?: number;
+	minSalary?: number;
+	maxSalary?: number;
+}
+
+type SortOption = "salary-asc" | "salary-desc" | undefined;
+
 function Talent() {
 	const [search, setSearch] = useState("");
+	const [filters, setFilters] = useState<FilterOptions>({});
+	const [sortBy, setSortBy] = useState<SortOption>();
 
 	const { data: talentResult, isLoading } = useQuery(
 		convexQuery(api.talents.getTalent, {
 			talent: search || undefined,
+			country: filters.country,
+			minExperience: filters.minExperience,
+			maxExperience: filters.maxExperience,
+			minSalary: filters.minSalary,
+			maxSalary: filters.maxSalary,
+			sortBy,
 			paginationOpts: { numItems: 10, cursor: null },
 		}),
 	);
@@ -39,7 +50,15 @@ function Talent() {
 		setSearch(e.target.value);
 	};
 
+	const handleReset = () => {
+		setSearch("");
+		setFilters({});
+		setSortBy(undefined);
+	};
+
 	const talent = talentResult?.page || [];
+	
+	const hasActiveFiltersOrSort = Object.values(filters).some(value => value !== undefined) || sortBy !== undefined || search !== "";
 
 	return (
 		<div className="flex flex-1 flex-col">
@@ -57,14 +76,14 @@ function Talent() {
 						</div>
 						<div className="flex items-center justify-between mt-4">
 							<div className="flex items-center gap-2">
-								<Button variant="outline" className="gap-2">
-									<Filter className="w-4 h-4" />
-									<span>Filters</span>
-								</Button>
-								<Button variant="outline" className="gap-2">
-									<ListFilter className="w-4 h-4" />
-									<span>Sort by</span>
-								</Button>
+								<TalentFilters filters={filters} onFiltersChange={setFilters} />
+								<TalentSort sortBy={sortBy} onSortChange={setSortBy} />
+								{hasActiveFiltersOrSort && (
+									<Button variant="ghost" onClick={handleReset} className="gap-2">
+										<span>Reset</span>
+										<X className="w-4 h-4" />
+									</Button>
+								)}
 							</div>
 							<Button variant="ghost" className="gap-2">
 								<Heart className="w-4 h-4" />

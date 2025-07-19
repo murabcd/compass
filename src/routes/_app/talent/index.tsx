@@ -85,7 +85,7 @@ function Talent() {
 									<Button
 										variant="ghost"
 										onClick={handleReset}
-										className="gap-2"
+										className="gap-2 hidden md:flex cursor-pointer"
 									>
 										<span>Reset</span>
 										<X className="w-4 h-4" />

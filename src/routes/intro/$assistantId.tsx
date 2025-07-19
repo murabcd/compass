@@ -1,16 +1,15 @@
-import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { convexQuery } from "@convex-dev/react-query";
 import { useQuery } from "@tanstack/react-query";
-
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
+import { AlertCircle, Bot } from "lucide-react";
+import { useState } from "react";
+import { EmptyState } from "@/components/empty-state";
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Icons } from "@/components/icons";
-import { EmptyState } from "@/components/empty-state";
-import { convexQuery } from "@convex-dev/react-query";
-import { api } from "convex/_generated/api";
-import { Bot, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/intro/$assistantId")({
 	// Ensure we always treat the param as the proper Convex Id type

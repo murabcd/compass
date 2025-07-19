@@ -1,9 +1,11 @@
-import * as React from "react";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { useRouter } from "@tanstack/react-router";
-import { Settings, MoreVertical, LogOut } from "lucide-react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import type { Doc } from "convex/_generated/dataModel";
+import { LogOut, MoreVertical, Settings } from "lucide-react";
+import * as React from "react";
 import { ModeToggle } from "@/components/mode-toggle";
+import { SettingsDialog } from "@/components/settings-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,10 +20,6 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SettingsDialog } from "@/components/settings-dialog";
-
-import { useAuthActions } from "@convex-dev/auth/react";
-import type { Doc } from "convex/_generated/dataModel";
 
 interface UserMenuItem {
 	label: string;

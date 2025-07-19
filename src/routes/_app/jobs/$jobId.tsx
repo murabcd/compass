@@ -1,15 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-
-import { Skeleton } from "@/components/ui/skeleton";
-import { CandidateList } from "@/components/candidate-list";
-import { JobHeader } from "@/components/job-header";
-import { EmptyState } from "@/components/empty-state";
-
 import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
 import { Briefcase } from "lucide-react";
+import { CandidateList } from "@/components/candidate-list";
+import { EmptyState } from "@/components/empty-state";
+import { JobHeader } from "@/components/job-header";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/_app/jobs/$jobId")({
 	component: Job,

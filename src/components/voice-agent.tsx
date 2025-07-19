@@ -1,28 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import { useQuery } from "@tanstack/react-query";
-
-import { v4 as uuidv4 } from "uuid";
-
-import { RealtimeAgent } from "@openai/agents/realtime";
-
-import type { SessionStatus } from "@/lib/ai/types";
-
-import useAudioDownload from "@/hooks/use-audio-download";
-import { useRealtimeSession } from "@/hooks/use-realtime-session";
-
-import { toast } from "sonner";
-
-import Transcript from "@/components/transcript";
-import RightSidebar from "@/components/right-sidebar";
-import Messages from "@/components/messages";
-import { useTranscript } from "@/components/transcript-context";
-import { AgentCreateDialog } from "@/components/agent-create-dialog";
-
 import { convexQuery } from "@convex-dev/react-query";
-import { useMutation } from "convex/react";
+import { RealtimeAgent } from "@openai/agents/realtime";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import React, { useEffect, useRef, useState } from "react";
+
+import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
+import { AgentCreateDialog } from "@/components/agent-create-dialog";
+import Messages from "@/components/messages";
+import RightSidebar from "@/components/right-sidebar";
+import Transcript from "@/components/transcript";
+import { useTranscript } from "@/components/transcript-context";
+import useAudioDownload from "@/hooks/use-audio-download";
+import { useRealtimeSession } from "@/hooks/use-realtime-session";
+import type { SessionStatus } from "@/lib/ai/types";
 
 const availableVoices = [
 	"alloy",

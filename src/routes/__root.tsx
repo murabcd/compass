@@ -1,16 +1,16 @@
 /// <reference types="vite/client" />
-import type { ReactNode } from "react";
-import {
-	Outlet,
-	HeadContent,
-	Scripts,
-	ScriptOnce,
-} from "@tanstack/react-router";
 
-import appCss from "@/styles/app.css?url";
 import type { QueryClient } from "@tanstack/react-query";
-import { createRootRouteWithContext } from "@tanstack/react-router";
+import {
+	createRootRouteWithContext,
+	HeadContent,
+	Outlet,
+	ScriptOnce,
+	Scripts,
+} from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import appCss from "@/styles/app.css?url";
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;

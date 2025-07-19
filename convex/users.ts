@@ -1,8 +1,7 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-
 import type { Doc } from "./_generated/dataModel";
+import { mutation, query } from "./_generated/server";
 
 export const getUser = query({
 	args: {},

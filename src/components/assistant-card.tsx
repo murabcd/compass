@@ -1,31 +1,22 @@
-import type React from "react";
-import { useState } from "react";
-
 import { Link } from "@tanstack/react-router";
-
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
+import { useMutation } from "convex/react";
 import {
 	AudioLines,
 	Cpu,
-	MoreHorizontal,
 	Edit,
-	Trash2,
+	MoreHorizontal,
 	Power,
 	PowerOff,
-	Thermometer,
 	Share2,
+	Thermometer,
+	Trash2,
 } from "lucide-react";
-
+import type React from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { AssistantShareDialog } from "@/components/assistant-share-dialog";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -36,11 +27,15 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-import { useMutation } from "convex/react";
-import { api } from "convex/_generated/api";
-import { Id } from "convex/_generated/dataModel";
-import { AssistantShareDialog } from "@/components/assistant-share-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface AssistantCardProps {
 	assistant: {

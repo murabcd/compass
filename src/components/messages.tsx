@@ -1,11 +1,8 @@
-import React, { useRef } from "react";
-
-import { SessionStatus } from "@/lib/ai/types";
-
 import { ArrowUp } from "lucide-react";
-
+import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import type { SessionStatus } from "@/lib/ai/types";
 
 export interface MessagesProps {
 	userText: string;

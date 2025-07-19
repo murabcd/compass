@@ -1,13 +1,11 @@
 import { Link } from "@tanstack/react-router";
-
-import { cn } from "@/lib/utils";
-
-import { useScroll } from "@/hooks/use-scroll";
+import { Icons } from "@/components/icons";
+import { MobileNav } from "@/components/marketing/mobile-nav";
 
 import { Nav } from "@/components/marketing/nav";
 import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/icons";
-import { MobileNav } from "@/components/marketing/mobile-nav";
+import { useScroll } from "@/hooks/use-scroll";
+import { cn } from "@/lib/utils";
 
 export const Header = () => {
 	const scrolled = useScroll();

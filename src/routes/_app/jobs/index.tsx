@@ -1,18 +1,14 @@
-import { useState } from "react";
-
-import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-
-import { Plus, Briefcase } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { JobCard, JobCardSkeleton } from "@/components/job-card";
-import { EmptyState } from "@/components/empty-state";
-import { JobCreateDialog } from "@/components/job-create-dialog";
-
 import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { api } from "convex/_generated/api";
-import { Id } from "convex/_generated/dataModel";
+import type { Id } from "convex/_generated/dataModel";
+import { Briefcase, Plus } from "lucide-react";
+import { useState } from "react";
+import { EmptyState } from "@/components/empty-state";
+import { JobCard, JobCardSkeleton } from "@/components/job-card";
+import { JobCreateDialog } from "@/components/job-create-dialog";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_app/jobs/")({
 	component: Jobs,

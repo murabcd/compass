@@ -1,7 +1,4 @@
-import React from "react";
-
-import type { AgentConfig } from "@/lib/ai/types";
-
+import type React from "react";
 import {
 	Select,
 	SelectContent,
@@ -9,6 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import type { AgentConfig } from "@/lib/ai/types";
 
 interface AgentSelectorProps {
 	selectedAgentName: string;

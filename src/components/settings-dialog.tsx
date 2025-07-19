@@ -1,6 +1,11 @@
+import type { Doc } from "convex/_generated/dataModel";
+import { Database, Paintbrush, User } from "lucide-react";
 import * as React from "react";
-import { Paintbrush, User, Database } from "lucide-react";
-
+import {
+	AppearanceSettings,
+	DataControlsSettings,
+	ProfileSettings,
+} from "@/components/settings";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -25,12 +30,6 @@ import {
 	SidebarMenuItem,
 	SidebarProvider,
 } from "@/components/ui/sidebar";
-import {
-	ProfileSettings,
-	AppearanceSettings,
-	DataControlsSettings,
-} from "@/components/settings";
-import type { Doc } from "convex/_generated/dataModel";
 
 const data = {
 	nav: [

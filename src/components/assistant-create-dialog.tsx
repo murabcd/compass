@@ -1,10 +1,10 @@
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
+import { useMutation } from "convex/react";
 import type React from "react";
-import { useState, useEffect } from "react";
-
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
-import { modelRealtimeMini } from "@/lib/ai/models";
-
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -13,14 +13,10 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-
-import { useMutation } from "convex/react";
-import { api } from "convex/_generated/api";
-import type { Id } from "convex/_generated/dataModel";
+import { modelRealtimeMini } from "@/lib/ai/models";
 
 interface AssistantCreateDialogProps {
 	open: boolean;

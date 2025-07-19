@@ -1,28 +1,26 @@
-import type React from "react";
 import { Link } from "@tanstack/react-router";
+import type { Id } from "convex/_generated/dataModel";
 
 import {
-	MoreHorizontal,
-	CheckCircle,
-	XCircle,
-	MapPin,
 	Briefcase,
+	CheckCircle,
 	DollarSign,
-	Heart,
 	EyeOff,
+	Heart,
+	MapPin,
+	MoreHorizontal,
 	User,
+	XCircle,
 } from "lucide-react";
-
+import type React from "react";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import type { Id } from "convex/_generated/dataModel";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Talent {
 	_id: Id<"talent">;

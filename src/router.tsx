@@ -1,16 +1,13 @@
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
-import { QueryClient } from "@tanstack/react-query";
-import { routerWithQueryClient } from "@tanstack/react-router-with-query";
-
-import { AlertCircle } from "lucide-react";
-
-import { routeTree } from "./routeTree.gen";
-
-import { EmptyState } from "@/components/empty-state";
-
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
-import { ConvexReactClient } from "convex/react";
 import { ConvexQueryClient } from "@convex-dev/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { createRouter as createTanStackRouter } from "@tanstack/react-router";
+import { routerWithQueryClient } from "@tanstack/react-router-with-query";
+import { ConvexReactClient } from "convex/react";
+import { AlertCircle } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
+import { routeTree } from "./routeTree.gen";
 
 function NotFound() {
 	return (
@@ -56,7 +53,10 @@ export function createRouter() {
 			context: { queryClient },
 			defaultNotFoundComponent: NotFound,
 			Wrap: ({ children }) => (
-				<ConvexAuthProvider client={convex}>{children}</ConvexAuthProvider>
+				<ConvexAuthProvider client={convex}>
+					{children}
+					<ReactQueryDevtools initialIsOpen={false} />
+				</ConvexAuthProvider>
 			),
 		}),
 		queryClient,

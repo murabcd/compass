@@ -1,17 +1,16 @@
+import { Check, ChevronDown, Moon, Sun } from "lucide-react";
 import * as React from "react";
-
-import { Check, Moon, Sun, ChevronDown } from "lucide-react";
 
 import { useTheme } from "@/components/theme-provider";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 
 export function AppearanceSettings() {
 	const { theme, setTheme } = useTheme();

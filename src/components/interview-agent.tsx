@@ -1,20 +1,15 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
-
-import { v4 as uuidv4 } from "uuid";
-
-import { RealtimeAgent } from "@openai/agents/realtime";
-
-import { useRealtimeSession } from "@/hooks/use-realtime-session";
-import useAudioDownload from "@/hooks/use-audio-download";
-
-import { Progress } from "@/components/ui/progress";
-import Transcript from "@/components/transcript";
-import { useTranscript } from "@/components/transcript-context";
-
 import { convexQuery } from "@convex-dev/react-query";
+import { RealtimeAgent } from "@openai/agents/realtime";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import Transcript from "@/components/transcript";
+import { useTranscript } from "@/components/transcript-context";
+import { Progress } from "@/components/ui/progress";
+import useAudioDownload from "@/hooks/use-audio-download";
+import { useRealtimeSession } from "@/hooks/use-realtime-session";
 
 interface InterviewAgentProps {
 	assistantId: Id<"assistants">;

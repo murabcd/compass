@@ -1,13 +1,10 @@
-import React from "react";
-
 import { Link } from "@tanstack/react-router";
-
 import { Menu } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import React from "react";
 import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const platform = {
 	title: "Platform",

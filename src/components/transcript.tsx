@@ -1,12 +1,8 @@
+import { AudioLines, Copy, Download, Share2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-import { Download, Copy, AudioLines, Share2 } from "lucide-react";
-
 import { toast } from "sonner";
-
-import type { TranscriptItem } from "@/lib/ai/types";
-
 import { useTranscript } from "@/components/transcript-context";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +11,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import type { TranscriptItem } from "@/lib/ai/types";
 
 export interface TranscriptProps {
 	className?: string;

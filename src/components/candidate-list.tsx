@@ -1,29 +1,21 @@
-import { useState } from "react";
-
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
+import { useMutation } from "convex/react";
 import {
-	User,
 	Calendar,
-	Star,
-	MapPin,
-	MoreHorizontal,
 	Eye,
 	Forward,
-	Trash2,
+	MapPin,
+	MoreHorizontal,
+	Star,
 	Tag,
+	Trash2,
+	User,
 } from "lucide-react";
-
+import { useState } from "react";
 import { toast } from "sonner";
-
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EmptyState } from "@/components/empty-state";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { JobSelectDialog } from "@/components/job-select-dialog";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -34,12 +26,16 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { JobSelectDialog } from "@/components/job-select-dialog";
-
-import { useMutation } from "convex/react";
-import { api } from "convex/_generated/api";
-import type { Id } from "convex/_generated/dataModel";
 
 interface Candidate {
 	_id: Id<"candidates">;

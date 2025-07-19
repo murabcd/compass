@@ -1,21 +1,17 @@
-import { useState } from "react";
+import { convexQuery } from "@convex-dev/react-query";
 
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-
+import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
-
 import { WandSparkles } from "lucide-react";
-
-import VoiceAgent from "@/components/voice-agent";
-import { Skeleton } from "@/components/ui/skeleton";
-import { TranscriptProvider } from "@/components/transcript-context";
+import { useState } from "react";
 import { AssistantCreateDialog } from "@/components/assistant-create-dialog";
 import { AssistantShareDialog } from "@/components/assistant-share-dialog";
 import { EmptyState } from "@/components/empty-state";
-
-import { convexQuery } from "@convex-dev/react-query";
-import { api } from "convex/_generated/api";
+import { TranscriptProvider } from "@/components/transcript-context";
+import { Skeleton } from "@/components/ui/skeleton";
+import VoiceAgent from "@/components/voice-agent";
 
 export const Route = createFileRoute("/_app/assistants/$assistantId")({
 	parseParams: (p) => ({ assistantId: p.assistantId as Id<"assistants"> }),

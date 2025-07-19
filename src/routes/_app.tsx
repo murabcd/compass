@@ -1,11 +1,10 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { useConvexAuth } from "convex/react";
-
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/_app")({
 	component: AppLayout,

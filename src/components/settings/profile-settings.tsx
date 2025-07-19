@@ -1,17 +1,13 @@
-import * as React from "react";
-
+import { api } from "convex/_generated/api";
+import type { Doc, Id } from "convex/_generated/dataModel";
+import { useMutation, useQuery } from "convex/react";
 import { ImageUp } from "lucide-react";
-
+import * as React from "react";
 import { toast } from "sonner";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import { useMutation, useQuery } from "convex/react";
-import { api } from "convex/_generated/api";
-import type { Doc, Id } from "convex/_generated/dataModel";
 
 interface ProfileSettingsProps {
 	user?: Doc<"users">;

@@ -1,15 +1,10 @@
-import * as React from "react";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 import { useRouter } from "@tanstack/react-router";
-
-import { toast } from "sonner";
-
-import { useAuthActions } from "@convex-dev/auth/react";
-import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
-
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { useMutation } from "convex/react";
+import * as React from "react";
+import { toast } from "sonner";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -21,6 +16,8 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export function DataControlsSettings() {
 	const [showDeleteAccountDialog, setShowDeleteAccountDialog] =

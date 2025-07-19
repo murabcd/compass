@@ -1,13 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
-
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
 	Form,
 	FormControl,
@@ -16,7 +14,8 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { useAuthActions } from "@convex-dev/auth/react";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
 	firstName: z.string().min(1, {

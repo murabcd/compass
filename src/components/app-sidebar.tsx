@@ -1,7 +1,8 @@
+import { useConvexAuth, useQuery } from "convex/react";
+
+import { Briefcase, RectangleCircle, Users, WandSparkles } from "lucide-react";
 import type React from "react";
-
-import { Users, Briefcase, RectangleCircle, WandSparkles } from "lucide-react";
-
+import { api } from "@/../convex/_generated/api";
 import { NavMain } from "@/components/nav-main";
 import { NavUser, NavUserSkeleton } from "@/components/nav-user";
 import {
@@ -13,9 +14,6 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-import { useQuery, useConvexAuth } from "convex/react";
-import { api } from "@/../convex/_generated/api";
 
 interface NavItem {
 	title: string;

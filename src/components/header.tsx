@@ -1,12 +1,9 @@
-import React from "react";
-
-import { useLocation, Link } from "@tanstack/react-router";
+import { convexQuery } from "@convex-dev/react-query";
 import { useQuery } from "@tanstack/react-query";
-
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Link, useLocation } from "@tanstack/react-router";
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
+import React from "react";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -15,10 +12,10 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-
-import { convexQuery } from "@convex-dev/react-query";
-import { api } from "convex/_generated/api";
-import type { Id } from "convex/_generated/dataModel";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function getBreadcrumbItems(
 	pathname: string,

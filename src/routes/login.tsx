@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { useConvexAuth } from "convex/react";
+import { useEffect } from "react";
 
 import { LoginForm } from "@/components/auth/login-form";
 

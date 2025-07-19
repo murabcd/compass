@@ -1,31 +1,28 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { convexQuery } from "@convex-dev/react-query";
 import { useQuery } from "@tanstack/react-query";
-
+import { createFileRoute } from "@tanstack/react-router";
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
 import {
-	User,
-	Calendar,
-	Phone,
-	ChevronDown,
 	Bot,
-	Video,
 	Briefcase,
+	Calendar,
+	ChevronDown,
 	FileText,
+	Phone,
+	User,
+	Video,
 } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EmptyState } from "@/components/empty-state";
-
-import { convexQuery } from "@convex-dev/react-query";
-import { api } from "convex/_generated/api";
-import type { Id } from "convex/_generated/dataModel";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/_app/talent/$talentId")({
 	component: TalentDetail,

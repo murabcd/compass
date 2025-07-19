@@ -1,21 +1,17 @@
-import { useState } from "react";
-
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { convexQuery } from "@convex-dev/react-query";
 import { useQuery } from "@tanstack/react-query";
-
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
 import { Plus, WandSparkles } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import {
 	AssistantCard,
 	AssistantCardSkeleton,
 } from "@/components/assistant-card";
-import { EmptyState } from "@/components/empty-state";
 import { AssistantCreateDialog } from "@/components/assistant-create-dialog";
-
-import { convexQuery } from "@convex-dev/react-query";
-import { api } from "convex/_generated/api";
-import { Id } from "convex/_generated/dataModel";
+import { EmptyState } from "@/components/empty-state";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_app/assistants/")({
 	component: Assistants,

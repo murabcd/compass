@@ -1,19 +1,17 @@
-import { useState, useEffect } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Skeleton } from "@/components/ui/skeleton";
-import { InterviewAgent } from "@/components/interview-agent";
-import { TranscriptProvider } from "@/components/transcript-context";
-import { Icons } from "@/components/icons";
-import { EmptyState } from "@/components/empty-state";
-
 import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
 import { AlertCircle, Bot } from "lucide-react";
+import { useEffect, useState } from "react";
+import { EmptyState } from "@/components/empty-state";
+import { Icons } from "@/components/icons";
+import { InterviewAgent } from "@/components/interview-agent";
+import { TranscriptProvider } from "@/components/transcript-context";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/interview/$assistantId")({
 	parseParams: (p) => ({ assistantId: p.assistantId as Id<"assistants"> }),
@@ -136,7 +134,9 @@ function PublicInterview() {
 								<Checkbox
 									id="terms"
 									checked={agreedToTerms}
-									onCheckedChange={(checked) => setAgreedToTerms(checked === true)}
+									onCheckedChange={(checked) =>
+										setAgreedToTerms(checked === true)
+									}
 								/>
 								<label
 									htmlFor="terms"

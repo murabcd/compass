@@ -1,32 +1,12 @@
+import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { Check, ChevronsUpDown, Pencil, Trash2 } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
-
-import { useQuery } from "@tanstack/react-query";
-
-import { Check, ChevronsUpDown, Pencil, Trash2 } from "lucide-react";
-
-import type { SessionStatus } from "@/lib/ai/types";
-import { modelInfoList } from "@/lib/ai/models";
-
 import { toast } from "sonner";
-
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import VoiceSelector from "@/components/voice-selector";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -37,20 +17,34 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
 	Command,
-	CommandInput,
-	CommandList,
 	CommandEmpty,
 	CommandGroup,
+	CommandInput,
 	CommandItem,
+	CommandList,
 	CommandSeparator,
 } from "@/components/ui/command";
-
-import { convexQuery } from "@convex-dev/react-query";
-import { useMutation } from "convex/react";
-import type { Id } from "convex/_generated/dataModel";
-import { api } from "convex/_generated/api";
+import { Label } from "@/components/ui/label";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import VoiceSelector from "@/components/voice-selector";
+import { modelInfoList } from "@/lib/ai/models";
+import type { SessionStatus } from "@/lib/ai/types";
 
 interface RightSidebarProps {
 	sessionStatus: SessionStatus;

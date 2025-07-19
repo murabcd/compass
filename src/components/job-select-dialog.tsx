@@ -1,11 +1,9 @@
-import { useState } from "react";
-
+import { api } from "convex/_generated/api";
+import type { Id } from "convex/_generated/dataModel";
+import { useMutation, useQuery } from "convex/react";
 import { Check, ChevronsUpDown } from "lucide-react";
-
+import { useState } from "react";
 import { toast } from "sonner";
-
-import { cn } from "@/lib/utils";
-
 import { Button } from "@/components/ui/button";
 import {
 	Command,
@@ -18,20 +16,17 @@ import {
 import {
 	Dialog,
 	DialogContent,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogFooter,
 } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
-
-import { useQuery, useMutation } from "convex/react";
-import { api } from "convex/_generated/api";
-import type { Id } from "convex/_generated/dataModel";
+import { cn } from "@/lib/utils";
 
 interface JobSelectDialogProps {
 	open: boolean;

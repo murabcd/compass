@@ -386,12 +386,15 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel onClick={cancelDeleteAgent}>
+						<AlertDialogCancel
+							onClick={cancelDeleteAgent}
+							className="cursor-pointer"
+						>
 							Cancel
 						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={confirmDeleteAgent}
-							className="bg-destructive hover:bg-destructive/90"
+							className="bg-destructive hover:bg-destructive/90 cursor-pointer"
 						>
 							Delete
 						</AlertDialogAction>

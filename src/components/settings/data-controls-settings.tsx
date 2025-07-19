@@ -9,6 +9,7 @@ import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
 
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -48,7 +49,7 @@ export function DataControlsSettings() {
 	return (
 		<div className="flex flex-col gap-4 pt-4 px-3">
 			<div className="flex items-center justify-between gap-4">
-				<span className="text-sm">Delete account</span>
+				<Label className="text-sm">Delete account</Label>
 				<AlertDialog
 					open={showDeleteAccountDialog}
 					onOpenChange={setShowDeleteAccountDialog}
@@ -71,10 +72,12 @@ export function DataControlsSettings() {
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
-							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogCancel className="cursor-pointer">
+								Cancel
+							</AlertDialogCancel>
 							<AlertDialogAction
 								onClick={handleDeleteAccount}
-								className="bg-destructive hover:bg-destructive/90"
+								className="bg-destructive hover:bg-destructive/90 cursor-pointer"
 							>
 								Delete
 							</AlertDialogAction>

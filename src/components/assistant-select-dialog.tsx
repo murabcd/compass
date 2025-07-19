@@ -177,11 +177,16 @@ export function AssistantSelectDialog({
 					<Button
 						type="button"
 						variant="outline"
+						className="cursor-pointer"
 						onClick={() => onOpenChange(false)}
 					>
 						Cancel
 					</Button>
-					<Button onClick={handleSelect} disabled={!selectedAssistant}>
+					<Button
+						onClick={handleSelect}
+						disabled={!selectedAssistant}
+						className="cursor-pointer"
+					>
 						Select
 					</Button>
 				</DialogFooter>

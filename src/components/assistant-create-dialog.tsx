@@ -153,10 +153,15 @@ export function AssistantCreateDialog({
 							variant="outline"
 							onClick={() => onOpenChange(false)}
 							disabled={isSubmitting}
+							className="cursor-pointer"
 						>
 							Cancel
 						</Button>
-						<Button type="submit" disabled={isSubmitting || !name.trim()}>
+						<Button
+							type="submit"
+							disabled={isSubmitting || !name.trim()}
+							className="cursor-pointer"
+						>
 							{isSubmitting ? "Saving..." : isEditing ? "Update" : "Create"}
 						</Button>
 					</DialogFooter>

@@ -63,11 +63,15 @@ interface CandidateListProps {
 	currentJobId: Id<"jobs">;
 }
 
-export function CandidateList({ candidates, currentJobId }: CandidateListProps) {
+export function CandidateList({
+	candidates,
+	currentJobId,
+}: CandidateListProps) {
 	const [candidateToDelete, setCandidateToDelete] =
 		useState<Id<"candidates"> | null>(null);
 	const [isDeleting, setIsDeleting] = useState(false);
-	const [candidateToMove, setCandidateToMove] = useState<Id<"candidates"> | null>(null);
+	const [candidateToMove, setCandidateToMove] =
+		useState<Id<"candidates"> | null>(null);
 
 	const deleteCandidate = useMutation(api.candidates.deleteCandidate);
 
@@ -204,11 +208,13 @@ export function CandidateList({ candidates, currentJobId }: CandidateListProps) 
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+						<AlertDialogCancel disabled={isDeleting} className="cursor-pointer">
+							Cancel
+						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={handleConfirmDelete}
 							disabled={isDeleting}
-							className="bg-destructive hover:bg-destructive/90"
+							className="bg-destructive hover:bg-destructive/90 cursor-pointer"
 						>
 							{isDeleting ? "Removing..." : "Remove"}
 						</AlertDialogAction>
@@ -355,7 +361,7 @@ function CandidateCard({
 						<Button
 							variant="ghost"
 							size="sm"
-							className="opacity-0 group-hover:opacity-100 transition-opacity"
+							className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
 						>
 							<MoreHorizontal className="h-4 w-4" />
 						</Button>

@@ -57,8 +57,11 @@ function Talent() {
 	};
 
 	const talent = talentResult?.page || [];
-	
-	const hasActiveFiltersOrSort = Object.values(filters).some(value => value !== undefined) || sortBy !== undefined || search !== "";
+
+	const hasActiveFiltersOrSort =
+		Object.values(filters).some((value) => value !== undefined) ||
+		sortBy !== undefined ||
+		search !== "";
 
 	return (
 		<div className="flex flex-1 flex-col">
@@ -79,13 +82,17 @@ function Talent() {
 								<TalentFilters filters={filters} onFiltersChange={setFilters} />
 								<TalentSort sortBy={sortBy} onSortChange={setSortBy} />
 								{hasActiveFiltersOrSort && (
-									<Button variant="ghost" onClick={handleReset} className="gap-2">
+									<Button
+										variant="ghost"
+										onClick={handleReset}
+										className="gap-2"
+									>
 										<span>Reset</span>
 										<X className="w-4 h-4" />
 									</Button>
 								)}
 							</div>
-							<Button variant="ghost" className="gap-2">
+							<Button variant="ghost" className="gap-2 cursor-pointer">
 								<Heart className="w-4 h-4" />
 								<span>View favorites</span>
 								<ChevronRight className="w-4 h-4" />

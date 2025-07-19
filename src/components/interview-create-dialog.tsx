@@ -104,12 +104,17 @@ export function InterviewCreateDialog({
 						<Button
 							type="button"
 							variant="outline"
+							className="cursor-pointer"
 							onClick={() => onOpenChange(false)}
 							disabled={isSubmitting}
 						>
 							Cancel
 						</Button>
-						<Button type="submit" disabled={isSubmitting || !name.trim()}>
+						<Button
+							type="submit"
+							disabled={isSubmitting || !name.trim()}
+							className="cursor-pointer"
+						>
 							{isSubmitting ? "Creating..." : "Create"}
 						</Button>
 					</DialogFooter>

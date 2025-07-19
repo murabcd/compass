@@ -70,7 +70,7 @@ export function TalentFilters({
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
-				<Button variant="outline" className="gap-2">
+				<Button variant="outline" className="gap-2 cursor-pointer">
 					<Filter className="w-4 h-4" />
 					<span>Filters</span>
 					{hasActiveFilters && (

@@ -437,11 +437,16 @@ export function JobCreateDialog({
 						<Button
 							type="button"
 							variant="outline"
+							className="cursor-pointer"
 							onClick={() => onOpenChange(false)}
 						>
 							Cancel
 						</Button>
-						<Button type="submit" disabled={isSubmitting}>
+						<Button
+							type="submit"
+							disabled={isSubmitting}
+							className="cursor-pointer"
+						>
 							{isSubmitting
 								? isEditing
 									? "Updating..."

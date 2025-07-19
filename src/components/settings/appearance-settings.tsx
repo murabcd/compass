@@ -5,6 +5,7 @@ import { Check, Moon, Sun, ChevronDown } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -26,7 +27,7 @@ export function AppearanceSettings() {
 	return (
 		<div className="flex flex-col gap-4 pt-4 px-3">
 			<div className="flex items-center justify-between gap-4">
-				<span className="text-sm">Theme</span>
+				<Label className="text-sm">Theme</Label>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button

@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 
 import { Users, Briefcase, RectangleCircle, WandSparkles } from "lucide-react";

@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useRouter } from "@tanstack/react-router";
 import { Settings, MoreVertical, LogOut } from "lucide-react";

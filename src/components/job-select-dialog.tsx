@@ -138,12 +138,18 @@ export function JobSelectDialog({
 					</div>
 				</div>
 				<DialogFooter>
-					<Button variant="outline" onClick={handleCancel} disabled={isMoving}>
+					<Button
+						variant="outline"
+						onClick={handleCancel}
+						disabled={isMoving}
+						className="cursor-pointer"
+					>
 						Cancel
 					</Button>
 					<Button
 						onClick={handleMoveCandidate}
 						disabled={!selectedJobId || isMoving}
+						className="cursor-pointer"
 					>
 						{isMoving ? "Moving..." : "Move candidate"}
 					</Button>

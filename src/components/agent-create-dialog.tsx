@@ -150,11 +150,13 @@ export function AgentCreateDialog({
 							variant="outline"
 							onClick={() => onOpenChange(false)}
 							disabled={isSubmitting}
+							className="cursor-pointer"
 						>
 							Cancel
 						</Button>
 						<Button
 							type="submit"
+							className="cursor-pointer"
 							disabled={isSubmitting || !name.trim() || !instruction.trim()}
 						>
 							{isSubmitting ? "Saving..." : isEditing ? "Update" : "Create"}

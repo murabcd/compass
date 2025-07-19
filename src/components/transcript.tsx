@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { Download, Copy, AudioLines, Share2 } from "lucide-react";

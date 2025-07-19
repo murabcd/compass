@@ -234,7 +234,12 @@ export function ProfileSettings({ user }: ProfileSettingsProps) {
 				</div>
 			</div>
 			<div className="flex justify-end gap-2 py-4 px-3 flex-shrink-0">
-				<Button variant="outline" onClick={handleCancel} disabled={isSaving}>
+				<Button
+					variant="outline"
+					onClick={handleCancel}
+					disabled={isSaving}
+					className="cursor-pointer"
+				>
 					Cancel
 				</Button>
 				<Button
@@ -246,6 +251,7 @@ export function ProfileSettings({ user }: ProfileSettingsProps) {
 						!name.trim() ||
 						!email.trim()
 					}
+					className="cursor-pointer"
 				>
 					{isSaving ? "Saving..." : "Save"}
 				</Button>

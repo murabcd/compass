@@ -173,7 +173,7 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 									<Button
 										variant="ghost"
 										size="sm"
-										className="h-8 w-8 p-0 hover:bg-muted"
+										className="h-8 w-8 p-0 hover:bg-muted cursor-pointer"
 									>
 										<MoreHorizontal className="h-4 w-4" />
 										<span className="sr-only">Open menu</span>
@@ -228,11 +228,13 @@ export function AssistantCard({ assistant, onEdit }: AssistantCardProps) {
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+						<AlertDialogCancel disabled={isDeleting} className="cursor-pointer">
+							Cancel
+						</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={handleDelete}
 							disabled={isDeleting}
-							className="bg-destructive hover:bg-destructive/90"
+							className="bg-destructive hover:bg-destructive/90 cursor-pointer"
 						>
 							{isDeleting ? "Deleting..." : "Delete"}
 						</AlertDialogAction>

@@ -30,7 +30,7 @@ export function TalentSort({ sortBy, onSortChange }: TalentSortProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="outline" className="gap-2">
+				<Button variant="outline" className="gap-2 cursor-pointer">
 					<ListFilter className="w-4 h-4" />
 					<span>{getSortLabel(sortBy)}</span>
 				</Button>

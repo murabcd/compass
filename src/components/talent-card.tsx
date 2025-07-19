@@ -103,7 +103,7 @@ export function TalentCard({ talent }: TalentCardProps) {
 								<Button
 									variant="ghost"
 									size="sm"
-									className="h-8 w-8 p-0 hover:bg-muted"
+									className="h-8 w-8 p-0 hover:bg-muted cursor-pointer"
 								>
 									<MoreHorizontal className="h-4 w-4" />
 									<span className="sr-only">Open menu</span>

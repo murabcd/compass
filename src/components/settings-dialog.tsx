@@ -84,6 +84,7 @@ export function SettingsDialog({
 												<SidebarMenuButton
 													isActive={item.name === activeSection}
 													onClick={() => setActiveSection(item.name)}
+													className="cursor-pointer"
 												>
 													<item.icon />
 													<span>{item.name}</span>

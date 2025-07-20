@@ -187,7 +187,7 @@ export function JobCard({ job, onEdit }: JobCardProps) {
 
 							{/* Main content */}
 							<div className="flex flex-wrap items-center gap-2">
-								{/* Skills */}
+								{/* Job details */}
 								<div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
 									<Tag className="h-3 w-3" />
 									{job.skills.slice(0, 3).map((skill, index) => (
@@ -199,10 +199,6 @@ export function JobCard({ job, onEdit }: JobCardProps) {
 									{job.skills.length > 3 && (
 										<span>+{job.skills.length - 3} more</span>
 									)}
-								</div>
-
-								{/* Job details */}
-								<div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
 									<div className="flex items-center gap-1">
 										<MapPin className="h-3 w-3" />
 										<span>{formatLocation(job.location)}</span>

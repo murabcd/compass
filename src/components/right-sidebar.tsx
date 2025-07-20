@@ -207,7 +207,7 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
 
 	return (
 		<>
-			<div className="md:w-64 px-4 pt-6 flex flex-col gap-y-6 rounded-br-lg border-l">
+			<div className="hidden md:flex md:w-64 px-4 pt-6 flex-col gap-y-6 rounded-br-lg border-l">
 				<div className="flex flex-col gap-y-2">
 					<Label htmlFor="voice-selector">Voice</Label>
 					<VoiceSelector

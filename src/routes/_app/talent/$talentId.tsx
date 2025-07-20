@@ -98,7 +98,7 @@ function TalentDetail() {
 							</div>
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
-									<Button className="gap-2">
+									<Button className="gap-2 cursor-pointer">
 										<Phone className="h-4 w-4" />
 										Request interview
 										<ChevronDown className="h-4 w-4" />

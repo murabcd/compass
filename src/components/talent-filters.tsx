@@ -85,7 +85,12 @@ export function TalentFilters({
 					<div className="space-y-4">
 						{/* Country Filter */}
 						<div className="space-y-2">
-							<Label htmlFor="country">Country</Label>
+							<Label
+								className="text-muted-foreground text-xs"
+								htmlFor="country"
+							>
+								Country
+							</Label>
 							<Select
 								value={filters.country || "all"}
 								onValueChange={handleCountryChange}
@@ -116,7 +121,12 @@ export function TalentFilters({
 
 						{/* Experience Filter */}
 						<div className="space-y-2">
-							<Label htmlFor="experience">Years of experience</Label>
+							<Label
+								className="text-muted-foreground text-xs"
+								htmlFor="experience"
+							>
+								Years of experience
+							</Label>
 							<div className="flex gap-2">
 								<div className="flex-1">
 									<Input
@@ -149,7 +159,9 @@ export function TalentFilters({
 
 						{/* Salary Filter */}
 						<div className="space-y-2">
-							<Label htmlFor="salary">Monthly salary ($)</Label>
+							<Label className="text-muted-foreground text-xs" htmlFor="salary">
+								Monthly salary ($)
+							</Label>
 							<div className="flex gap-2">
 								<div className="flex-1">
 									<Input

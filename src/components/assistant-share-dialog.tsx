@@ -135,7 +135,7 @@ Best of luck!
 								variant="outline"
 								size="sm"
 								onClick={handleCopyLink}
-								className="shrink-0"
+								className="shrink-0 cursor-pointer"
 							>
 								{copied ? (
 									<Check className="h-4 w-4" />
@@ -197,7 +197,7 @@ Best of luck!`}
 						<Button
 							onClick={handleSendInvitation}
 							disabled={!email || Boolean(emailError)}
-							className="w-full"
+							className="w-full cursor-pointer"
 						>
 							<Mail className="h-4 w-4" />
 							Send Invitation

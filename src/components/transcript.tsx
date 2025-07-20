@@ -82,7 +82,7 @@ function Transcript({
 									variant="outline"
 									size="icon"
 									onClick={onShareInterview}
-									className={`absolute top-3 right-2 mr-1 z-10`}
+									className={`absolute top-3 right-2 mr-1 z-10 cursor-pointer`}
 								>
 									<Share2 className="w-4 h-4" />
 								</Button>
@@ -114,7 +114,7 @@ function Transcript({
 												variant="outline"
 												size="icon"
 												onClick={handleCopyTranscript}
-												className={`absolute top-3 ${onShareInterview ? "right-10 mr-4" : "right-2 mr-1"} z-10`}
+												className={`absolute top-3 ${onShareInterview ? "right-10 mr-4" : "right-2 mr-1"} z-10 cursor-pointer`}
 											>
 												<Copy className="w-4 h-4" />
 											</Button>
@@ -130,7 +130,7 @@ function Transcript({
 												variant="outline"
 												size="icon"
 												onClick={downloadRecording}
-												className={`absolute top-3 ${onShareInterview ? "right-18 mr-7" : "right-10 mr-4"} z-10`}
+												className={`absolute top-3 ${onShareInterview ? "right-18 mr-7" : "right-10 mr-4"} z-10 cursor-pointer`}
 											>
 												<Download className="w-4 h-4" />
 											</Button>
